@@ -52,6 +52,7 @@ export function Navbar() {
     if (pathname !== "/") {
       navigate({ to: "/", hash });
     } else {
+      // small delay so overlay-close animation doesn't fight the scroll
       requestAnimationFrame(() => {
         const el = document.getElementById(hash);
         el?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -97,6 +98,7 @@ export function Navbar() {
           <div className="absolute inset-0 bg-background" />
 
           <div className="relative flex h-full w-full flex-col">
+            {/* Top bar inside overlay */}
             <div className="mx-auto flex w-full max-w-[1400px] items-center justify-between px-6 py-4 md:px-10 md:py-5">
               <Link
                 to="/"
@@ -123,6 +125,7 @@ export function Navbar() {
               </button>
             </div>
 
+            {/* Content */}
             <div className="mx-auto grid w-full max-w-[1400px] flex-1 grid-cols-1 gap-12 overflow-y-auto px-6 pb-16 pt-8 md:grid-cols-12 md:gap-10 md:px-10 md:pt-16">
               <nav className="md:col-span-8" aria-label="Navegação principal">
                 <div className="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
@@ -169,14 +172,14 @@ export function Navbar() {
                   Contato
                 </div>
                 <div className="mt-6 flex flex-col gap-4 text-base text-foreground md:text-lg">
-                  
+                  <a
                     href="mailto:contato@mambranding.com.br"
                     className="hover:text-mint-ink"
                   >
                     contato@mambranding.com.br
                   </a>
                 </div>
-                
+                <a
                   href="mailto:contato@mambranding.com.br"
                   onClick={close}
                   className="group mt-10 inline-flex items-center gap-3 text-base font-medium text-foreground md:text-lg"
