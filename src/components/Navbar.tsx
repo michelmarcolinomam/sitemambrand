@@ -191,4 +191,8 @@ export function Navbar() {
               </aside>
             </div>
           </div>
-        </div
+        </div>
+      )}
+    </>
+  );
+}
