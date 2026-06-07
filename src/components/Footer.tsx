@@ -1,4 +1,4 @@
-import logo from "@/assets/mam-logo.png.asset.json";
+import logo from "@/assets/logo-mam.svg";
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -6,7 +6,7 @@ export function Footer() {
     <footer className="border-t border-border px-6 py-12 md:px-10 md:py-16">
       <div className="mx-auto grid max-w-[1400px] gap-8 md:grid-cols-12">
         <div className="md:col-span-4">
-          <img src={logo.url} alt="MAM Branding" className="h-7 w-auto" />
+          <img src={logo} alt="MAM Branding" className="h-7 w-auto" />
           <p className="mt-6 max-w-[34ch] text-sm leading-relaxed text-muted-foreground">
             Consultoria especializada em construção, evolução e
             reposicionamento de marcas.
