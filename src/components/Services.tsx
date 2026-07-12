@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { FadeIn } from "./FadeIn";
 import { SectionKicker } from "./SectionKicker";
 
@@ -50,17 +51,31 @@ export function Services() {
                 <p className="col-span-12 text-base leading-relaxed text-muted-foreground md:col-span-5 md:col-start-6 md:text-lg">
                   {s.desc}
                 </p>
-                <a
-                  href="#contato"
-                  className="col-span-12 inline-flex items-center gap-2 text-sm font-medium text-foreground md:col-span-2 md:justify-end"
-                >
-                  <span className="border-b border-foreground/40 pb-0.5 transition-colors group-hover:border-foreground">
-                    Saber mais
-                  </span>
-                  <span aria-hidden className="transition-transform group-hover:translate-x-0.5">
-                    →
-                  </span>
-                </a>
+                {s.name === "Branding" ? (
+                  <Link
+                    to="/servicos/branding"
+                    className="col-span-12 inline-flex items-center gap-2 text-sm font-medium text-foreground md:col-span-2 md:justify-end"
+                  >
+                    <span className="border-b border-foreground/40 pb-0.5 transition-colors group-hover:border-foreground">
+                      Ver serviço
+                    </span>
+                    <span aria-hidden className="transition-transform group-hover:translate-x-0.5">
+                      →
+                    </span>
+                  </Link>
+                ) : (
+                  <a
+                    href="#contato"
+                    className="col-span-12 inline-flex items-center gap-2 text-sm font-medium text-foreground md:col-span-2 md:justify-end"
+                  >
+                    <span className="border-b border-foreground/40 pb-0.5 transition-colors group-hover:border-foreground">
+                      Saber mais
+                    </span>
+                    <span aria-hidden className="transition-transform group-hover:translate-x-0.5">
+                      →
+                    </span>
+                  </a>
+                )}
               </li>
             </FadeIn>
           ))}

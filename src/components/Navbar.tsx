@@ -65,7 +65,7 @@ export function Navbar() {
       <header className="fixed inset-x-0 top-0 z-50 border-b border-border/60 bg-background/85 backdrop-blur-md">
         <div className="mx-auto flex max-w-[1400px] items-center justify-between px-6 py-4 md:px-10 md:py-5">
           <Link to="/" className="flex items-center" aria-label="MAM Branding — início">
-            <img src={logo} alt="MAM Branding" className="h-10 w-auto md:h-12" />
+            <img src={logo} alt="MAM Branding" className="h-6 w-auto md:h-7" />
           </Link>
           <button
             ref={triggerRef}
@@ -106,7 +106,7 @@ export function Navbar() {
                 className="flex items-center"
                 aria-label="MAM Branding — início"
               >
-                <img src={logo} alt="MAM Branding" className="h-10 w-auto md:h-12" />
+                <img src={logo} alt="MAM Branding" className="h-6 w-auto md:h-7" />
               </Link>
               <button
                 ref={closeRef}

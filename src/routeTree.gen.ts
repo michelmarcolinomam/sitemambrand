@@ -14,6 +14,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as EstudioRouteImport } from './routes/estudio'
 import { Route as DiarioRouteImport } from './routes/diario'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ServicosBrandingRouteImport } from './routes/servicos.branding'
 import { Route as ApiPublicContactRouteImport } from './routes/api/public/contact'
 
 const SobreRoute = SobreRouteImport.update({
@@ -41,6 +42,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ServicosBrandingRoute = ServicosBrandingRouteImport.update({
+  id: '/servicos/branding',
+  path: '/servicos/branding',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicContactRoute = ApiPublicContactRouteImport.update({
   id: '/api/public/contact',
   path: '/api/public/contact',
@@ -53,6 +59,7 @@ export interface FileRoutesByFullPath {
   '/estudio': typeof EstudioRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre': typeof SobreRoute
+  '/servicos/branding': typeof ServicosBrandingRoute
   '/api/public/contact': typeof ApiPublicContactRoute
 }
 export interface FileRoutesByTo {
@@ -61,6 +68,7 @@ export interface FileRoutesByTo {
   '/estudio': typeof EstudioRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre': typeof SobreRoute
+  '/servicos/branding': typeof ServicosBrandingRoute
   '/api/public/contact': typeof ApiPublicContactRoute
 }
 export interface FileRoutesById {
@@ -70,6 +78,7 @@ export interface FileRoutesById {
   '/estudio': typeof EstudioRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre': typeof SobreRoute
+  '/servicos/branding': typeof ServicosBrandingRoute
   '/api/public/contact': typeof ApiPublicContactRoute
 }
 export interface FileRouteTypes {
@@ -80,6 +89,7 @@ export interface FileRouteTypes {
     | '/estudio'
     | '/sitemap.xml'
     | '/sobre'
+    | '/servicos/branding'
     | '/api/public/contact'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -88,6 +98,7 @@ export interface FileRouteTypes {
     | '/estudio'
     | '/sitemap.xml'
     | '/sobre'
+    | '/servicos/branding'
     | '/api/public/contact'
   id:
     | '__root__'
@@ -96,6 +107,7 @@ export interface FileRouteTypes {
     | '/estudio'
     | '/sitemap.xml'
     | '/sobre'
+    | '/servicos/branding'
     | '/api/public/contact'
   fileRoutesById: FileRoutesById
 }
@@ -105,6 +117,7 @@ export interface RootRouteChildren {
   EstudioRoute: typeof EstudioRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SobreRoute: typeof SobreRoute
+  ServicosBrandingRoute: typeof ServicosBrandingRoute
   ApiPublicContactRoute: typeof ApiPublicContactRoute
 }
 
@@ -145,6 +158,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/servicos/branding': {
+      id: '/servicos/branding'
+      path: '/servicos/branding'
+      fullPath: '/servicos/branding'
+      preLoaderRoute: typeof ServicosBrandingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/contact': {
       id: '/api/public/contact'
       path: '/api/public/contact'
@@ -161,6 +181,7 @@ const rootRouteChildren: RootRouteChildren = {
   EstudioRoute: EstudioRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SobreRoute: SobreRoute,
+  ServicosBrandingRoute: ServicosBrandingRoute,
   ApiPublicContactRoute: ApiPublicContactRoute,
 }
 export const routeTree = rootRouteImport
