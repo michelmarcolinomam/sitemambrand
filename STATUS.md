@@ -7,6 +7,7 @@
 - **Produção:** https://sitemambrand.vercel.app
 - **Domínio final:** mambranding.com.br — ainda NÃO conectado (decisão: só quando o site estiver 100%)
 - **Repositório local:** `~/Desktop/MAM-site-limpo` (fonte da verdade)
+- **GitHub:** github.com/michelmarcolinomam/sitemambrand — push na `main` = deploy automático na Vercel
 
 ## Páginas
 
@@ -17,7 +18,7 @@
 | Sobre | `src/routes/sobre.tsx` | ✅ No ar |
 | Diário | `src/routes/diario.tsx` | ✅ No ar |
 | Serviços / Branding | `src/routes/servicos.branding.tsx` | ✅ No ar |
-| **Case Black Herva** | `src/routes/cases.black-herva.tsx` → `/cases/black-herva` | 🟢 Integrado (2026-07-12); faltam só conteúdos reais (abaixo) |
+| **Case Black Herva** | `src/routes/cases.black-herva.tsx` → `/cases/black-herva` | ✅ No ar (2026-07-12); faltam só conteúdos reais (abaixo) |
 
 ## Em andamento — Case Black Herva
 Layout V3 aprovado e **convertido em rota React** (2026-07-12), reusando os componentes do site
