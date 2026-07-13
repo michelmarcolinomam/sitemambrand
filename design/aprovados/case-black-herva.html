@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case: Black Herva | MAM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --background:#ffffff;--foreground:#0d0d0d;--muted-foreground:#737373;
+    --border:rgba(13,13,13,.10);--border-soft:rgba(13,13,13,.06);--muted:#f4f4f4;
+    --mint:#f0f7ea;--mint-ink:#8c8c8c;
+    --font-sans:"Inter",ui-sans-serif,system-ui,sans-serif;
+    --font-display:"Fraunces","Times New Roman",serif;
+    --font-mono:"JetBrains Mono",ui-monospace,monospace;
+    --ease:cubic-bezier(.16,1,.3,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--background);color:var(--foreground);font-family:var(--font-sans);-webkit-font-smoothing:antialiased;line-height:1.5}
+  .wrap{max-width:1400px;margin:0 auto}
+  section{padding-left:24px;padding-right:24px}
+  @media(min-width:768px){section{padding-left:40px;padding-right:40px}}
+  header.nav{position:sticky;top:0;z-index:50;border-bottom:1px solid var(--border);background:rgba(255,255,255,.85);backdrop-filter:blur(12px);transition:box-shadow .4s var(--ease),background .4s var(--ease)}
+  header.nav.scrolled{box-shadow:0 1px 24px rgba(13,13,13,.06);background:rgba(255,255,255,.92)}
+  .nav-inner{max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:16px 24px}
+  @media(min-width:768px){.nav-inner{padding:20px 40px}}
+  .logo-mark{display:flex;align-items:center}
+  .logo-mark svg{height:24px;width:auto;display:block;fill:var(--foreground)}
+  @media(min-width:768px){.logo-mark svg{height:28px}}
+  .menu-btn{display:inline-flex;align-items:center;gap:12px;font-size:14px;font-weight:500;color:var(--foreground);background:none;border:none;cursor:pointer}
+  .menu-btn .lbl{font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:.22em;color:var(--muted-foreground)}
+  .menu-btn .ham{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;height:40px;width:40px}
+  .menu-btn .ham span{display:block;height:1px;width:24px;background:var(--foreground);transition:transform .35s var(--ease),width .35s var(--ease)}
+  .menu-btn:hover .ham span:first-child{transform:translateY(1px);width:18px}
+  .menu-btn:hover .ham span:last-child{transform:translateY(-1px)}
+  .kicker{display:flex;align-items:center;gap:16px;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.22em;color:var(--muted-foreground)}
+  .kicker .line{height:1px;width:40px;background:currentColor;opacity:.4;transform-origin:left;transition:transform 1s var(--ease) .1s}
+  .js .kicker.reveal .line{transform:scaleX(0)}
+  .js .kicker.reveal.in .line{transform:scaleX(1)}
+  .kicker .num{font-variant-numeric:tabular-nums}
+  h1.display{font-family:var(--font-display);font-weight:600;font-size:clamp(2.75rem,8vw,7.5rem);line-height:.98;letter-spacing:-.035em;max-width:18ch;margin-top:40px}
+  h2.display{font-family:var(--font-display);font-weight:600;font-size:clamp(2.25rem,5vw,4.5rem);line-height:1.02;letter-spacing:-.035em;margin-top:40px}
+  h3.display{font-family:var(--font-display);font-weight:600;font-size:clamp(1.5rem,3vw,2.25rem);line-height:1.1;letter-spacing:-.025em}
+  .italic-light{font-weight:300;font-style:italic;color:var(--mint-ink)}
+  .lead{margin-top:40px;max-width:42rem;font-size:clamp(1rem,1.2vw,1.125rem);line-height:1.7;color:var(--muted-foreground)}
+  .sub{margin-top:32px;max-width:42rem;font-size:clamp(1rem,1.2vw,1.125rem);line-height:1.7;color:var(--muted-foreground)}
+
+  /* Hero */
+  .hero{padding-top:80px;padding-bottom:40px}
+  @media(min-width:768px){.hero{padding-top:112px;padding-bottom:64px}}
+  .hero-meta{display:flex;align-items:center;gap:24px;margin-top:40px;flex-wrap:wrap}
+  .hero-meta .tag{display:inline-block;font-family:var(--font-mono);font-size:12px;text-transform:uppercase;letter-spacing:.22em;color:var(--muted-foreground)}
+  .hero-img{margin-top:64px;width:100vw;margin-left:calc(-50vw + 50%);aspect-ratio:16/9;background:linear-gradient(135deg, var(--mint) 0%, rgba(240,247,234,.5) 100%);border-radius:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .hero-img img{width:100%;height:100%;object-fit:cover}
+  .hero-img span{font-family:var(--font-mono);font-size:12px;text-transform:uppercase;letter-spacing:.22em;color:var(--muted-foreground)}
+
+  /* Seções */
+  .block{padding-top:112px;padding-bottom:0}
+  @media(min-width:768px){.block{padding-top:176px;padding-bottom:0}}
+  .block + .block{padding-top:80px}
+  @media(min-width:768px){.block + .block{padding-top:120px}}
+
+  /* Grid 2col integrado */
+  .content-visual{display:grid;grid-template-columns:1fr;gap:40px;margin-top:64px;align-items:flex-start}
+  @media(min-width:768px){.content-visual{grid-template-columns:1fr 1.3fr;gap:80px;align-items:flex-start}}
+  .content-visual-text{display:flex;flex-direction:column;gap:24px;align-self:flex-start}
+  .content-visual-text h3{font-family:var(--font-display);font-weight:600;font-size:clamp(1.5rem,2.5vw,1.875rem);line-height:1.15;letter-spacing:-.02em;margin:0}
+  .content-visual-text p{font-size:1rem;line-height:1.7;color:var(--muted-foreground);margin:0}
+  .content-visual-img{width:100%;aspect-ratio:4/5;background:var(--muted);border-radius:0;display:flex;align-items:center;justify-content:center;overflow:hidden;align-self:flex-start}
+  .content-visual-img img{width:100%;height:100%;object-fit:cover}
+  .content-visual-img span{font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:.22em;color:var(--muted-foreground)}
+
+  /* Estratégia — 2 colunas */
+  .strategy-grid{display:grid;grid-template-columns:1fr;gap:40px;margin-top:64px}
+  @media(min-width:768px){.strategy-grid{grid-template-columns:1fr 1fr;gap:64px}}
+  .strategy-col{display:flex;flex-direction:column;gap:32px}
+  .strategy-col h3{font-family:var(--font-display);font-weight:600;font-size:1.5rem;line-height:1.15}
+  .strategy-col p{font-size:1rem;line-height:1.7;color:var(--muted-foreground)}
+  .insight-cards{display:grid;grid-template-columns:1fr;gap:24px}
+  .insight-card{background:var(--mint);padding:32px;border-radius:0;display:flex;flex-direction:row;gap:24px;align-items:flex-start;transition:transform .5s var(--ease),box-shadow .5s var(--ease)}
+  .insight-card:hover{transform:translateY(-4px);box-shadow:0 18px 40px -24px rgba(13,13,13,.35)}
+  .insight-card .num{font-family:var(--font-display);font-weight:600;font-size:48px;line-height:1;opacity:.15;flex-shrink:0}
+  .insight-card-content{display:flex;flex-direction:column;gap:12px}
+  .insight-card h4{font-family:var(--font-display);font-weight:600;font-size:1.125rem;margin:0}
+  .insight-card p{font-size:.95rem;line-height:1.6;color:var(--muted-foreground);margin:0}
+
+  /* Identidade — Grid 3 wide */
+  .identity-grid{display:grid;grid-template-columns:1fr;gap:32px;margin-top:64px}
+  @media(min-width:768px){.identity-grid{grid-template-columns:repeat(3,1fr)}}
+  .identity-item{aspect-ratio:1/1;background:var(--muted);border-radius:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .identity-item img{width:100%;height:100%;object-fit:cover}
+  .identity-item span{font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:.22em;color:var(--muted-foreground)}
+
+  /* Antes/Depois */
+  .before-after{display:grid;grid-template-columns:1fr;gap:32px;margin-top:64px}
+  @media(min-width:768px){.before-after{grid-template-columns:repeat(2,1fr)}}
+  .ba-item{display:flex;flex-direction:column;gap:16px}
+  .ba-item .label{font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:.22em;color:var(--muted-foreground);font-weight:600}
+  .ba-item .visual{width:100%;aspect-ratio:4/5;background:var(--muted);border-radius:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .ba-item .visual img{width:100%;height:100%;object-fit:cover}
+  .ba-item .visual span{font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:.22em;color:var(--muted-foreground)}
+
+  /* Aplicações — 2x2 + descrição */
+  .aplicacoes-section{margin-top:80px;display:grid;grid-template-columns:1fr;gap:40px}
+  @media(min-width:768px){.aplicacoes-section{grid-template-columns:1.2fr 1fr;gap:64px;align-items:start}}
+  .apps-text{display:flex;flex-direction:column;gap:24px}
+  .apps-text h3{font-family:var(--font-display);font-weight:600;font-size:clamp(1.5rem,2.5vw,1.875rem)}
+  .apps-text p{font-size:1rem;line-height:1.7;color:var(--muted-foreground)}
+  .apps-grid{display:grid;grid-template-columns:1fr;gap:24px}
+  @media(min-width:768px){.apps-grid{grid-template-columns:repeat(2,1fr)}}
+  .app-item{aspect-ratio:1/1;background:var(--muted);border-radius:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .app-item img{width:100%;height:100%;object-fit:cover}
+  .app-item span{font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:.22em;color:var(--muted-foreground)}
+
+  /* Vídeos — Em movimento */
+  .video-facade{position:relative;cursor:pointer;background:var(--muted);overflow:hidden}
+  .video-facade img{width:100%;height:100%;object-fit:cover;display:block}
+  .video-facade iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+  .play-btn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);height:88px;width:88px;border-radius:9999px;border:1px solid rgba(255,255,255,.7);background:rgba(13,13,13,.30);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;color:#fff;transition:transform .45s var(--ease),background .45s var(--ease)}
+  .play-btn svg{margin-left:4px}
+  .video-facade:hover .play-btn{transform:translate(-50%,-50%) scale(1.1);background:rgba(13,13,13,.55)}
+  .video-facade.playing .play-btn,.video-facade.playing .video-tag{opacity:0;pointer-events:none}
+  .video-tag{position:absolute;left:24px;bottom:20px;font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:.22em;color:#fff;opacity:.9;transition:opacity .4s var(--ease)}
+  /* dois vídeos no mesmo box: grande 16/9 + vertical 9/16 (1080x1920), mesma altura */
+  .video-row{margin-top:80px;width:100vw;margin-left:calc(-50vw + 50%);display:grid;grid-template-columns:1fr;gap:0}
+  @media(min-width:768px){.video-row{grid-template-columns:1.7778fr .5625fr}}
+  .video-row .video-facade{aspect-ratio:16/9}
+  .video-row .video-vertical{aspect-ratio:9/16}
+  .video-row .video-vertical .play-btn{height:64px;width:64px}
+
+  /* Resultado */
+  .result-grid{display:grid;grid-template-columns:1fr;gap:40px;margin-top:64px}
+  @media(min-width:768px){.result-grid{grid-template-columns:repeat(3,1fr);gap:48px}}
+  .result-item{border-top:1px solid var(--border);padding-top:32px}
+  .result-item .num{font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:.22em;color:var(--muted-foreground)}
+  .result-item .value{font-family:var(--font-display);font-weight:600;font-size:clamp(2rem,4vw,3rem);line-height:1;font-variant-numeric:tabular-nums}
+  .result-item .label{font-size:1rem;margin-top:12px;color:var(--muted-foreground)}
+
+  /* Testemunho */
+  .testimonial{margin-top:80px;padding-top:80px;border-top:1px solid var(--border);display:grid;grid-template-columns:1fr;gap:40px}
+  @media(min-width:768px){.testimonial{grid-template-columns:1fr 280px;gap:64px}}
+  .testimonial-text blockquote{font-family:var(--font-display);font-weight:600;font-size:clamp(1.5rem,2.5vw,1.875rem);line-height:1.4;color:var(--foreground)}
+  .testimonial-text .credit{margin-top:24px;display:flex;flex-direction:column;gap:4px}
+  .testimonial-text .credit .name{font-weight:600;color:var(--foreground)}
+  .testimonial-text .credit .role{font-size:.95rem;color:var(--muted-foreground)}
+  .testimonial-img{width:100%;aspect-ratio:1/1;background:var(--muted);border-radius:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .testimonial-img img{width:100%;height:100%;object-fit:cover}
+  .testimonial-img span{font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:.22em;color:var(--muted-foreground)}
+
+  /* CTA Final */
+  .cta-section{border-top:1px solid var(--border);padding-top:112px;padding-bottom:112px;margin-top:112px}
+  @media(min-width:768px){.cta-section{padding-top:176px;padding-bottom:176px;margin-top:176px}}
+  .cta-section h2{margin-top:48px;max-width:22ch}
+  .cta-section p{margin-top:32px;max-width:44ch;font-size:clamp(1rem,1.2vw,1.125rem);line-height:1.7;color:var(--muted-foreground)}
+  .btn-pill{margin-top:40px;display:inline-flex;align-items:center;gap:12px;border-radius:0;background:var(--foreground);color:var(--background);padding:12px 24px;font-size:14px;font-weight:500;text-decoration:none}
+  @media(min-width:768px){.btn-pill{font-size:1rem}}
+
+  /* Breadcrumb */
+  .breadcrumb{margin-bottom:40px;display:flex;align-items:center;gap:8px;font-size:14px;color:var(--muted-foreground)}
+  .breadcrumb a{color:var(--foreground);text-decoration:none}
+  .breadcrumb a:hover{text-decoration:underline}
+
+  /* Footer */
+  footer.ft{border-top:1px solid var(--border);padding:48px 24px;margin-top:112px}
+  @media(min-width:768px){footer.ft{padding:64px 40px}}
+  .ft-grid{max-width:1400px;margin:0 auto;display:grid;gap:32px}
+  @media(min-width:768px){.ft-grid{grid-template-columns:repeat(12,1fr)}}
+  @media(min-width:768px){.ft-brand{grid-column:span 4}}
+  .ft-logo svg{height:28px;width:auto;display:block;fill:var(--foreground)}
+  .ft-brand p{margin-top:24px;max-width:34ch;font-size:14px;line-height:1.6;color:var(--muted-foreground)}
+  @media(min-width:768px){.ft-col-a{grid-column:7 / span 3}}
+  @media(min-width:768px){.ft-col-b{grid-column:span 3}}
+  .ft-col .h{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.2em;color:var(--muted-foreground)}
+  .ft-col ul{list-style:none;margin-top:16px;display:flex;flex-direction:column;gap:8px;font-size:14px}
+  .ft-col ul a{color:var(--foreground);text-decoration:none}
+  .ft-col ul a:hover{text-decoration:underline}
+  .ft-col .muted{color:var(--muted-foreground)}
+  .ft-bottom{max-width:1400px;margin:64px auto 0;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border);padding-top:24px;font-size:12px;color:var(--muted-foreground)}
+  .note{background:#fafafa;border-bottom:1px solid var(--border);padding:10px 24px;font-family:var(--font-mono);font-size:11px;letter-spacing:.05em;color:var(--muted-foreground);text-align:center}
+
+  /* ============ ANIMAÇÕES (progressive enhancement) ============ */
+  .social-btn{transition:background .3s var(--ease),color .3s var(--ease),border-color .3s var(--ease),transform .3s var(--ease)}
+  .social-btn:hover{background:var(--foreground);color:var(--background);border-color:var(--foreground);transform:translateY(-3px)}
+  .arrow-link .arw{display:inline-block;transition:transform .35s var(--ease)}
+  .arrow-link:hover .arw{transform:translateX(6px)}
+  a.btn-pill,a.cta-pill{transition:transform .35s var(--ease),box-shadow .35s var(--ease)}
+  a.btn-pill:hover,a.cta-pill:hover{transform:translateY(-2px);box-shadow:0 16px 30px -18px rgba(13,13,13,.6)}
+  input,textarea{transition:border-color .3s var(--ease)}
+  input:focus,textarea:focus{border-bottom-color:var(--foreground)!important}
+
+  @media(prefers-reduced-motion:no-preference){
+    .js .reveal{opacity:0;transform:translateY(30px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+    .js .reveal.in{opacity:1;transform:none}
+
+    .js .reveal-img{opacity:0;transition:opacity 1.1s var(--ease)}
+    .js .reveal-img.in{opacity:1}
+    .js .reveal-img img{transform:scale(1.12);transition:transform 1.6s var(--ease)}
+    .js .reveal-img.in img{transform:scale(1)}
+
+    /* zoom on hover for real image tiles */
+    .zoomable{overflow:hidden}
+    .zoomable img{transition:transform .9s var(--ease)}
+    .zoomable:hover img{transform:scale(1.05)}
+  }
+</style>
+</head>
+<body>
+<div class="note">PREVIEW V3 — Layout redensificado, sem espaços em branco. Imagens integradas à narrativa, visual robusto.</div>
+<header class="nav"><div class="nav-inner"><div class="logo-mark"><svg role="img" aria-label="MAM Branding" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 743.9 150"><polygon points="690.5 17.9 657.7 106.2 651.9 121.8 646.1 106.2 613.3 17.9 581.2 17.9 581.2 132.1 599.9 132.1 599.9 35.3 635.9 132.1 667.9 132.1 703.9 35.3 703.9 132.1 722.6 132.1 722.6 17.9 690.5 17.9"/><path d="M473,17.9l-45.4,114.2h20l19.6-49.3,6.3,15.9h43.3l13.3,33.4h20l-45.4-114.2h-31.6ZM467.1,82.7l21.6-54.4,21.6,54.4h-43.2Z"/><polygon points="364.2 17.9 325.6 121.8 287 17.9 254.9 17.9 254.9 132.1 273.7 132.1 273.7 35.3 309.7 132.1 341.6 132.1 377.6 35.3 377.6 132.1 396.3 132.1 396.3 17.9 364.2 17.9"/><path d="M92,61.9L46.9,18h-25.7v114.1h25.7l31.6-30.9v-26.2l6.9,6.7h0s51.6,50.3,51.6,50.3h25.7V18h-25.7l-45.1,43.9ZM40,112.6V37.4l38.5,37.6-38.5,37.6ZM144,112.6l-38.5-37.6,38.5-37.6v75.2Z"/></svg></div><button class="menu-btn"><span class="lbl">Menu</span><span class="ham"><span></span><span></span></span></button></div></header>
+<main>
+<section class="hero"><div class="wrap" data-stagger>
+<div class="breadcrumb reveal"><a href="#">Serviços</a> / <a href="#">Portfólio</a> / <span>Black Herva</span></div>
+<div class="kicker reveal"><span class="num">—</span><span class="line"></span><span>Case Study</span></div>
+<h1 class="display reveal">Black Herva</h1>
+<div class="hero-meta reveal">
+  <span class="tag">Erva-mate</span>
+  <span class="tag">2011 — presente</span>
+  <span class="tag">Branding desde a fundação</span>
+</div>
+<p class="lead reveal">Da visão de um empreendedor à maior marca de erva-mate da América Latina. Uma história de 13 anos observando como as decisões estratégicas criam mercados.</p>
+<div class="hero-img reveal-img zoomable"><img src="https://picsum.photos/seed/bh-hero/1000/560" alt="Contexto visual do projeto" style="width:100%;height:100%;object-fit:cover"></div>
+</div></section>
+
+<section class="block"><div class="wrap">
+<div class="kicker reveal"><span class="num">01</span><span class="line"></span><span>O desafio</span></div>
+
+<div class="content-visual">
+  <div class="content-visual-text">
+    <h2 class="display reveal">Mercado fragmentado, <span class="italic-light">sem liderança.</span></h2>
+    <p class="sub reveal">Erva-mate era commodidade. Dezenas de marcas, mas nenhuma era marca de verdade. Tudo era preço, varejo, volume. Não havia posicionamento.</p>
+    <h3 class="reveal">O momento era agora</h3>
+    <p class="reveal">O cliente tinha visão. Queria criar uma marca que durasse décadas. Mas não sabia por onde começar. Tinha produto, paixão — faltava clareza estratégica.</p>
+    <p class="reveal">Quando chegou à MAM, a pergunta era direta: "Como transformamos erva-mate em marca?"</p>
+  </div>
+  <div class="content-visual-img reveal-img zoomable"><img src="https://picsum.photos/seed/bh-embalagem-antiga/640/800" alt="Embalagem anterior — sem marca" style="width:100%;height:100%;object-fit:cover"></div>
+</div>
+</div></section>
+
+<section class="block"><div class="wrap">
+<div class="kicker reveal"><span class="num">02</span><span class="line"></span><span>Estratégia</span></div>
+<h2 class="display reveal">Antes da identidade, <span class="italic-light">a decisão.</span></h2>
+<p class="sub reveal">Não começamos por logo. Começamos por perguntas fundamentais sobre mercado, posicionamento e narrativa.</p>
+
+<div class="strategy-grid">
+  <div class="strategy-col">
+    <h3 class="reveal">O pensamento estratégico</h3>
+    <p class="reveal">Mergulho no negócio, no mercado, na concorrência. Entender profundamente como o mercado percebia erva-mate. Quais eram os vazios não preenchidos.</p>
+    <p class="reveal">Definir posicionamento claro: não seria "erva barata", seria "erva para quem entende qualidade". Premium, mas acessível.</p>
+    <p class="reveal">Construir a narrativa que sustentaria tudo. O tom. A voz. A expressão visual que encarnaria a marca.</p>
+  </div>
+  <div class="strategy-col">
+    <div class="insight-cards" data-stagger>
+      <div class="insight-card reveal">
+        <div class="num">01</div>
+        <div class="insight-card-content">
+          <h4>Posicionamento</h4>
+          <p>Qualidade + Tradição + Modernidade. "Erva que resgata ritmo".</p>
+        </div>
+      </div>
+      <div class="insight-card reveal">
+        <div class="num">02</div>
+        <div class="insight-card-content">
+          <h4>Público</h4>
+          <p>Consumidor que já tomava erva, mas queria marca que respeitasse sua inteligência.</p>
+        </div>
+      </div>
+      <div class="insight-card reveal">
+        <div class="num">03</div>
+        <div class="insight-card-content">
+          <h4>Narrativa</h4>
+          <p>Marca que fala do que a erva representa: ritual, pausa, conexão.</p>
+        </div>
+      </div>
+      <div class="insight-card reveal">
+        <div class="num">04</div>
+        <div class="insight-card-content">
+          <h4>Sistema</h4>
+          <p>Um vocabulário visual coeso. Não peças soltas, mas um sistema único.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div></section>
+
+<section class="block"><div class="wrap">
+<div class="kicker reveal"><span class="num">03</span><span class="line"></span><span>Identidade visual</span></div>
+<h2 class="display reveal">O conceito visual <span class="italic-light">traduzido.</span></h2>
+<p class="sub reveal">Cada elemento foi decidido antes de ser desenhado. O símbolo representa força — minimalista, memorável, adaptável. A cor sintetiza: terra, energia, tradição moderna. A tipografia é forte mas acessível. O sistema é coeso. Funciona em embalagem, digital, pontos de venda. É um vocabulário visual único.</p>
+</div>
+
+<!-- 1 Grande -->
+<div class="reveal-img zoomable" style="margin-top:80px;width:100vw;margin-left:calc(-50vw + 50%);aspect-ratio:16/9;background:var(--muted);display:flex;align-items:center;justify-content:center;overflow:hidden">
+  <img src="https://picsum.photos/seed/bh-sistema/1000/560" alt="Sistema de marca — logo e componentes" style="width:100%;height:100%;object-fit:cover">
+</div>
+
+<!-- 2 Médias -->
+<div style="margin-top:80px;display:grid;grid-template-columns:1fr 1fr;gap:0;width:100vw;margin-left:calc(-50vw + 50%)">
+  <div class="reveal" style="aspect-ratio:16/9;background:var(--muted);display:flex;align-items:center;justify-content:center"><span style="font-family:var(--font-mono);font-size:12px;text-transform:uppercase;letter-spacing:.22em;color:var(--muted-foreground)">Logo principal</span></div>
+  <div class="reveal" style="aspect-ratio:16/9;background:var(--muted);display:flex;align-items:center;justify-content:center"><span style="font-family:var(--font-mono);font-size:12px;text-transform:uppercase;letter-spacing:.22em;color:var(--muted-foreground)">Paleta cromática</span></div>
+</div>
+
+<!-- 3 Pequenas -->
+<div style="margin-top:0;display:grid;grid-template-columns:repeat(3,1fr);gap:0;width:100vw;margin-left:calc(-50vw + 50%)">
+  <div class="reveal-img zoomable" style="aspect-ratio:1/1;background:var(--muted);display:flex;align-items:center;justify-content:center;overflow:hidden"><img src="https://picsum.photos/seed/bh-tipo/520/520" alt="Tipografia" style="width:100%;height:100%;object-fit:cover"></div>
+  <div class="reveal-img zoomable" style="aspect-ratio:1/1;background:var(--muted);display:flex;align-items:center;justify-content:center;overflow:hidden"><img src="https://picsum.photos/seed/bh-comp1/520/520" alt="Componente 01" style="width:100%;height:100%;object-fit:cover"></div>
+  <div class="reveal-img zoomable" style="aspect-ratio:1/1;background:var(--muted);display:flex;align-items:center;justify-content:center;overflow:hidden"><img src="https://picsum.photos/seed/bh-comp2/520/520" alt="Componente 02" style="width:100%;height:100%;object-fit:cover"></div>
+</div>
+
+<!-- 1 Grande -->
+<div class="reveal-img zoomable" style="margin-top:0;width:100vw;margin-left:calc(-50vw + 50%);aspect-ratio:16/9;background:var(--muted);display:flex;align-items:center;justify-content:center;overflow:hidden">
+  <img src="https://picsum.photos/seed/bh-embalagem/1000/560" alt="Aplicação em embalagem" style="width:100%;height:100%;object-fit:cover">
+</div>
+
+<!-- 2 Grandes -->
+<div style="margin-top:0;display:grid;grid-template-columns:1fr 1fr;gap:0;width:100vw;margin-left:calc(-50vw + 50%)">
+  <div class="reveal-img zoomable" style="aspect-ratio:9/10;background:var(--muted);display:flex;align-items:center;justify-content:center;overflow:hidden"><img src="https://picsum.photos/seed/bh-antes/560/622" alt="Antes — Sem marca" style="width:100%;height:100%;object-fit:cover"></div>
+  <div class="reveal-img zoomable" style="aspect-ratio:9/10;background:var(--muted);display:flex;align-items:center;justify-content:center;overflow:hidden"><img src="https://picsum.photos/seed/bh-depois/560/622" alt="Depois — Black Herva" style="width:100%;height:100%;object-fit:cover"></div>
+</div>
+
+<!-- 1 Grande -->
+<div class="reveal-img zoomable" style="margin-top:0;width:100vw;margin-left:calc(-50vw + 50%);aspect-ratio:16/9;background:var(--muted);display:flex;align-items:center;justify-content:center;overflow:hidden">
+  <img src="https://picsum.photos/seed/bh-padroes/1000/560" alt="Sistema de padrões" style="width:100%;height:100%;object-fit:cover">
+</div>
+
+</section>
+
+<section class="block"><div class="wrap">
+<div class="kicker reveal"><span class="num">04</span><span class="line"></span><span>Aplicações / Pontos de contato</span></div>
+<h2 class="display reveal">A marca viva <span class="italic-light">no mercado.</span></h2>
+<p class="sub reveal">Identidade não é só visual — é como a marca se manifesta em cada lugar onde o cliente a encontra. Embalagem. Varejo. E-commerce. Comunicação. Cada um reforça a mesma mensagem estratégica. Marca reconhecível em qualquer contexto.</p>
+</div>
+
+<!-- 4 Imagens lado a lado - Pontos de contato -->
+<div data-stagger style="margin-top:80px;display:grid;grid-template-columns:repeat(4,1fr);gap:0;width:100vw;margin-left:calc(-50vw + 50%)">
+  <div class="reveal-img zoomable" style="aspect-ratio:3/4;background:var(--muted);display:flex;align-items:center;justify-content:center;overflow:hidden"><img src="https://picsum.photos/seed/bh-app1/480/640" alt="Embalagem — Frente" style="width:100%;height:100%;object-fit:cover"></div>
+  <div class="reveal-img zoomable" style="aspect-ratio:3/4;background:var(--muted);display:flex;align-items:center;justify-content:center;overflow:hidden"><img src="https://picsum.photos/seed/bh-app2/480/640" alt="Embalagem — Verso" style="width:100%;height:100%;object-fit:cover"></div>
+  <div class="reveal-img zoomable" style="aspect-ratio:3/4;background:var(--muted);display:flex;align-items:center;justify-content:center;overflow:hidden"><img src="https://picsum.photos/seed/bh-app3/480/640" alt="Display em varejo" style="width:100%;height:100%;object-fit:cover"></div>
+  <div class="reveal-img zoomable" style="aspect-ratio:3/4;background:var(--muted);display:flex;align-items:center;justify-content:center;overflow:hidden"><img src="https://picsum.photos/seed/bh-app4/480/640" alt="E-commerce" style="width:100%;height:100%;object-fit:cover"></div>
+</div>
+
+</section>
+
+<section class="block"><div class="wrap">
+<div class="kicker reveal"><span class="num">05</span><span class="line"></span><span>Em movimento</span></div>
+<h2 class="display reveal">A marca que se move, <span class="italic-light">convence.</span></h2>
+<p class="sub reveal">Identidade não termina no impresso. O sistema foi desenhado para viver em movimento — motion do símbolo, campanha, produto em uso. É onde a marca ganha voz e ritmo.</p>
+</div>
+
+<!-- Dois vídeos no mesmo box: grande 16/9 + vertical 1080x1920 -->
+<div class="video-row" data-stagger>
+  <!-- Vídeo principal — TROQUE AQUI: data-video="ID_DO_YOUTUBE" (ex.: data-video="dQw4w9WgXcQ") -->
+  <div class="video-facade reveal-img zoomable" data-video="">
+    <img src="https://picsum.photos/seed/bh-video1/1000/560" alt="Filme da marca — Black Herva">
+    <span class="video-tag">Filme da marca — 01:20</span>
+    <div class="play-btn" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+  </div>
+  <!-- Vídeo vertical (1080x1920) — TROQUE AQUI: data-video="ID_DO_YOUTUBE" -->
+  <div class="video-facade video-vertical reveal-img zoomable" data-video="">
+    <img src="https://picsum.photos/seed/bh-video2/540/960" alt="Vertical — Black Herva em uso">
+    <span class="video-tag">Vertical — 00:45</span>
+    <div class="play-btn" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+  </div>
+</div>
+</section>
+
+<section class="block"><div class="wrap">
+<div class="kicker reveal"><span class="num">06</span><span class="line"></span><span>Resultado</span></div>
+<h2 class="display reveal">Do zero à liderança <span class="italic-light">da categoria.</span></h2>
+
+<div class="result-grid" data-stagger>
+  <div class="result-item reveal">
+    <div class="num">Crescimento</div>
+    <div class="value" data-count="2500" data-pre="+" data-suf="%" data-final="+2.500%">+2.500%</div>
+    <div class="label">em vendas nos primeiros 5 anos</div>
+  </div>
+  <div class="result-item reveal">
+    <div class="num">Posição</div>
+    <div class="value">Nº1</div>
+    <div class="label">Maior marca da América Latina</div>
+  </div>
+  <div class="result-item reveal">
+    <div class="num">Margem</div>
+    <div class="value" data-count="45" data-pre="+" data-suf="%" data-final="+45%">+45%</div>
+    <div class="label">Crescimento de margem</div>
+  </div>
+</div>
+
+<div class="testimonial">
+  <div class="testimonial-text reveal">
+    <blockquote>"Quando chegamos à MAM, éramos apenas um produto. A MAM nos transformou em uma marca que as pessoas escolhem porque acreditam nela."</blockquote>
+    <div class="credit">
+      <div class="name">Fundador, Black Herva</div>
+      <div class="role">CEO & Visionary</div>
+    </div>
+  </div>
+  <div class="testimonial-img reveal-img"><span>Foto do founder</span></div>
+</div>
+</div></section>
+
+<section style="padding-top:112px;padding-bottom:112px;border-top:1px solid var(--border)">
+<div class="wrap">
+<div class="kicker reveal"><span class="num">07</span><span class="line"></span><span>Próximo passo</span></div>
+
+<div style="margin-top:64px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start">
+  <div style="display:flex;flex-direction:column;gap:24px;max-width:44rem">
+    <h2 class="display reveal" style="margin-top:0">Sua marca está pronta para a <span class="italic-light">próxima fase?</span></h2>
+    <p class="reveal" style="font-size:clamp(1rem,1.2vw,1.125rem);line-height:1.7;color:var(--muted-foreground)">Descubra onde sua empresa está hoje e quais decisões precisam ser tomadas para seu próximo ciclo de crescimento. Conte um pouco sobre o seu momento — respondemos pessoalmente.</p>
+
+    <a href="#" class="cta-pill arrow-link reveal" style="margin-top:40px;display:inline-flex;align-items:center;gap:12px;border-radius:9999px;background:var(--foreground);color:var(--background);padding:12px 24px;font-size:14px;font-weight:500;text-decoration:none;width:fit-content">Faça um diagnóstico da sua marca <span class="arw" aria-hidden>→</span></a>
+
+    <div class="reveal" style="margin-top:48px">
+      <div style="font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:.22em;color:var(--muted-foreground);font-weight:500">Canais</div>
+      <ul style="list-style:none;margin-top:20px;display:flex;flex-wrap:wrap;gap:12px">
+        <li><a href="#" class="social-btn" style="display:inline-flex;height:44px;width:44px;align-items:center;justify-content:center;border-radius:9999px;border:1px solid var(--border);color:var(--foreground)"><svg style="height:18px;width:18px" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0 0-5zM3 9h4v12H3zM10 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05C21.4 8.65 22 11 22 14.1V21h-4v-6c0-1.43-.03-3.27-2-3.27-2 0-2.3 1.56-2.3 3.17V21h-4z"/></svg></a></li>
+        <li><a href="#" class="social-btn" style="display:inline-flex;height:44px;width:44px;align-items:center;justify-content:center;border-radius:9999px;border:1px solid var(--border);color:var(--foreground)"><svg style="height:18px;width:18px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a></li>
+        <li><a href="#" class="social-btn" style="display:inline-flex;height:44px;width:44px;align-items:center;justify-content:center;border-radius:9999px;border:1px solid var(--border);color:var(--foreground)"><svg style="height:18px;width:18px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></a></li>
+        <li><a href="#" class="social-btn" style="display:inline-flex;height:44px;width:44px;align-items:center;justify-content:center;border-radius:9999px;border:1px solid var(--border);color:var(--foreground)"><svg style="height:18px;width:18px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22.5 7s-.2-1.5-.8-2.1c-.8-.8-1.7-.8-2.1-.9C16.7 3.8 12 3.8 12 3.8s-4.7 0-7.6.2c-.4.1-1.3.1-2.1.9C1.7 5.5 1.5 7 1.5 7S1.3 8.8 1.3 10.5v1c0 1.7.2 3.5.2 3.5s.2 1.5.8 2.1c.8.8 1.8.8 2.3.9 1.7.2 7.4.2 7.4.2s4.7 0 7.6-.2c.4-.1 1.3-.1 2.1-.9.6-.6.8-2.1.8-2.1s.2-1.8.2-3.5v-1C22.7 8.8 22.5 7 22.5 7z"/><path d="M10 14.5l4.5-2.5L10 9.5z" fill="currentColor"/></svg></a></li>
+      </ul>
+      <a href="mailto:contato@mambranding.com.br" style="margin-top:32px;display:inline-block;font-size:clamp(1rem,1.2vw,1.125rem);color:var(--foreground);text-decoration:none">contato@mambranding.com.br</a>
+    </div>
+  </div>
+
+  <div class="reveal" style="display:flex;flex-direction:column;gap:24px">
+    <div>
+      <label style="font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:.22em;color:var(--muted-foreground);font-weight:500">Nome <span style="color:var(--foreground)">*</span></label>
+      <input type="text" style="margin-top:12px;width:100%;border:none;border-bottom:1px solid var(--border);background:transparent;padding:12px 0;font-size:clamp(1rem,1.2vw,1.125rem);color:var(--foreground);font-family:var(--font-sans);outline:none">
+    </div>
+    <div>
+      <label style="font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:.22em;color:var(--muted-foreground);font-weight:500">Empresa</label>
+      <input type="text" style="margin-top:12px;width:100%;border:none;border-bottom:1px solid var(--border);background:transparent;padding:12px 0;font-size:clamp(1rem,1.2vw,1.125rem);color:var(--foreground);font-family:var(--font-sans);outline:none">
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+      <div>
+        <label style="font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:.22em;color:var(--muted-foreground);font-weight:500">E-mail <span style="color:var(--foreground)">*</span></label>
+        <input type="email" style="margin-top:12px;width:100%;border:none;border-bottom:1px solid var(--border);background:transparent;padding:12px 0;font-size:clamp(1rem,1.2vw,1.125rem);color:var(--foreground);font-family:var(--font-sans);outline:none">
+      </div>
+      <div>
+        <label style="font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:.22em;color:var(--muted-foreground);font-weight:500">WhatsApp</label>
+        <input type="tel" style="margin-top:12px;width:100%;border:none;border-bottom:1px solid var(--border);background:transparent;padding:12px 0;font-size:clamp(1rem,1.2vw,1.125rem);color:var(--foreground);font-family:var(--font-sans);outline:none">
+      </div>
+    </div>
+    <div>
+      <label style="font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:.22em;color:var(--muted-foreground);font-weight:500">Mensagem <span style="color:var(--foreground)">*</span></label>
+      <textarea style="margin-top:12px;width:100%;border:none;border-bottom:1px solid var(--border);background:transparent;padding:12px 0;font-size:clamp(1rem,1.2vw,1.125rem);color:var(--foreground);font-family:var(--font-sans);outline:none;resize:vertical;min-height:100px" rows="5" placeholder="Conte sobre seu momento e o que você está buscando."></textarea>
+    </div>
+    <div style="padding-top:16px">
+      <a href="#" class="arrow-link" style="display:inline-flex;align-items:center;gap:12px;font-size:1.125rem;font-weight:500;color:var(--foreground);text-decoration:none">
+        <span style="border-bottom:1px solid var(--foreground);padding-bottom:4px">Enviar mensagem</span>
+        <span class="arw" style="display:inline-block">→</span>
+      </a>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+</main>
+
+<footer class="ft"><div class="ft-grid"><div class="ft-brand"><div class="ft-logo"><svg role="img" aria-label="MAM Branding" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 743.9 150"><polygon points="690.5 17.9 657.7 106.2 651.9 121.8 646.1 106.2 613.3 17.9 581.2 17.9 581.2 132.1 599.9 132.1 599.9 35.3 635.9 132.1 667.9 132.1 703.9 35.3 703.9 132.1 722.6 132.1 722.6 17.9 690.5 17.9"/><path d="M473,17.9l-45.4,114.2h20l19.6-49.3,6.3,15.9h43.3l13.3,33.4h20l-45.4-114.2h-31.6ZM467.1,82.7l21.6-54.4,21.6,54.4h-43.2Z"/><polygon points="364.2 17.9 325.6 121.8 287 17.9 254.9 17.9 254.9 132.1 273.7 132.1 273.7 35.3 309.7 132.1 341.6 132.1 377.6 35.3 377.6 132.1 396.3 132.1 396.3 17.9 364.2 17.9"/><path d="M92,61.9L46.9,18h-25.7v114.1h25.7l31.6-30.9v-26.2l6.9,6.7h0s51.6,50.3,51.6,50.3h25.7V18h-25.7l-45.1,43.9ZM40,112.6V37.4l38.5,37.6-38.5,37.6ZM144,112.6l-38.5-37.6,38.5-37.6v75.2Z"/></svg></div><p>Consultoria especializada em construção, evolução e reposicionamento de marcas.</p></div><div class="ft-col ft-col-a"><div class="h">Navegar</div><ul><li><a href="#">Tese</a></li><li><a href="#">Ciclo de Marca</a></li><li><a href="#">Serviços</a></li><li><a href="#">Portfólio</a></li><li><a href="#">Projetos</a></li></ul></div><div class="ft-col ft-col-b"><div class="h">Contato</div><ul><li><a href="mailto:contato@mambranding.com.br">contato@mambranding.com.br</a></li><li class="muted">Maringá · Paraná</li></ul></div></div><div class="ft-bottom"><span>© 2026 MAM Branding</span><span>Construir marca é estratégia de futuro</span></div></footer>
+
+<script>
+  // marca que o JS está ativo — sem JS, nada fica escondido (SEO/fallback ok)
+  document.documentElement.classList.add('js');
+  (function(){
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // stagger: atrasa a revelação dos filhos diretos
+    document.querySelectorAll('[data-stagger]').forEach(function(g){
+      Array.prototype.forEach.call(g.children, function(c,i){
+        c.style.transitionDelay = (i * 90) + 'ms';
+      });
+    });
+
+    // reveal on scroll
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(!e.isIntersecting) return;
+        e.target.classList.add('in');
+        if(e.target.dataset.count !== undefined) runCount(e.target);
+        io.unobserve(e.target);
+      });
+    }, {threshold:0.15, rootMargin:'0px 0px -8% 0px'});
+
+    document.querySelectorAll('.reveal, .reveal-img, [data-count]').forEach(function(el){ io.observe(el); });
+
+    // contadores dos números de resultado
+    function runCount(el){
+      if(reduce){ el.textContent = el.dataset.final; return; }
+      var target = parseFloat(el.dataset.count),
+          pre = el.dataset.pre || '', suf = el.dataset.suf || '',
+          dur = 1600, start = null;
+      function fmt(n){ return pre + Math.round(n).toLocaleString('pt-BR') + suf; }
+      function step(ts){
+        if(!start) start = ts;
+        var p = Math.min((ts - start) / dur, 1);
+        var eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = fmt(target * eased);
+        if(p < 1) requestAnimationFrame(step); else el.textContent = el.dataset.final;
+      }
+      requestAnimationFrame(step);
+    }
+
+    // vídeos: facade — o iframe do YouTube só carrega no clique
+    document.querySelectorAll('.video-facade').forEach(function(v){
+      v.addEventListener('click', function(){
+        var id = v.dataset.video;
+        if(!id || v.classList.contains('playing')) return;
+        var f = document.createElement('iframe');
+        f.src = 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0';
+        f.allow = 'autoplay; fullscreen; encrypted-media; picture-in-picture';
+        f.setAttribute('allowfullscreen','');
+        f.title = v.querySelector('img') ? v.querySelector('img').alt : 'Vídeo';
+        v.appendChild(f);
+        v.classList.add('playing');
+      });
+    });
+
+    // sombra sutil na nav ao rolar
+    var nav = document.querySelector('header.nav');
+    addEventListener('scroll', function(){
+      if(window.scrollY > 8) nav.classList.add('scrolled'); else nav.classList.remove('scrolled');
+    }, {passive:true});
+  })();
+</script>
+</body>
+</html>
