@@ -26,6 +26,7 @@
 | Sobre | `src/routes/sobre.tsx` | ✅ No ar |
 | Diário | `src/routes/diario.tsx` | ✅ No ar |
 | Serviços / Branding | `src/routes/servicos.branding.tsx` | ✅ No ar — portfólio (destaques + carrossel) vem do banco |
+| **Serviços / Rebranding** | `src/routes/servicos.rebranding.tsx` → `/servicos/rebranding` | ✅ No ar (2026-07-13) — reusa os componentes do branding; portfólio da **mesma base** do banco |
 | **Cases (dinâmico)** | `src/routes/cases.$slug.tsx` → `/cases/[slug]` | ✅ No ar — template único alimentado pelo banco |
 | **Painel admin** | `src/routes/admin/*` → `/admin` | ✅ Funcionando (2026-07-13) |
 
@@ -47,7 +48,15 @@ shape e normaliza JSON parcial; a rota `cases.$slug.tsx` renderiza esse conteúd
 - [ ] Inserir IDs dos 2 vídeos do YouTube — campos "ID do vídeo" no editor
 - [ ] Foto real do founder no depoimento — upload no editor
 - [ ] Tiles "Logo principal" e "Paleta cromática" — upload no editor (viram imagem quando enviadas)
-- [ ] Links reais das redes sociais (const `socials` em `cases.$slug.tsx` e `servicos.branding.tsx` — ainda em código)
+- [ ] Links reais das redes sociais (const `socials` em `cases.$slug.tsx`, `servicos.branding.tsx` e `servicos.rebranding.tsx` — ainda em código)
+
+## Rebranding (2026-07-13)
+Tela de serviço criada a partir de layout do chat, mesma linguagem editorial do branding. Reusa
+`ServiceHero`, `ProcessTimeline`, `CaseCard`, `ProjectCarousel`, `BenefitBlock`, `ContactForm` etc.
+Seção nova exclusiva: **"Quando faz sentido"** (6 sinais). Portfólio (destaques + carrossel) puxa do
+mesmo Supabase do branding — as duas telas ficam em sincronia.
+- [ ] **Discoverability:** a rota `/servicos/rebranding` ainda **não está linkada** em nenhum lugar
+  (nav, footer ou home). Definir onde entra (ex.: seção "Serviços" da home / menu) e ligar.
 
 ## Padrões estabelecidos
 - **Logo:** SVG oficial (símbolo ⋈ + wordmark), header 24px/28px, footer 28px, `alt="MAM Branding"` — extraído do site no ar
