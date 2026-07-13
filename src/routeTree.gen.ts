@@ -16,6 +16,7 @@ import { Route as DiarioRouteImport } from './routes/diario'
 import { Route as AdminRouteRouteImport } from './routes/admin/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as ServicosRebrandingRouteImport } from './routes/servicos.rebranding'
 import { Route as ServicosBrandingRouteImport } from './routes/servicos.branding'
 import { Route as CasesSlugRouteImport } from './routes/cases.$slug'
 import { Route as AdminProjetosRouteImport } from './routes/admin/projetos'
@@ -57,6 +58,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AdminRouteRoute,
+} as any)
+const ServicosRebrandingRoute = ServicosRebrandingRouteImport.update({
+  id: '/servicos/rebranding',
+  path: '/servicos/rebranding',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const ServicosBrandingRoute = ServicosBrandingRouteImport.update({
   id: '/servicos/branding',
@@ -100,6 +106,7 @@ export interface FileRoutesByFullPath {
   '/admin/projetos': typeof AdminProjetosRoute
   '/cases/$slug': typeof CasesSlugRoute
   '/servicos/branding': typeof ServicosBrandingRoute
+  '/servicos/rebranding': typeof ServicosRebrandingRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/cases/$id': typeof AdminCasesIdRoute
   '/api/public/contact': typeof ApiPublicContactRoute
@@ -114,6 +121,7 @@ export interface FileRoutesByTo {
   '/admin/projetos': typeof AdminProjetosRoute
   '/cases/$slug': typeof CasesSlugRoute
   '/servicos/branding': typeof ServicosBrandingRoute
+  '/servicos/rebranding': typeof ServicosRebrandingRoute
   '/admin': typeof AdminIndexRoute
   '/admin/cases/$id': typeof AdminCasesIdRoute
   '/api/public/contact': typeof ApiPublicContactRoute
@@ -130,6 +138,7 @@ export interface FileRoutesById {
   '/admin/projetos': typeof AdminProjetosRoute
   '/cases/$slug': typeof CasesSlugRoute
   '/servicos/branding': typeof ServicosBrandingRoute
+  '/servicos/rebranding': typeof ServicosRebrandingRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/cases/$id': typeof AdminCasesIdRoute
   '/api/public/contact': typeof ApiPublicContactRoute
@@ -147,6 +156,7 @@ export interface FileRouteTypes {
     | '/admin/projetos'
     | '/cases/$slug'
     | '/servicos/branding'
+    | '/servicos/rebranding'
     | '/admin/'
     | '/admin/cases/$id'
     | '/api/public/contact'
@@ -161,6 +171,7 @@ export interface FileRouteTypes {
     | '/admin/projetos'
     | '/cases/$slug'
     | '/servicos/branding'
+    | '/servicos/rebranding'
     | '/admin'
     | '/admin/cases/$id'
     | '/api/public/contact'
@@ -176,6 +187,7 @@ export interface FileRouteTypes {
     | '/admin/projetos'
     | '/cases/$slug'
     | '/servicos/branding'
+    | '/servicos/rebranding'
     | '/admin/'
     | '/admin/cases/$id'
     | '/api/public/contact'
@@ -190,6 +202,7 @@ export interface RootRouteChildren {
   SobreRoute: typeof SobreRoute
   CasesSlugRoute: typeof CasesSlugRoute
   ServicosBrandingRoute: typeof ServicosBrandingRoute
+  ServicosRebrandingRoute: typeof ServicosRebrandingRoute
   ApiPublicContactRoute: typeof ApiPublicContactRoute
 }
 
@@ -243,6 +256,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/'
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRouteRoute
+    }
+    '/servicos/rebranding': {
+      id: '/servicos/rebranding'
+      path: '/servicos/rebranding'
+      fullPath: '/servicos/rebranding'
+      preLoaderRoute: typeof ServicosRebrandingRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/servicos/branding': {
       id: '/servicos/branding'
@@ -316,6 +336,7 @@ const rootRouteChildren: RootRouteChildren = {
   SobreRoute: SobreRoute,
   CasesSlugRoute: CasesSlugRoute,
   ServicosBrandingRoute: ServicosBrandingRoute,
+  ServicosRebrandingRoute: ServicosRebrandingRoute,
   ApiPublicContactRoute: ApiPublicContactRoute,
 }
 export const routeTree = rootRouteImport

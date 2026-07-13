@@ -1,6 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { ArrowLeft, ExternalLink, Loader2, Save } from "lucide-react";
+import {
+  ArrowLeft,
+  ChevronDown,
+  ExternalLink,
+  Image as ImageIcon,
+  Loader2,
+  Save,
+} from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -219,6 +226,8 @@ function CaseEditorPage() {
         {isNew ? "Novo case" : meta.title || "Editar case"}
       </h1>
 
+      <ImageStandards />
+
       <div className="mt-8 flex flex-col gap-6">
         {/* IDENTIFICAÇÃO / CARD */}
         <SectionCard
@@ -272,6 +281,7 @@ function CaseEditorPage() {
             onChange={(v) => setMetaField("cover_url", v.url)}
             folder={folder}
             aspect="aspect-[4/5]"
+            spec="1200 × 1500 px · 4:5 (retrato)"
             hint="Aparece no card da tela de branding. Sem capa, mostra “Em breve”."
           />
 
@@ -310,6 +320,7 @@ function CaseEditorPage() {
             value={content.hero.image}
             onChange={(v) => patch("hero", { image: v })}
             folder={folder}
+            spec="2400 × 1350 px · 16:9 (largura total da tela)"
           />
         </SectionCard>
 
@@ -355,6 +366,7 @@ function CaseEditorPage() {
             onChange={(v) => patch("challenge", { image: v })}
             folder={folder}
             aspect="aspect-[4/5]"
+            spec="1200 × 1500 px · 4:5 (retrato)"
           />
         </SectionCard>
 
@@ -452,6 +464,7 @@ function CaseEditorPage() {
             value={content.identity.fullImage1}
             onChange={(v) => patch("identity", { fullImage1: v })}
             folder={folder}
+            spec="2400 × 1350 px · 16:9 (largura total da tela)"
           />
           <div className="grid gap-6 md:grid-cols-2">
             {content.identity.tiles.map((tile, i) => (
@@ -465,6 +478,7 @@ function CaseEditorPage() {
                   patch("identity", { tiles: next });
                 }}
                 folder={folder}
+                spec="1600 × 900 px · 16:9"
               />
             ))}
           </div>
@@ -481,6 +495,7 @@ function CaseEditorPage() {
                 }}
                 folder={folder}
                 aspect="aspect-square"
+                spec="1200 × 1200 px · 1:1 (quadrado)"
               />
             ))}
           </div>
@@ -489,6 +504,7 @@ function CaseEditorPage() {
             value={content.identity.fullImage2}
             onChange={(v) => patch("identity", { fullImage2: v })}
             folder={folder}
+            spec="2400 × 1350 px · 16:9 (largura total da tela)"
           />
           <div className="grid gap-6 md:grid-cols-2">
             {content.identity.beforeAfter.map((img, i) => (
@@ -503,6 +519,7 @@ function CaseEditorPage() {
                 }}
                 folder={folder}
                 aspect="aspect-[9/10]"
+                spec="1200 × 1333 px · 9:10 (retrato)"
               />
             ))}
           </div>
@@ -511,6 +528,7 @@ function CaseEditorPage() {
             value={content.identity.fullImage3}
             onChange={(v) => patch("identity", { fullImage3: v })}
             folder={folder}
+            spec="2400 × 1350 px · 16:9 (largura total da tela)"
           />
         </SectionCard>
 
@@ -546,6 +564,7 @@ function CaseEditorPage() {
                 }}
                 folder={folder}
                 aspect="aspect-[3/4]"
+                spec="1200 × 1600 px · 3:4 (retrato)"
               />
             ))}
           </div>
@@ -610,6 +629,11 @@ function CaseEditorPage() {
                   }}
                   folder={folder}
                   aspect={v.vertical ? "aspect-[9/16]" : "aspect-video"}
+                  spec={
+                    v.vertical
+                      ? "1080 × 1920 px · 9:16 (vertical)"
+                      : "1920 × 1080 px · 16:9 (horizontal)"
+                  }
                 />
               </div>
             ))}
@@ -745,6 +769,7 @@ function CaseEditorPage() {
                 }
                 folder={folder}
                 aspect="aspect-square"
+                spec="1000 × 1000 px · 1:1 (quadrado)"
               />
             </div>
           </div>
@@ -758,4 +783,100 @@ function CaseEditorPage() {
     next[i] = { ...next[i], ...patchM };
     patch("results", { metrics: next });
   }
+}
+
+/**
+ * Informativo técnico das imagens do case — regras gerais + tabela de medidas.
+ * Recolhível para não atrapalhar quem já conhece o padrão.
+ */
+function ImageStandards() {
+  const [open, setOpen] = useState(true);
+
+  const linhas: { local: string; medida: string; proporcao: string }[] = [
+    { local: "Capa do card (portfólio)", medida: "1200 × 1500 px", proporcao: "4:5 retrato" },
+    { local: "Abertura / imagens grandes 16:9", medida: "2400 × 1350 px", proporcao: "16:9 largura total" },
+    { local: "Imagem do desafio", medida: "1200 × 1500 px", proporcao: "4:5 retrato" },
+    { local: "Tiles (logo / paleta)", medida: "1600 × 900 px", proporcao: "16:9" },
+    { local: "Quadrados da identidade", medida: "1200 × 1200 px", proporcao: "1:1 quadrado" },
+    { local: "Antes / Depois", medida: "1200 × 1333 px", proporcao: "9:10 retrato" },
+    { local: "Aplicações", medida: "1200 × 1600 px", proporcao: "3:4 retrato" },
+    { local: "Poster de vídeo horizontal", medida: "1920 × 1080 px", proporcao: "16:9" },
+    { local: "Poster de vídeo vertical", medida: "1080 × 1920 px", proporcao: "9:16" },
+    { local: "Foto do depoente", medida: "1000 × 1000 px", proporcao: "1:1 quadrado" },
+  ];
+
+  return (
+    <div className="mt-6 border border-mint-ink/25 bg-mint/40 p-5 md:p-6">
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        className="flex w-full items-center gap-2 text-left"
+      >
+        <ImageIcon className="h-4 w-4 text-mint-ink" aria-hidden />
+        <span className="font-display text-lg font-semibold tracking-[-0.01em]">
+          Padrão técnico das imagens
+        </span>
+        <ChevronDown
+          className={`ml-auto h-4 w-4 text-muted-foreground transition-transform ${
+            open ? "rotate-180" : ""
+          }`}
+          aria-hidden
+        />
+      </button>
+
+      {open && (
+        <div className="mt-4 flex flex-col gap-4">
+          <p className="text-sm leading-relaxed text-muted-foreground">
+            Para o site ficar uniforme e nítido em telas de alta resolução, envie cada
+            imagem já no tamanho recomendado abaixo. Cada campo repete a sua medida ideal
+            logo acima da miniatura.
+          </p>
+
+          <ul className="grid gap-x-8 gap-y-1.5 text-sm text-foreground sm:grid-cols-2">
+            <li>
+              <span className="font-medium">Formato:</span> JPG ou WebP para fotos; PNG ou
+              SVG para logos com fundo transparente.
+            </li>
+            <li>
+              <span className="font-medium">Cor:</span> perfil sRGB.
+            </li>
+            <li>
+              <span className="font-medium">Peso:</span> idealmente até ~500 KB por imagem
+              (máximo 10 MB).
+            </li>
+            <li>
+              <span className="font-medium">Resolução:</span> 72 dpi (padrão web) — o que
+              importa é a medida em pixels, não o dpi.
+            </li>
+          </ul>
+
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[520px] border-collapse text-sm">
+              <thead>
+                <tr className="border-b border-mint-ink/25 text-left font-mono text-[11px] uppercase tracking-[0.12em] text-muted-foreground">
+                  <th className="py-2 pr-4 font-medium">Onde aparece</th>
+                  <th className="py-2 pr-4 font-medium">Medida ideal</th>
+                  <th className="py-2 font-medium">Proporção</th>
+                </tr>
+              </thead>
+              <tbody>
+                {linhas.map((l) => (
+                  <tr key={l.local} className="border-b border-mint-ink/10">
+                    <td className="py-2 pr-4">{l.local}</td>
+                    <td className="py-2 pr-4 font-medium tabular-nums">{l.medida}</td>
+                    <td className="py-2 text-muted-foreground">{l.proporcao}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <p className="text-xs text-muted-foreground">
+            Dica: manter a proporção exata evita cortes indesejados. Se a imagem tiver
+            proporção diferente, o site corta pelo centro para preencher o espaço.
+          </p>
+        </div>
+      )}
+    </div>
+  );
 }

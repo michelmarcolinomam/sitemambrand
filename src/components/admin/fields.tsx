@@ -1,5 +1,5 @@
 import { useId, useRef, useState } from "react";
-import { ImagePlus, Loader2, Trash2 } from "lucide-react";
+import { ImagePlus, Loader2, Ruler, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { Input } from "@/components/ui/input";
@@ -99,6 +99,7 @@ export function ImageField({
   onChange,
   folder,
   aspect = "aspect-video",
+  spec,
   hint,
 }: {
   label: string;
@@ -106,6 +107,8 @@ export function ImageField({
   onChange: (v: CaseImage) => void;
   folder: string;
   aspect?: string;
+  /** Ficha técnica da imagem (medida ideal + proporção), ex.: "2400 × 1350 px · 16:9". */
+  spec?: string;
   hint?: string;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -131,6 +134,13 @@ export function ImageField({
       <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
         {label}
       </div>
+
+      {spec && (
+        <div className="flex items-center gap-1.5 text-[11px] text-mint-ink">
+          <Ruler className="h-3.5 w-3.5" aria-hidden />
+          <span className="font-medium">Medida ideal: {spec}</span>
+        </div>
+      )}
 
       <div className={`relative w-full max-w-xs overflow-hidden bg-muted ${aspect}`}>
         {value.url ? (
