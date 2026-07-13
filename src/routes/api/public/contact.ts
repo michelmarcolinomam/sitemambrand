@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
-import { supabaseAdmin } from "@/integrations/supabase/client.server";
+// Chave pública basta aqui: a RLS de `contacts` só permite INSERT validado.
+import { supabase } from "@/integrations/supabase/client";
 
 const contactSchema = z.object({
   name: z.string().trim().min(1, "Informe seu nome.").max(100),
@@ -31,7 +32,7 @@ export const Route = createFileRoute("/api/public/contact")({
 
         const { name, company, email, whatsapp, message } = parsed.data;
 
-        const { error } = await supabaseAdmin.from("contacts").insert({
+        const { error } = await supabase.from("contacts").insert({
           name,
           company: company || null,
           email,

@@ -13,10 +13,15 @@ import { Route as SobreRouteImport } from './routes/sobre'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as EstudioRouteImport } from './routes/estudio'
 import { Route as DiarioRouteImport } from './routes/diario'
+import { Route as AdminRouteRouteImport } from './routes/admin/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as ServicosBrandingRouteImport } from './routes/servicos.branding'
-import { Route as CasesBlackHervaRouteImport } from './routes/cases.black-herva'
+import { Route as CasesSlugRouteImport } from './routes/cases.$slug'
+import { Route as AdminProjetosRouteImport } from './routes/admin/projetos'
+import { Route as AdminContatosRouteImport } from './routes/admin/contatos'
 import { Route as ApiPublicContactRouteImport } from './routes/api/public/contact'
+import { Route as AdminCasesIdRouteImport } from './routes/admin/cases.$id'
 
 const SobreRoute = SobreRouteImport.update({
   id: '/sobre',
@@ -38,35 +43,65 @@ const DiarioRoute = DiarioRouteImport.update({
   path: '/diario',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRouteRoute = AdminRouteRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRouteRoute,
 } as any)
 const ServicosBrandingRoute = ServicosBrandingRouteImport.update({
   id: '/servicos/branding',
   path: '/servicos/branding',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CasesBlackHervaRoute = CasesBlackHervaRouteImport.update({
-  id: '/cases/black-herva',
-  path: '/cases/black-herva',
+const CasesSlugRoute = CasesSlugRouteImport.update({
+  id: '/cases/$slug',
+  path: '/cases/$slug',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AdminProjetosRoute = AdminProjetosRouteImport.update({
+  id: '/projetos',
+  path: '/projetos',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminContatosRoute = AdminContatosRouteImport.update({
+  id: '/contatos',
+  path: '/contatos',
+  getParentRoute: () => AdminRouteRoute,
 } as any)
 const ApiPublicContactRoute = ApiPublicContactRouteImport.update({
   id: '/api/public/contact',
   path: '/api/public/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminCasesIdRoute = AdminCasesIdRouteImport.update({
+  id: '/cases/$id',
+  path: '/cases/$id',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteRouteWithChildren
   '/diario': typeof DiarioRoute
   '/estudio': typeof EstudioRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre': typeof SobreRoute
-  '/cases/black-herva': typeof CasesBlackHervaRoute
+  '/admin/contatos': typeof AdminContatosRoute
+  '/admin/projetos': typeof AdminProjetosRoute
+  '/cases/$slug': typeof CasesSlugRoute
   '/servicos/branding': typeof ServicosBrandingRoute
+  '/admin/': typeof AdminIndexRoute
+  '/admin/cases/$id': typeof AdminCasesIdRoute
   '/api/public/contact': typeof ApiPublicContactRoute
 }
 export interface FileRoutesByTo {
@@ -75,31 +110,45 @@ export interface FileRoutesByTo {
   '/estudio': typeof EstudioRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre': typeof SobreRoute
-  '/cases/black-herva': typeof CasesBlackHervaRoute
+  '/admin/contatos': typeof AdminContatosRoute
+  '/admin/projetos': typeof AdminProjetosRoute
+  '/cases/$slug': typeof CasesSlugRoute
   '/servicos/branding': typeof ServicosBrandingRoute
+  '/admin': typeof AdminIndexRoute
+  '/admin/cases/$id': typeof AdminCasesIdRoute
   '/api/public/contact': typeof ApiPublicContactRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteRouteWithChildren
   '/diario': typeof DiarioRoute
   '/estudio': typeof EstudioRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre': typeof SobreRoute
-  '/cases/black-herva': typeof CasesBlackHervaRoute
+  '/admin/contatos': typeof AdminContatosRoute
+  '/admin/projetos': typeof AdminProjetosRoute
+  '/cases/$slug': typeof CasesSlugRoute
   '/servicos/branding': typeof ServicosBrandingRoute
+  '/admin/': typeof AdminIndexRoute
+  '/admin/cases/$id': typeof AdminCasesIdRoute
   '/api/public/contact': typeof ApiPublicContactRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
     | '/diario'
     | '/estudio'
     | '/sitemap.xml'
     | '/sobre'
-    | '/cases/black-herva'
+    | '/admin/contatos'
+    | '/admin/projetos'
+    | '/cases/$slug'
     | '/servicos/branding'
+    | '/admin/'
+    | '/admin/cases/$id'
     | '/api/public/contact'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -108,28 +157,38 @@ export interface FileRouteTypes {
     | '/estudio'
     | '/sitemap.xml'
     | '/sobre'
-    | '/cases/black-herva'
+    | '/admin/contatos'
+    | '/admin/projetos'
+    | '/cases/$slug'
     | '/servicos/branding'
+    | '/admin'
+    | '/admin/cases/$id'
     | '/api/public/contact'
   id:
     | '__root__'
     | '/'
+    | '/admin'
     | '/diario'
     | '/estudio'
     | '/sitemap.xml'
     | '/sobre'
-    | '/cases/black-herva'
+    | '/admin/contatos'
+    | '/admin/projetos'
+    | '/cases/$slug'
     | '/servicos/branding'
+    | '/admin/'
+    | '/admin/cases/$id'
     | '/api/public/contact'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRouteRoute: typeof AdminRouteRouteWithChildren
   DiarioRoute: typeof DiarioRoute
   EstudioRoute: typeof EstudioRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SobreRoute: typeof SobreRoute
-  CasesBlackHervaRoute: typeof CasesBlackHervaRoute
+  CasesSlugRoute: typeof CasesSlugRoute
   ServicosBrandingRoute: typeof ServicosBrandingRoute
   ApiPublicContactRoute: typeof ApiPublicContactRoute
 }
@@ -164,12 +223,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DiarioRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
     }
     '/servicos/branding': {
       id: '/servicos/branding'
@@ -178,12 +251,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicosBrandingRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/cases/black-herva': {
-      id: '/cases/black-herva'
-      path: '/cases/black-herva'
-      fullPath: '/cases/black-herva'
-      preLoaderRoute: typeof CasesBlackHervaRouteImport
+    '/cases/$slug': {
+      id: '/cases/$slug'
+      path: '/cases/$slug'
+      fullPath: '/cases/$slug'
+      preLoaderRoute: typeof CasesSlugRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/admin/projetos': {
+      id: '/admin/projetos'
+      path: '/projetos'
+      fullPath: '/admin/projetos'
+      preLoaderRoute: typeof AdminProjetosRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/contatos': {
+      id: '/admin/contatos'
+      path: '/contatos'
+      fullPath: '/admin/contatos'
+      preLoaderRoute: typeof AdminContatosRouteImport
+      parentRoute: typeof AdminRouteRoute
     }
     '/api/public/contact': {
       id: '/api/public/contact'
@@ -192,16 +279,42 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicContactRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/cases/$id': {
+      id: '/admin/cases/$id'
+      path: '/cases/$id'
+      fullPath: '/admin/cases/$id'
+      preLoaderRoute: typeof AdminCasesIdRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
   }
 }
 
+interface AdminRouteRouteChildren {
+  AdminContatosRoute: typeof AdminContatosRoute
+  AdminProjetosRoute: typeof AdminProjetosRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+  AdminCasesIdRoute: typeof AdminCasesIdRoute
+}
+
+const AdminRouteRouteChildren: AdminRouteRouteChildren = {
+  AdminContatosRoute: AdminContatosRoute,
+  AdminProjetosRoute: AdminProjetosRoute,
+  AdminIndexRoute: AdminIndexRoute,
+  AdminCasesIdRoute: AdminCasesIdRoute,
+}
+
+const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(
+  AdminRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRouteRoute: AdminRouteRouteWithChildren,
   DiarioRoute: DiarioRoute,
   EstudioRoute: EstudioRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SobreRoute: SobreRoute,
-  CasesBlackHervaRoute: CasesBlackHervaRoute,
+  CasesSlugRoute: CasesSlugRoute,
   ServicosBrandingRoute: ServicosBrandingRoute,
   ApiPublicContactRoute: ApiPublicContactRoute,
 }

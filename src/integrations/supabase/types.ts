@@ -14,6 +14,54 @@ export type Database = {
   }
   public: {
     Tables: {
+      cases: {
+        Row: {
+          category: string
+          content: Json
+          cover_url: string | null
+          created_at: string
+          descriptor: string
+          id: string
+          published: boolean
+          seo_description: string
+          slug: string
+          sort_order: number
+          title: string
+          updated_at: string
+          year: string
+        }
+        Insert: {
+          category?: string
+          content?: Json
+          cover_url?: string | null
+          created_at?: string
+          descriptor?: string
+          id?: string
+          published?: boolean
+          seo_description?: string
+          slug: string
+          sort_order?: number
+          title: string
+          updated_at?: string
+          year?: string
+        }
+        Update: {
+          category?: string
+          content?: Json
+          cover_url?: string | null
+          created_at?: string
+          descriptor?: string
+          id?: string
+          published?: boolean
+          seo_description?: string
+          slug?: string
+          sort_order?: number
+          title?: string
+          updated_at?: string
+          year?: string
+        }
+        Relationships: []
+      }
       contacts: {
         Row: {
           company: string | null
@@ -44,12 +92,42 @@ export type Database = {
         }
         Relationships: []
       }
+      portfolio_projects: {
+        Row: {
+          category: string
+          created_at: string
+          id: string
+          published: boolean
+          sort_order: number
+          title: string
+          year: string
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          id?: string
+          published?: boolean
+          sort_order?: number
+          title: string
+          year?: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          id?: string
+          published?: boolean
+          sort_order?: number
+          title?: string
+          year?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      is_admin: { Args: never; Returns: boolean }
     }
     Enums: {
       [_ in never]: never

@@ -14,8 +14,31 @@ import { Reveal, Rise } from "@/components/servico/Reveal";
 import { ArrowLink } from "@/components/servico/ArrowLink";
 import { ContactForm } from "@/components/servico/ContactForm";
 import { ScrollProgress } from "@/components/servico/ScrollProgress";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/servicos/branding")({
+  // Portfólio (destaques + carrossel) vem do banco — administrado em /admin.
+  loader: async () => {
+    const [casesRes, projetosRes] = await Promise.all([
+      supabase
+        .from("cases")
+        .select("slug, title, year, category, descriptor, cover_url")
+        .eq("published", true)
+        .order("sort_order", { ascending: true })
+        .order("created_at", { ascending: true }),
+      supabase
+        .from("portfolio_projects")
+        .select("title, year, category")
+        .eq("published", true)
+        .order("sort_order", { ascending: true })
+        .order("created_at", { ascending: true }),
+    ]);
+
+    return {
+      destaques: casesRes.data ?? [],
+      projetos: projetosRes.data ?? [],
+    };
+  },
   head: () => ({
     meta: [
       { title: "Branding — MAM Branding" },
@@ -175,67 +198,6 @@ const entregaveis = [
   },
 ];
 
-// TODO (Michel): confirmar os 6 destaques (nome, ano, categoria, descritor, slug).
-// Black Herva é confirmado; os outros 5 são placeholders.
-const destaques = [
-  {
-    title: "Black Herva",
-    year: "2011–presente",
-    category: "Erva-mate",
-    descriptor: "Branding desde a fundação",
-    href: "/cases/black-herva",
-  },
-  {
-    title: "Case 02",
-    year: "20XX",
-    category: "Categoria",
-    descriptor: "Branding",
-    href: "/cases/case-02",
-  },
-  {
-    title: "Case 03",
-    year: "20XX",
-    category: "Categoria",
-    descriptor: "Reposicionamento",
-    href: "/cases/case-03",
-  },
-  {
-    title: "Case 04",
-    year: "20XX",
-    category: "Categoria",
-    descriptor: "Branding",
-    href: "/cases/case-04",
-  },
-  {
-    title: "Case 05",
-    year: "20XX",
-    category: "Categoria",
-    descriptor: "Rebranding",
-    href: "/cases/case-05",
-  },
-  {
-    title: "Case 06",
-    year: "20XX",
-    category: "Categoria",
-    descriptor: "Branding",
-    href: "/cases/case-06",
-  },
-];
-
-// TODO (Michel): lista completa do repertório (quantidade ilimitada) para o carrossel.
-const projetos = [
-  { title: "Cliente A", year: "2023", category: "Alimentos · Branding" },
-  { title: "Cliente B", year: "2023", category: "Saúde · Reposicionamento" },
-  { title: "Cliente C", year: "2022", category: "Varejo · Rebranding" },
-  { title: "Cliente D", year: "2022", category: "Serviços · Branding" },
-  { title: "Cliente M", year: "2022", category: "Construção · Branding" },
-  { title: "Cliente N", year: "2022", category: "Logística · Reposicionamento" },
-  { title: "Cliente E", year: "2021", category: "Indústria · Branding" },
-  { title: "Cliente F", year: "2021", category: "Tecnologia · Rebranding" },
-  { title: "Cliente G", year: "2020", category: "Educação · Branding" },
-  { title: "Cliente H", year: "2020", category: "Agro · Reposicionamento" },
-];
-
 const resultados = [
   {
     number: "01",
@@ -266,6 +228,8 @@ const socials = [
 ];
 
 function BrandingPage() {
+  const { destaques, projetos } = Route.useLoaderData();
+
   return (
     <div className="min-h-screen bg-background font-sans text-foreground antialiased">
       <ScrollProgress />
@@ -485,12 +449,13 @@ function BrandingPage() {
             <div className="mt-16 grid gap-x-8 gap-y-16 md:mt-24 md:grid-cols-2 md:gap-y-24">
               {destaques.map((c, i) => (
                 <CaseCard
-                  key={c.title}
+                  key={c.slug}
                   title={c.title}
                   year={c.year}
                   category={c.category}
                   descriptor={c.descriptor}
-                  href={c.href}
+                  href={`/cases/${c.slug}`}
+                  image={c.cover_url}
                   delay={(i % 2) * 0.06}
                 />
               ))}
