@@ -27,7 +27,9 @@
 | Diário | `src/routes/diario.tsx` | ✅ No ar |
 | Serviços / Branding | `src/routes/servicos.branding.tsx` | ✅ No ar — portfólio (destaques + carrossel) vem do banco |
 | **Serviços / Rebranding** | `src/routes/servicos.rebranding.tsx` → `/servicos/rebranding` | ✅ No ar (2026-07-13) — reusa os componentes do branding; portfólio da **mesma base** do banco |
-| **Cases (dinâmico)** | `src/routes/cases.$slug.tsx` → `/cases/[slug]` | ✅ No ar — template único alimentado pelo banco |
+| **Serviços / Ciclo de Marca** | `src/routes/servicos.ciclo-de-marca.tsx` → `/servicos/ciclo-de-marca` | 🟡 Criada (2026-07-13) — acessível por URL, **ainda não linkada**. Portfólio é lista editorial **estática** (não puxa do banco — por decisão) |
+| **Cases (dinâmico)** | `src/routes/cases.$slug.tsx` → `/cases/[slug]` | ✅ No ar — template único alimentado pelo banco. Agora com bloco opcional "Antes/Depois" (rebranding) |
+| **Case Ranken** | `/cases/ranken` | ✅ Publicado (2026-07-13) com **imagens fictícias (picsum)** — trocar pelas reais no painel |
 | **Painel admin** | `src/routes/admin/*` → `/admin` | ✅ Funcionando (2026-07-13) |
 
 ## Painel administrativo (2026-07-13)
@@ -57,6 +59,75 @@ Seção nova exclusiva: **"Quando faz sentido"** (6 sinais). Portfólio (destaqu
 mesmo Supabase do branding — as duas telas ficam em sincronia.
 - [x] **Discoverability:** linkada na seção "Serviços" da home — `Services.tsx`, item "Rebranding" → "Ver serviço"
   aponta para `/servicos/rebranding` (mesmo padrão do Branding). Nav e footer seguem sem link direto (opcional).
+
+## Comparativo Antes/Depois + Case Ranken (2026-07-13)
+Novo bloco **exclusivo de rebranding**: comparativo "antes e depois" como **díptico full-bleed** — as duas
+imagens conectadas como um único quadro dividido ao meio por uma **linha central fina** (`h-[78vh]`, padrão
+Repertório/Histórias). Ambas **foscas/mate** (`brightness .94` + véu; `saturate .85` no depois) — sem brilho.
+O **antes** em preto-e-branco, o **depois** em cor. Rótulos "Antes/Depois" **abaixo**, em Fraunces (display),
+seguidos dos 4 tópicos de cada lado em listas com divisores finos (antes em cinza / depois em preto forte).
+Fundo branco do site — a profundidade vem das imagens grandes, não de fundo colorido. Integrado ao **template compartilhado**
+como seção **opcional** — não duplicou template. Como funciona:
+- Shape: `identity.comparison` em `src/lib/case-content.ts` (liga/desliga via `enabled`).
+- Render: componente `BeforeAfterComparison` em `src/components/case/CaseBlocks.tsx`; a rota
+  `cases.$slug.tsx` mostra o comparativo quando ligado, senão o par simples de imagens (branding intacto).
+- Editor: chave "Comparativo antes / depois" na seção Identidade do `/admin/cases/$id` — liga o bloco e
+  edita rótulos, imagens (4:3) e tópicos de cada lado.
+- **Ordem da galeria de identidade** (2026-07-13): 1 imagem grande · 2 box com dois (logo/paleta) ·
+  3 imagem grande · 4 box com três · 5 imagem grande · 6 box com dois (`beforeAfter`) · 7 antes/depois
+  (comparativo, só rebranding) **encerrando a seção**. Vale pro template todo; no branding (comparativo
+  desligado) a seção termina no box com dois da posição 6.
+
+**Ranken** (`/cases/ranken`) cadastrado direto no banco como case real, **publicado com placeholders picsum**.
+Pendências de conteúdo (resolver pelo painel):
+- [ ] Trocar todas as imagens picsum pelas reais (hero, identidade, comparativo antes/depois, aplicações, capa do card)
+- [ ] Tiles "Novo logotipo" e "Paleta cromática" — subir os arquivos (hoje aparecem como placeholder)
+- [ ] IDs dos 2 vídeos do YouTube (campos "ID do vídeo" no editor)
+- [ ] Foto real do founder no depoimento
+- [ ] Revisar se o card do Ranken deve aparecer no portfólio de branding também (as duas telas puxam a mesma base)
+
+## Ciclo de Marca (2026-07-13)
+Tela de serviço criada a partir de layout do chat, mesma linguagem editorial das outras telas de serviço.
+Reusa `Navbar`, `Footer`, `SectionKicker`, `Reveal`/`Rise`, `ArrowLink`, `ContactForm`, `ScrollProgress`.
+Estrutura (7 seções, numeradas 01–07): **01 Hero + gráfico do ciclo** (faixa mint full-bleed com curva SVG
++ 5 fases: Introdução · Crescimento · Platô · Declínio · Reestruturação — geometria idêntica à seção da home),
+**02 O problema** (seção dark, 4 erros), **03 O que é** (+ caixa mint), **04 Entregáveis** (3 artefatos),
+**05 Resultado** (3 benefícios), **06 Portfólio** (lista editorial), **07 Contato** (mesmo form do rebranding).
+
+Decisões desta tela (definidas pelo Michel):
+- **Portfólio é estático, não puxa do banco.** As telas de case do Ciclo de Marca são um formato diferente de
+  branding/rebranding e serão pensadas separadamente. Lista fica no array `portfolio` da rota (só a Black Herva
+  aponta pra um case real; os demais são placeholders "Cliente 0X").
+- **Não linkada ainda.** A rota existe e abre por URL, mas o item 04 "Ciclo de Marca" da seção Serviços da home
+  (`Services.tsx`) segue caindo em "Saber mais" → #contato. Ligar o `to: "/servicos/ciclo-de-marca"` quando aprovar.
+
+**Hero (layout) — 2026-07-13:** o hero foi remontado no **mesmo layout da seção 3 da home** (o
+`CicloDeMarca` "Metodologia proprietária"): fundo **mint**, kicker no topo, **título à esquerda**
+(col-span-7) + **texto de apoio + CTA à direita** (col-start-9), e o **gráfico animado full-width embaixo**.
+Conteúdo é o que o Michel codou. Valores finais da animação: pontos **pretos** (`fill-foreground`), traço
+**2,25px**, desenho de **6s**.
+
+**Animação do gráfico (hero) — 2026-07-13:** o gráfico do ciclo se CONSTRÓI ao entrar em tela: a curva se
+desenha da esquerda p/ direita e cada fase (número + título + texto) aparece no instante em que o traço
+alcança o ponto dela. Componente `src/components/servico/CicloAnimatedChart.tsx` (Framer Motion).
+
+**Forma da curva (do desenho do Michel, IMG_1008):** 6 pontos, 5 rótulos. Nós em `cicloNodes` na rota
+(`servicos.ciclo-de-marca.tsx`); o componente constrói a curva suave a partir deles (`buildSmoothPath`).
+Estrutura: Introdução→Crescimento baixo e quase reto · subida ao Platô · Platô→Declínio alto e plano ·
+queda ao vale (Reestruturação) · retomada subindo a um 6º ponto SEM rótulo = o próximo ciclo recomeçando.
+A **legenda** é uma linha de 5 colunas iguais abaixo do gráfico (decisão do Michel: não colar em cada ponto).
+
+Sincronismo medido da geometria real (`getPointAtLength`), não estimado. Desenho linear de 2,6s; cada fase
+entra em ~0 · 0,49 · 0,96 · 1,76 · 2,11s (o platô cria pausa natural entre Platô e Declínio). Um único
+`useInView` observa o `<div>` HTML (IO em elementos SVG é não-confiável) e dispara tudo via `animate`.
+Dispara uma vez; respeita `prefers-reduced-motion` (mostra o gráfico já construído). Prévia aprovável em
+Artifact (fluxo do projeto).
+
+Pendências:
+- [ ] Aprovar a **animação do gráfico** (prévia enviada em Artifact) e o visual da tela
+- [ ] Aprovado o visual, linkar na home (item 04 de `Services.tsx`) + avaliar nav/footer/sitemap
+- [ ] Definir como apresentar cada cliente e trocar os placeholders "Cliente 0X" do array `portfolio`
+- [ ] Links reais das redes sociais (const `socials` na rota — mesma pendência das outras telas)
 
 ## Padrões estabelecidos
 - **Logo:** SVG oficial (símbolo ⋈ + wordmark), header 24px/28px, footer 28px, `alt="MAM Branding"` — extraído do site no ar

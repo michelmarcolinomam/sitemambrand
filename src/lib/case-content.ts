@@ -12,6 +12,23 @@ export type CaseTile = CaseImage & { label: string };
 
 export type CaseInsight = { number: string; title: string; description: string };
 
+/** Um lado (antes ou depois) do comparativo de rebranding: imagem + tópicos. */
+export type CaseComparisonSide = { image: CaseImage; points: string[] };
+
+/**
+ * Comparativo "antes e depois" em fundo escuro — bloco exclusivo de cases de
+ * rebranding. Quando `enabled` é false, o template usa o par simples de imagens
+ * (`identity.beforeAfter`), preservando o layout dos cases de branding.
+ */
+export type CaseComparison = {
+  enabled: boolean;
+  label: string;
+  beforeLabel: string;
+  afterLabel: string;
+  before: CaseComparisonSide;
+  after: CaseComparisonSide;
+};
+
 export type CaseVideo = {
   videoId: string;
   poster: string;
@@ -61,6 +78,7 @@ export type CaseContent = {
     squares: CaseImage[];
     fullImage2: CaseImage;
     beforeAfter: CaseImage[];
+    comparison: CaseComparison;
     fullImage3: CaseImage;
   };
   applications: {
@@ -130,6 +148,14 @@ export function defaultCaseContent(): CaseContent {
         { url: "", alt: "Antes" },
         { url: "", alt: "Depois" },
       ],
+      comparison: {
+        enabled: false,
+        label: "Comparativo — antes e depois do rebranding",
+        beforeLabel: "Antes",
+        afterLabel: "Depois",
+        before: { image: { url: "", alt: "Identidade anterior" }, points: ["", "", "", ""] },
+        after: { image: { url: "", alt: "Nova identidade" }, points: ["", "", "", ""] },
+      },
       fullImage3: emptyImage(),
     },
     applications: {

@@ -8,7 +8,12 @@ import { Reveal, Rise } from "@/components/servico/Reveal";
 import { ArrowLink } from "@/components/servico/ArrowLink";
 import { ContactForm } from "@/components/servico/ContactForm";
 import { ScrollProgress } from "@/components/servico/ScrollProgress";
-import { UnveilImage, VideoFacade, CountUp } from "@/components/case/CaseBlocks";
+import {
+  UnveilImage,
+  VideoFacade,
+  CountUp,
+  BeforeAfterComparison,
+} from "@/components/case/CaseBlocks";
 import { supabase } from "@/integrations/supabase/client";
 import { normalizeCaseContent } from "@/lib/case-content";
 
@@ -260,14 +265,17 @@ function CasePage() {
             </Rise>
           </div>
 
-          {/* Galeria full-bleed */}
+          {/* Galeria full-bleed — ordem: grande · box 2 · grande · box 3 · grande ·
+              box 2 · e o comparativo antes/depois encerra a seção (rebranding). */}
           <div className="mt-20">
+            {/* 1 — imagem grande */}
             <UnveilImage
               src={identity.fullImage1.url}
               alt={identity.fullImage1.alt}
               className="aspect-video w-full"
             />
 
+            {/* 2 — box com dois (logo / paleta) */}
             <div className="mt-20 grid grid-cols-1 md:grid-cols-2">
               {identity.tiles.map((tile) => (
                 <Rise key={tile.label}>
@@ -284,29 +292,38 @@ function CasePage() {
               ))}
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3">
-              {identity.squares.map((img, i) => (
-                <UnveilImage key={i} src={img.url} alt={img.alt} className="aspect-square" />
-              ))}
-            </div>
-
+            {/* 3 — imagem grande */}
             <UnveilImage
               src={identity.fullImage2.url}
               alt={identity.fullImage2.alt}
               className="aspect-video w-full"
             />
 
+            {/* 4 — box com três */}
+            <div className="grid grid-cols-1 md:grid-cols-3">
+              {identity.squares.map((img, i) => (
+                <UnveilImage key={i} src={img.url} alt={img.alt} className="aspect-square" />
+              ))}
+            </div>
+
+            {/* 5 — imagem grande */}
+            <UnveilImage
+              src={identity.fullImage3.url}
+              alt={identity.fullImage3.alt}
+              className="aspect-video w-full"
+            />
+
+            {/* 6 — box com dois */}
             <div className="grid grid-cols-1 md:grid-cols-2">
               {identity.beforeAfter.map((img, i) => (
                 <UnveilImage key={i} src={img.url} alt={img.alt} className="aspect-[9/10]" />
               ))}
             </div>
 
-            <UnveilImage
-              src={identity.fullImage3.url}
-              alt={identity.fullImage3.alt}
-              className="aspect-video w-full"
-            />
+            {/* 7 — antes / depois: encerra a seção (só em cases de rebranding) */}
+            {identity.comparison.enabled && (
+              <BeforeAfterComparison comparison={identity.comparison} />
+            )}
           </div>
         </section>
 

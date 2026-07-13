@@ -115,6 +115,17 @@ function CaseEditorPage() {
     setMeta((m) => ({ ...m, [key]: value }));
   }
 
+  // Comparativo antes/depois (bloco de rebranding), aninhado em identity.
+  function patchComparison(v: Partial<CaseContent["identity"]["comparison"]>) {
+    patch("identity", { comparison: { ...content.identity.comparison, ...v } });
+  }
+  function patchComparisonSide(
+    side: "before" | "after",
+    v: Partial<CaseContent["identity"]["comparison"]["before"]>,
+  ) {
+    patchComparison({ [side]: { ...content.identity.comparison[side], ...v } });
+  }
+
   async function save() {
     if (!meta.title.trim()) {
       toast.error("Dê um título ao case.");
@@ -459,77 +470,189 @@ function CaseEditorPage() {
             value={content.identity.lead}
             onChange={(v) => patch("identity", { lead: v })}
           />
+          <p className="text-xs text-muted-foreground">
+            A galeria aparece na página nesta ordem: <strong>1</strong> imagem grande ·{" "}
+            <strong>2</strong> box com dois (logo/paleta) · <strong>3</strong> imagem grande ·{" "}
+            <strong>4</strong> box com três · <strong>5</strong> imagem grande ·{" "}
+            <strong>6</strong> box com dois · <strong>7</strong> antes/depois (encerra).
+          </p>
+
+          {/* 1 — imagem grande */}
           <ImageField
-            label="Imagem grande 1 (16:9)"
+            label="1 · Imagem grande (16:9)"
             value={content.identity.fullImage1}
             onChange={(v) => patch("identity", { fullImage1: v })}
             folder={folder}
             spec="2400 × 1350 px · 16:9 (largura total da tela)"
           />
-          <div className="grid gap-6 md:grid-cols-2">
-            {content.identity.tiles.map((tile, i) => (
-              <ImageField
-                key={i}
-                label={tile.label}
-                value={tile}
-                onChange={(v) => {
-                  const next = [...content.identity.tiles];
-                  next[i] = { ...v, label: tile.label };
-                  patch("identity", { tiles: next });
-                }}
-                folder={folder}
-                spec="1600 × 900 px · 16:9"
-              />
-            ))}
+
+          {/* 2 — box com dois: logo / paleta */}
+          <div className="flex flex-col gap-3 border border-border p-4">
+            <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
+              2 · Box com dois — logo / paleta
+            </div>
+            <div className="grid gap-6 md:grid-cols-2">
+              {content.identity.tiles.map((tile, i) => (
+                <ImageField
+                  key={i}
+                  label={tile.label}
+                  value={tile}
+                  onChange={(v) => {
+                    const next = [...content.identity.tiles];
+                    next[i] = { ...v, label: tile.label };
+                    patch("identity", { tiles: next });
+                  }}
+                  folder={folder}
+                  spec="1600 × 900 px · 16:9"
+                />
+              ))}
+            </div>
           </div>
-          <div className="grid gap-6 md:grid-cols-3">
-            {content.identity.squares.map((img, i) => (
-              <ImageField
-                key={i}
-                label={`Quadrado ${i + 1} (1:1)`}
-                value={img}
-                onChange={(v) => {
-                  const next = [...content.identity.squares];
-                  next[i] = v;
-                  patch("identity", { squares: next });
-                }}
-                folder={folder}
-                aspect="aspect-square"
-                spec="1200 × 1200 px · 1:1 (quadrado)"
-              />
-            ))}
-          </div>
+
+          {/* 3 — imagem grande */}
           <ImageField
-            label="Imagem grande 2 (16:9)"
+            label="3 · Imagem grande (16:9)"
             value={content.identity.fullImage2}
             onChange={(v) => patch("identity", { fullImage2: v })}
             folder={folder}
             spec="2400 × 1350 px · 16:9 (largura total da tela)"
           />
-          <div className="grid gap-6 md:grid-cols-2">
-            {content.identity.beforeAfter.map((img, i) => (
-              <ImageField
-                key={i}
-                label={i === 0 ? "Antes" : "Depois"}
-                value={img}
-                onChange={(v) => {
-                  const next = [...content.identity.beforeAfter];
-                  next[i] = v;
-                  patch("identity", { beforeAfter: next });
-                }}
-                folder={folder}
-                aspect="aspect-[9/10]"
-                spec="1200 × 1333 px · 9:10 (retrato)"
-              />
-            ))}
+
+          {/* 4 — box com três */}
+          <div className="flex flex-col gap-3 border border-border p-4">
+            <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
+              4 · Box com três
+            </div>
+            <div className="grid gap-6 md:grid-cols-3">
+              {content.identity.squares.map((img, i) => (
+                <ImageField
+                  key={i}
+                  label={`Quadrado ${i + 1} (1:1)`}
+                  value={img}
+                  onChange={(v) => {
+                    const next = [...content.identity.squares];
+                    next[i] = v;
+                    patch("identity", { squares: next });
+                  }}
+                  folder={folder}
+                  aspect="aspect-square"
+                  spec="1200 × 1200 px · 1:1 (quadrado)"
+                />
+              ))}
+            </div>
           </div>
+
+          {/* 5 — imagem grande */}
           <ImageField
-            label="Imagem grande 3 (16:9)"
+            label="5 · Imagem grande (16:9)"
             value={content.identity.fullImage3}
             onChange={(v) => patch("identity", { fullImage3: v })}
             folder={folder}
             spec="2400 × 1350 px · 16:9 (largura total da tela)"
           />
+
+          {/* 6 — box com dois */}
+          <div className="flex flex-col gap-3 border border-border p-4">
+            <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
+              6 · Box com dois
+            </div>
+            <div className="grid gap-6 md:grid-cols-2">
+              {content.identity.beforeAfter.map((img, i) => (
+                <ImageField
+                  key={i}
+                  label={`Imagem ${i + 1} (9:10)`}
+                  value={img}
+                  onChange={(v) => {
+                    const next = [...content.identity.beforeAfter];
+                    next[i] = v;
+                    patch("identity", { beforeAfter: next });
+                  }}
+                  folder={folder}
+                  aspect="aspect-[9/10]"
+                  spec="1200 × 1333 px · 9:10 (retrato)"
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* 7 — antes / depois (comparativo de rebranding, encerra a seção) */}
+          <div className="flex flex-col gap-4 border border-border p-4">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
+                  7 · Antes / depois (comparativo)
+                </div>
+                <p className="mt-1 max-w-prose text-xs text-muted-foreground">
+                  Bloco em fundo escuro, com imagem e tópicos de cada lado — use em cases de
+                  rebranding. Quando ligado, encerra a seção de identidade. Desligado, a seção
+                  termina no box com dois acima (layout de branding).
+                </p>
+              </div>
+              <div className="flex shrink-0 items-center gap-2">
+                <Switch
+                  id="comparison-enabled"
+                  checked={content.identity.comparison.enabled}
+                  onCheckedChange={(v) => patchComparison({ enabled: v })}
+                />
+                <Label htmlFor="comparison-enabled" className="text-sm">
+                  {content.identity.comparison.enabled ? "Ligado" : "Desligado"}
+                </Label>
+              </div>
+            </div>
+
+            {content.identity.comparison.enabled && (
+              <div className="flex flex-col gap-4">
+                <TextField
+                  label="Rótulo do bloco"
+                  value={content.identity.comparison.label}
+                  onChange={(v) => patchComparison({ label: v })}
+                  placeholder="Comparativo — antes e depois do rebranding"
+                />
+                <div className="grid gap-6 md:grid-cols-2">
+                  {(["before", "after"] as const).map((side) => {
+                    const data = content.identity.comparison[side];
+                    const isBefore = side === "before";
+                    return (
+                      <div key={side} className="flex flex-col gap-3 border border-border p-4">
+                        <TextField
+                          label={isBefore ? "Título do lado (antes)" : "Título do lado (depois)"}
+                          value={
+                            isBefore
+                              ? content.identity.comparison.beforeLabel
+                              : content.identity.comparison.afterLabel
+                          }
+                          onChange={(v) =>
+                            patchComparison(isBefore ? { beforeLabel: v } : { afterLabel: v })
+                          }
+                          placeholder={isBefore ? "Antes" : "Depois"}
+                        />
+                        <ImageField
+                          label="Imagem (4:3)"
+                          value={data.image}
+                          onChange={(img) => patchComparisonSide(side, { image: img })}
+                          folder={folder}
+                          aspect="aspect-[4/3]"
+                          spec="1600 × 1200 px · 4:3"
+                        />
+                        {data.points.map((p, i) => (
+                          <TextField
+                            key={i}
+                            label={`Tópico ${i + 1}`}
+                            value={p}
+                            onChange={(v) => {
+                              const next = [...data.points];
+                              next[i] = v;
+                              patchComparisonSide(side, { points: next });
+                            }}
+                          />
+                        ))}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </div>
         </SectionCard>
 
         {/* 04 — APLICAÇÕES */}

@@ -17,6 +17,7 @@ import { Route as AdminRouteRouteImport } from './routes/admin/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as ServicosRebrandingRouteImport } from './routes/servicos.rebranding'
+import { Route as ServicosCicloDeMarcaRouteImport } from './routes/servicos.ciclo-de-marca'
 import { Route as ServicosBrandingRouteImport } from './routes/servicos.branding'
 import { Route as CasesSlugRouteImport } from './routes/cases.$slug'
 import { Route as AdminProjetosRouteImport } from './routes/admin/projetos'
@@ -64,6 +65,11 @@ const ServicosRebrandingRoute = ServicosRebrandingRouteImport.update({
   path: '/servicos/rebranding',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ServicosCicloDeMarcaRoute = ServicosCicloDeMarcaRouteImport.update({
+  id: '/servicos/ciclo-de-marca',
+  path: '/servicos/ciclo-de-marca',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ServicosBrandingRoute = ServicosBrandingRouteImport.update({
   id: '/servicos/branding',
   path: '/servicos/branding',
@@ -106,6 +112,7 @@ export interface FileRoutesByFullPath {
   '/admin/projetos': typeof AdminProjetosRoute
   '/cases/$slug': typeof CasesSlugRoute
   '/servicos/branding': typeof ServicosBrandingRoute
+  '/servicos/ciclo-de-marca': typeof ServicosCicloDeMarcaRoute
   '/servicos/rebranding': typeof ServicosRebrandingRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/cases/$id': typeof AdminCasesIdRoute
@@ -121,6 +128,7 @@ export interface FileRoutesByTo {
   '/admin/projetos': typeof AdminProjetosRoute
   '/cases/$slug': typeof CasesSlugRoute
   '/servicos/branding': typeof ServicosBrandingRoute
+  '/servicos/ciclo-de-marca': typeof ServicosCicloDeMarcaRoute
   '/servicos/rebranding': typeof ServicosRebrandingRoute
   '/admin': typeof AdminIndexRoute
   '/admin/cases/$id': typeof AdminCasesIdRoute
@@ -138,6 +146,7 @@ export interface FileRoutesById {
   '/admin/projetos': typeof AdminProjetosRoute
   '/cases/$slug': typeof CasesSlugRoute
   '/servicos/branding': typeof ServicosBrandingRoute
+  '/servicos/ciclo-de-marca': typeof ServicosCicloDeMarcaRoute
   '/servicos/rebranding': typeof ServicosRebrandingRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/cases/$id': typeof AdminCasesIdRoute
@@ -156,6 +165,7 @@ export interface FileRouteTypes {
     | '/admin/projetos'
     | '/cases/$slug'
     | '/servicos/branding'
+    | '/servicos/ciclo-de-marca'
     | '/servicos/rebranding'
     | '/admin/'
     | '/admin/cases/$id'
@@ -171,6 +181,7 @@ export interface FileRouteTypes {
     | '/admin/projetos'
     | '/cases/$slug'
     | '/servicos/branding'
+    | '/servicos/ciclo-de-marca'
     | '/servicos/rebranding'
     | '/admin'
     | '/admin/cases/$id'
@@ -187,6 +198,7 @@ export interface FileRouteTypes {
     | '/admin/projetos'
     | '/cases/$slug'
     | '/servicos/branding'
+    | '/servicos/ciclo-de-marca'
     | '/servicos/rebranding'
     | '/admin/'
     | '/admin/cases/$id'
@@ -202,6 +214,7 @@ export interface RootRouteChildren {
   SobreRoute: typeof SobreRoute
   CasesSlugRoute: typeof CasesSlugRoute
   ServicosBrandingRoute: typeof ServicosBrandingRoute
+  ServicosCicloDeMarcaRoute: typeof ServicosCicloDeMarcaRoute
   ServicosRebrandingRoute: typeof ServicosRebrandingRoute
   ApiPublicContactRoute: typeof ApiPublicContactRoute
 }
@@ -262,6 +275,13 @@ declare module '@tanstack/react-router' {
       path: '/servicos/rebranding'
       fullPath: '/servicos/rebranding'
       preLoaderRoute: typeof ServicosRebrandingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/servicos/ciclo-de-marca': {
+      id: '/servicos/ciclo-de-marca'
+      path: '/servicos/ciclo-de-marca'
+      fullPath: '/servicos/ciclo-de-marca'
+      preLoaderRoute: typeof ServicosCicloDeMarcaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/servicos/branding': {
@@ -336,6 +356,7 @@ const rootRouteChildren: RootRouteChildren = {
   SobreRoute: SobreRoute,
   CasesSlugRoute: CasesSlugRoute,
   ServicosBrandingRoute: ServicosBrandingRoute,
+  ServicosCicloDeMarcaRoute: ServicosCicloDeMarcaRoute,
   ServicosRebrandingRoute: ServicosRebrandingRoute,
   ApiPublicContactRoute: ApiPublicContactRoute,
 }

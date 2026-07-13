@@ -2,8 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import { Play } from "lucide-react";
 import { motion, useInView } from "motion/react";
 
+import type { CaseComparison } from "@/lib/case-content";
+
 /* Blocos visuais do template de case — extraídos da rota Black Herva
    quando o portfólio passou a ser administrado pelo painel. */
+
+const EASE = [0.22, 1, 0.36, 1] as const;
 
 /** Imagem com unveil (zoom-out na entrada) + zoom sutil no hover.
     Sem `src`, vira o placeholder editorial (caixa muted com o `alt`). */
@@ -169,5 +173,147 @@ export function CountUp({
     <span ref={ref} className="tabular-nums">
       {text}
     </span>
+  );
+}
+
+/**
+ * Uma metade do díptico antes/depois. Imagem cinematográfica e fosca (sem brilho):
+ * o "antes" entra em preto-e-branco; o "depois" em cor, mas dessaturado e com um
+ * véu sutil, para um acabamento mate e editorial. Sem rótulo sobreposto — a
+ * identificação vem abaixo.
+ */
+function DipticoLado({
+  variant,
+  image,
+}: {
+  variant: "before" | "after";
+  image: { url: string; alt: string };
+}) {
+  const before = variant === "before";
+  return (
+    <motion.figure
+      className="relative h-[46vh] overflow-hidden bg-muted md:h-[78vh]"
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true, margin: "-8%" }}
+      transition={{ duration: 1.1, ease: EASE }}
+    >
+      {image.url ? (
+        <motion.img
+          src={image.url}
+          alt={image.alt}
+          loading="lazy"
+          className={`absolute inset-0 h-full w-full object-cover brightness-[0.94] ${
+            before ? "grayscale" : "saturate-[0.85]"
+          }`}
+          initial={{ scale: 1.08 }}
+          whileInView={{ scale: 1 }}
+          viewport={{ once: true, margin: "-8%" }}
+          transition={{ duration: 1.6, ease: EASE }}
+        />
+      ) : (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
+            {image.alt || (before ? "Antes" : "Depois")}
+          </span>
+        </div>
+      )}
+      {/* véu uniforme — tira o brilho, deixa a imagem opaca/mate */}
+      <div className="absolute inset-0 bg-foreground/[0.10]" aria-hidden />
+    </motion.figure>
+  );
+}
+
+/** Rótulo (antes/depois) + tópicos, abaixo de cada metade do díptico. */
+function ComparisonColuna({
+  variant,
+  label,
+  points,
+}: {
+  variant: "before" | "after";
+  label: string;
+  points: string[];
+}) {
+  const after = variant === "after";
+  const filled = points.filter(Boolean);
+  return (
+    <div>
+      <div
+        className={`font-display text-xl font-semibold tracking-[-0.01em] md:text-2xl ${
+          after ? "text-foreground" : "text-muted-foreground"
+        }`}
+      >
+        {label}
+      </div>
+      {filled.length > 0 && (
+        <ul className="mt-6 divide-y divide-border border-t border-border md:mt-8">
+          {filled.map((point, i) => (
+            <motion.li
+              key={i}
+              className="flex items-baseline gap-5 py-5"
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-8%" }}
+              transition={{ duration: 0.6, delay: i * 0.06, ease: EASE }}
+            >
+              <span
+                className={`font-mono text-[11px] tabular-nums ${
+                  after ? "text-foreground" : "text-muted-foreground/70"
+                }`}
+              >
+                0{i + 1}
+              </span>
+              <span
+                className={`leading-relaxed md:text-lg ${
+                  after ? "font-medium text-foreground" : "text-muted-foreground"
+                }`}
+              >
+                {point}
+              </span>
+            </motion.li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+/**
+ * Comparativo "antes e depois" do rebranding — díptico full-bleed que encerra a
+ * seção de identidade. As duas imagens ficam conectadas como um único quadro
+ * dividido ao meio por uma linha central fina; ambas foscas (sem brilho), o
+ * "antes" em preto-e-branco e o "depois" em cor. Os rótulos e tópicos vêm
+ * abaixo, em duas colunas com divisores finos.
+ */
+export function BeforeAfterComparison({ comparison }: { comparison: CaseComparison }) {
+  const { label, beforeLabel, afterLabel, before, after } = comparison;
+  return (
+    <div className="mt-28 md:mt-40">
+      {/* cabeçalho editorial, no mesmo padrão das seções */}
+      <div className="mx-auto max-w-[1400px] px-6 md:px-10">
+        <div className="flex items-center gap-4 font-mono text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
+          <span className="h-px w-10 bg-current opacity-40" aria-hidden />
+          <span>{label}</span>
+        </div>
+      </div>
+
+      {/* díptico full-bleed — imagem única dividida ao meio por linha central */}
+      <div className="relative left-1/2 mt-12 w-screen -translate-x-1/2 md:mt-16">
+        <div className="relative grid grid-cols-2">
+          <DipticoLado variant="before" image={before.image} />
+          <DipticoLado variant="after" image={after.image} />
+          <span
+            className="pointer-events-none absolute inset-y-0 left-1/2 z-10 w-px -translate-x-1/2 bg-background/80"
+            aria-hidden
+          />
+        </div>
+      </div>
+
+      {/* rótulos + tópicos abaixo, alinhados às duas metades */}
+      <div className="mx-auto mt-12 grid max-w-[1400px] gap-x-12 gap-y-12 px-6 md:mt-16 md:grid-cols-2 md:px-10">
+        <ComparisonColuna variant="before" label={beforeLabel} points={before.points} />
+        <ComparisonColuna variant="after" label={afterLabel} points={after.points} />
+      </div>
+    </div>
   );
 }
