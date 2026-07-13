@@ -27,12 +27,16 @@ function ProjetosPage() {
   const [busyId, setBusyId] = useState<string | null>(null);
   const [creating, setCreating] = useState(false);
   const [novo, setNovo] = useState({ title: "", year: "", category: "" });
+  const [activeService, setActiveService] = useState<"branding" | "rebranding">(
+    "branding",
+  );
 
   async function load() {
     setLoading(true);
     const { data, error } = await supabase
       .from("portfolio_projects")
       .select("*")
+      .eq("service", activeService)
       .order("sort_order", { ascending: true })
       .order("created_at", { ascending: true });
     setLoading(false);
@@ -45,7 +49,8 @@ function ProjetosPage() {
 
   useEffect(() => {
     load();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeService]);
 
   async function add(e: React.FormEvent) {
     e.preventDefault();
@@ -60,6 +65,7 @@ function ProjetosPage() {
       year: novo.year.trim(),
       category: novo.category.trim(),
       sort_order: nextOrder,
+      service: activeService,
     });
     setCreating(false);
     if (error) {
@@ -143,10 +149,29 @@ function ProjetosPage() {
         Carrossel “Mais projetos”
       </h1>
       <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-        A faixa de projetos que passa na tela de Serviços / Branding. São itens
-        simples (nome, ano, categoria) — sem página própria. Para um projeto com
-        página completa, use a aba Cases.
+        A faixa de projetos que passa na tela de Serviços. São itens simples
+        (nome, ano, categoria) — sem página própria. Cada serviço tem seu próprio
+        carrossel; escolha o serviço abaixo. Para um projeto com página completa,
+        use a aba Cases.
       </p>
+
+      {/* Abas de serviço — cada carrossel é separado por serviço. */}
+      <div className="mt-6 inline-flex gap-1 border border-border bg-background p-1">
+        {(["branding", "rebranding"] as const).map((s) => (
+          <button
+            key={s}
+            type="button"
+            onClick={() => setActiveService(s)}
+            className={`px-4 py-1.5 text-sm font-medium transition-colors ${
+              activeService === s
+                ? "bg-foreground text-background"
+                : "text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            {s === "branding" ? "Branding" : "Rebranding"}
+          </button>
+        ))}
+      </div>
 
       {/* Adicionar */}
       <form

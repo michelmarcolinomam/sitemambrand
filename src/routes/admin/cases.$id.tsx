@@ -27,6 +27,13 @@ import {
 } from "@/lib/case-content";
 
 export const Route = createFileRoute("/admin/cases/$id")({
+  // ?service=rebranding pré-seleciona o serviço ao criar um case novo.
+  validateSearch: (
+    search: Record<string, unknown>,
+  ): { service?: "branding" | "rebranding" } => {
+    const s = search.service;
+    return s === "rebranding" || s === "branding" ? { service: s } : {};
+  },
   component: CaseEditorPage,
 });
 
@@ -39,6 +46,7 @@ type Meta = {
   cover_url: string;
   seo_description: string;
   published: boolean;
+  service: "branding" | "rebranding";
 };
 
 const emptyMeta: Meta = {
@@ -50,6 +58,7 @@ const emptyMeta: Meta = {
   cover_url: "",
   seo_description: "",
   published: false,
+  service: "branding",
 };
 
 function slugify(v: string) {
@@ -63,12 +72,15 @@ function slugify(v: string) {
 
 function CaseEditorPage() {
   const { id } = Route.useParams();
+  const search = Route.useSearch();
   const navigate = useNavigate();
   const isNew = id === "novo";
 
   const [loading, setLoading] = useState(!isNew);
   const [saving, setSaving] = useState(false);
-  const [meta, setMeta] = useState<Meta>(emptyMeta);
+  const [meta, setMeta] = useState<Meta>(() =>
+    isNew ? { ...emptyMeta, service: search.service ?? "branding" } : emptyMeta,
+  );
   const [content, setContent] = useState<CaseContent>(defaultCaseContent());
   const [slugTouched, setSlugTouched] = useState(!isNew);
 
@@ -101,6 +113,7 @@ function CaseEditorPage() {
         cover_url: data.cover_url ?? "",
         seo_description: data.seo_description,
         published: data.published,
+        service: data.service === "rebranding" ? "rebranding" : "branding",
       });
       setContent(normalizeCaseContent(data.content));
     })();
@@ -147,6 +160,7 @@ function CaseEditorPage() {
       cover_url: meta.cover_url || null,
       seo_description: meta.seo_description.trim(),
       published: meta.published,
+      service: meta.service,
       content,
     };
 
@@ -244,7 +258,7 @@ function CaseEditorPage() {
         <SectionCard
           kicker="—"
           title="Identificação e card"
-          description="Estes campos formam o card na tela de Serviços / Branding e o topo da página do case."
+          description="Estes campos formam o card na tela de Serviços (Branding ou Rebranding) e o topo da página do case."
         >
           <div className="grid gap-6 md:grid-cols-2">
             <TextField
@@ -284,6 +298,32 @@ function CaseEditorPage() {
               onChange={(v) => setMetaField("descriptor", v)}
               placeholder="Branding desde a fundação"
             />
+            <div className="flex flex-col gap-1.5">
+              <Label className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
+                Serviço
+              </Label>
+              <div className="flex gap-2">
+                <Button
+                  type="button"
+                  variant={meta.service === "branding" ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setMetaField("service", "branding")}
+                >
+                  Branding
+                </Button>
+                <Button
+                  type="button"
+                  variant={meta.service === "rebranding" ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setMetaField("service", "rebranding")}
+                >
+                  Rebranding
+                </Button>
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Define em qual tela de serviço o case aparece.
+              </p>
+            </div>
           </div>
 
           <ImageField

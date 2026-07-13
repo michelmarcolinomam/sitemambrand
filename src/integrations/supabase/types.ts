@@ -24,6 +24,7 @@ export type Database = {
           id: string
           published: boolean
           seo_description: string
+          service: string
           slug: string
           sort_order: number
           title: string
@@ -39,6 +40,7 @@ export type Database = {
           id?: string
           published?: boolean
           seo_description?: string
+          service?: string
           slug: string
           sort_order?: number
           title: string
@@ -54,6 +56,7 @@ export type Database = {
           id?: string
           published?: boolean
           seo_description?: string
+          service?: string
           slug?: string
           sort_order?: number
           title?: string
@@ -98,6 +101,7 @@ export type Database = {
           created_at: string
           id: string
           published: boolean
+          service: string
           sort_order: number
           title: string
           year: string
@@ -107,6 +111,7 @@ export type Database = {
           created_at?: string
           id?: string
           published?: boolean
+          service?: string
           sort_order?: number
           title: string
           year?: string
@@ -116,6 +121,7 @@ export type Database = {
           created_at?: string
           id?: string
           published?: boolean
+          service?: string
           sort_order?: number
           title?: string
           year?: string

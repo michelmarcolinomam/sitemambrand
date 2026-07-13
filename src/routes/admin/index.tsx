@@ -46,12 +46,16 @@ function CasesListPage() {
   const [cases, setCases] = useState<CaseRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [busyId, setBusyId] = useState<string | null>(null);
+  const [activeService, setActiveService] = useState<"branding" | "rebranding">(
+    "branding",
+  );
 
   async function load() {
     setLoading(true);
     const { data, error } = await supabase
       .from("cases")
       .select("id, slug, title, year, category, published, sort_order, cover_url")
+      .eq("service", activeService)
       .order("sort_order", { ascending: true })
       .order("created_at", { ascending: true });
     setLoading(false);
@@ -64,7 +68,8 @@ function CasesListPage() {
 
   useEffect(() => {
     load();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeService]);
 
   async function togglePublish(row: CaseRow) {
     setBusyId(row.id);
@@ -119,16 +124,38 @@ function CasesListPage() {
             Cases do portfólio
           </h1>
           <p className="mt-2 text-sm text-muted-foreground">
-            Projetos que aparecem na tela de Serviços / Branding. Cada um tem sua
-            própria página completa.
+            Cada serviço tem seu próprio portfólio. Escolha o serviço abaixo para
+            ver e cadastrar os cases que aparecem naquela tela.
           </p>
         </div>
         <Button asChild>
-          <Link to="/admin/cases/$id" params={{ id: "novo" }}>
+          <Link
+            to="/admin/cases/$id"
+            params={{ id: "novo" }}
+            search={{ service: activeService }}
+          >
             <Plus className="h-4 w-4" />
             Novo case
           </Link>
         </Button>
+      </div>
+
+      {/* Abas de serviço — cada tela de serviço tem seu portfólio separado. */}
+      <div className="mt-6 inline-flex gap-1 border border-border bg-background p-1">
+        {(["branding", "rebranding"] as const).map((s) => (
+          <button
+            key={s}
+            type="button"
+            onClick={() => setActiveService(s)}
+            className={`px-4 py-1.5 text-sm font-medium transition-colors ${
+              activeService === s
+                ? "bg-foreground text-background"
+                : "text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            {s === "branding" ? "Branding" : "Rebranding"}
+          </button>
+        ))}
       </div>
 
       <div className="mt-8">
