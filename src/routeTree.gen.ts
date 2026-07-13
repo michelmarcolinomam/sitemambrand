@@ -15,6 +15,7 @@ import { Route as EstudioRouteImport } from './routes/estudio'
 import { Route as DiarioRouteImport } from './routes/diario'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ServicosBrandingRouteImport } from './routes/servicos.branding'
+import { Route as CasesBlackHervaRouteImport } from './routes/cases.black-herva'
 import { Route as ApiPublicContactRouteImport } from './routes/api/public/contact'
 
 const SobreRoute = SobreRouteImport.update({
@@ -47,6 +48,11 @@ const ServicosBrandingRoute = ServicosBrandingRouteImport.update({
   path: '/servicos/branding',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CasesBlackHervaRoute = CasesBlackHervaRouteImport.update({
+  id: '/cases/black-herva',
+  path: '/cases/black-herva',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicContactRoute = ApiPublicContactRouteImport.update({
   id: '/api/public/contact',
   path: '/api/public/contact',
@@ -59,6 +65,7 @@ export interface FileRoutesByFullPath {
   '/estudio': typeof EstudioRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre': typeof SobreRoute
+  '/cases/black-herva': typeof CasesBlackHervaRoute
   '/servicos/branding': typeof ServicosBrandingRoute
   '/api/public/contact': typeof ApiPublicContactRoute
 }
@@ -68,6 +75,7 @@ export interface FileRoutesByTo {
   '/estudio': typeof EstudioRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre': typeof SobreRoute
+  '/cases/black-herva': typeof CasesBlackHervaRoute
   '/servicos/branding': typeof ServicosBrandingRoute
   '/api/public/contact': typeof ApiPublicContactRoute
 }
@@ -78,6 +86,7 @@ export interface FileRoutesById {
   '/estudio': typeof EstudioRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre': typeof SobreRoute
+  '/cases/black-herva': typeof CasesBlackHervaRoute
   '/servicos/branding': typeof ServicosBrandingRoute
   '/api/public/contact': typeof ApiPublicContactRoute
 }
@@ -89,6 +98,7 @@ export interface FileRouteTypes {
     | '/estudio'
     | '/sitemap.xml'
     | '/sobre'
+    | '/cases/black-herva'
     | '/servicos/branding'
     | '/api/public/contact'
   fileRoutesByTo: FileRoutesByTo
@@ -98,6 +108,7 @@ export interface FileRouteTypes {
     | '/estudio'
     | '/sitemap.xml'
     | '/sobre'
+    | '/cases/black-herva'
     | '/servicos/branding'
     | '/api/public/contact'
   id:
@@ -107,6 +118,7 @@ export interface FileRouteTypes {
     | '/estudio'
     | '/sitemap.xml'
     | '/sobre'
+    | '/cases/black-herva'
     | '/servicos/branding'
     | '/api/public/contact'
   fileRoutesById: FileRoutesById
@@ -117,6 +129,7 @@ export interface RootRouteChildren {
   EstudioRoute: typeof EstudioRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SobreRoute: typeof SobreRoute
+  CasesBlackHervaRoute: typeof CasesBlackHervaRoute
   ServicosBrandingRoute: typeof ServicosBrandingRoute
   ApiPublicContactRoute: typeof ApiPublicContactRoute
 }
@@ -165,6 +178,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicosBrandingRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/cases/black-herva': {
+      id: '/cases/black-herva'
+      path: '/cases/black-herva'
+      fullPath: '/cases/black-herva'
+      preLoaderRoute: typeof CasesBlackHervaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/contact': {
       id: '/api/public/contact'
       path: '/api/public/contact'
@@ -181,6 +201,7 @@ const rootRouteChildren: RootRouteChildren = {
   EstudioRoute: EstudioRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SobreRoute: SobreRoute,
+  CasesBlackHervaRoute: CasesBlackHervaRoute,
   ServicosBrandingRoute: ServicosBrandingRoute,
   ApiPublicContactRoute: ApiPublicContactRoute,
 }

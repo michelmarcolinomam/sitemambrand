@@ -17,21 +17,20 @@
 | Sobre | `src/routes/sobre.tsx` | ✅ No ar |
 | Diário | `src/routes/diario.tsx` | ✅ No ar |
 | Serviços / Branding | `src/routes/servicos.branding.tsx` | ✅ No ar |
-| **Case Black Herva** | — | 🟡 Aprovado em simulação; HTML em `design/aprovados/case-black-herva.html`; falta converter em rota |
+| **Case Black Herva** | `src/routes/cases.black-herva.tsx` → `/cases/black-herva` | 🟢 Integrado (2026-07-12); faltam só conteúdos reais (abaixo) |
 
 ## Em andamento — Case Black Herva
-Layout V3 aprovado (2026-07-12) com:
-- Animações: scroll-reveal, stagger, contadores nos resultados, facade de vídeo
-- Seção 05 "Em movimento": vídeo 16:9 + vertical 9:16 (1080×1920) no mesmo box
-- Logo oficial MAM aplicado (padrão do site)
+Layout V3 aprovado e **convertido em rota React** (2026-07-12), reusando os componentes do site
+(Navbar, Footer, Reveal/Rise, SectionKicker, ContactForm real, ScrollProgress, ArrowLink).
+O CaseCard da tela de branding já apontava para `/cases/black-herva` — link fechado.
+Referência visual aprovada: `design/aprovados/case-black-herva.html`.
 
-**Pendências antes de publicar:**
-- [ ] Converter o HTML aprovado em rota TanStack (ex.: `servicos.branding.black-herva.tsx`)
+**Pendências de conteúdo (a rota já está pronta pra recebê-los):**
 - [ ] Trocar imagens placeholder (picsum) pelas fotos reais do case
-- [ ] Inserir IDs reais dos 2 vídeos do YouTube (marcadores `TROQUE AQUI` no HTML)
-- [ ] Remover banner "PREVIEW V3"
-- [ ] Ligar o formulário de contato (hoje é só visual; existe `src/routes/api/public/contact.ts`)
-- [ ] Foto real do founder no depoimento
+- [ ] Inserir IDs reais dos 2 vídeos do YouTube (buscar `TROQUE AQUI` na rota)
+- [ ] Foto real do founder no depoimento (buscar `TODO` na rota)
+- [ ] Tiles "Logo principal" e "Paleta cromática" ainda são placeholders de texto
+- [ ] Links reais das redes sociais (const `socials`, igual pendência da tela de branding)
 
 ## Padrões estabelecidos
 - **Logo:** SVG oficial (símbolo ⋈ + wordmark), header 24px/28px, footer 28px, `alt="MAM Branding"` — extraído do site no ar
