@@ -7,11 +7,13 @@ const services = [
     number: "01",
     name: "Branding",
     desc: "Construção estratégica de marcas — posicionamento, narrativa, identidade e sistema de expressão.",
+    to: "/servicos/branding",
   },
   {
     number: "02",
     name: "Rebranding",
     desc: "Reposicionamento e evolução de marcas que precisam responder a um novo momento de mercado.",
+    to: "/servicos/rebranding",
   },
   {
     number: "03",
@@ -51,9 +53,9 @@ export function Services() {
                 <p className="col-span-12 text-base leading-relaxed text-muted-foreground md:col-span-5 md:col-start-6 md:text-lg">
                   {s.desc}
                 </p>
-                {s.name === "Branding" ? (
+                {s.to ? (
                   <Link
-                    to="/servicos/branding"
+                    to={s.to}
                     className="col-span-12 inline-flex items-center gap-2 text-sm font-medium text-foreground md:col-span-2 md:justify-end"
                   >
                     <span className="border-b border-foreground/40 pb-0.5 transition-colors group-hover:border-foreground">

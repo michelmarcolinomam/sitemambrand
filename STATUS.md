@@ -55,8 +55,8 @@ Tela de serviço criada a partir de layout do chat, mesma linguagem editorial do
 `ServiceHero`, `ProcessTimeline`, `CaseCard`, `ProjectCarousel`, `BenefitBlock`, `ContactForm` etc.
 Seção nova exclusiva: **"Quando faz sentido"** (6 sinais). Portfólio (destaques + carrossel) puxa do
 mesmo Supabase do branding — as duas telas ficam em sincronia.
-- [ ] **Discoverability:** a rota `/servicos/rebranding` ainda **não está linkada** em nenhum lugar
-  (nav, footer ou home). Definir onde entra (ex.: seção "Serviços" da home / menu) e ligar.
+- [x] **Discoverability:** linkada na seção "Serviços" da home — `Services.tsx`, item "Rebranding" → "Ver serviço"
+  aponta para `/servicos/rebranding` (mesmo padrão do Branding). Nav e footer seguem sem link direto (opcional).
 
 ## Padrões estabelecidos
 - **Logo:** SVG oficial (símbolo ⋈ + wordmark), header 24px/28px, footer 28px, `alt="MAM Branding"` — extraído do site no ar
