@@ -23,12 +23,14 @@ export const Route = createFileRoute("/servicos/rebranding")({
         .from("cases")
         .select("slug, title, year, category, descriptor, cover_url")
         .eq("published", true)
+        .eq("service", "rebranding")
         .order("sort_order", { ascending: true })
         .order("created_at", { ascending: true }),
       supabase
         .from("portfolio_projects")
         .select("title, year, category")
         .eq("published", true)
+        .eq("service", "rebranding")
         .order("sort_order", { ascending: true })
         .order("created_at", { ascending: true }),
     ]);
@@ -503,26 +505,35 @@ function RebrandingPage() {
 
           {/* Carrossel — repertório ilimitado (full-bleed) */}
           <div className="mt-28 border-t border-border pt-20 md:mt-40 md:pt-28">
-            <div className="mx-auto mb-14 max-w-[1400px] md:mb-20">
-              <Rise>
-                <div className="flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
-                  <span aria-hidden>—</span>
-                  <span>Mais projetos</span>
+            {/* Carrossel só aparece quando há projetos de rebranding cadastrados. */}
+            {projetos.length > 0 && (
+              <>
+                <div className="mx-auto mb-14 max-w-[1400px] md:mb-20">
+                  <Rise>
+                    <div className="flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
+                      <span aria-hidden>—</span>
+                      <span>Mais projetos</span>
+                    </div>
+                  </Rise>
+                  <h3 className="mt-8 max-w-[18ch] font-display text-[clamp(1.75rem,4vw,3.25rem)] font-semibold leading-[1.03] tracking-[-0.03em]">
+                    <Reveal delay={0.06}>
+                      <>
+                        Um recorte mais amplo do{" "}
+                        <span className="font-light italic text-mint-ink">repertório.</span>
+                      </>
+                    </Reveal>
+                  </h3>
                 </div>
-              </Rise>
-              <h3 className="mt-8 max-w-[18ch] font-display text-[clamp(1.75rem,4vw,3.25rem)] font-semibold leading-[1.03] tracking-[-0.03em]">
-                <Reveal delay={0.06}>
-                  <>
-                    Um recorte mais amplo do{" "}
-                    <span className="font-light italic text-mint-ink">repertório.</span>
-                  </>
-                </Reveal>
-              </h3>
-            </div>
 
-            <ProjectCarousel projetos={projetos} />
+                <ProjectCarousel projetos={projetos} />
+              </>
+            )}
 
-            <div className="mx-auto mt-20 flex max-w-[1400px] flex-col gap-6 border-t border-border pt-12 md:mt-28 md:flex-row md:items-end md:justify-between">
+            <div
+              className={`mx-auto flex max-w-[1400px] flex-col gap-6 md:flex-row md:items-end md:justify-between ${
+                projetos.length > 0 ? "mt-20 border-t border-border pt-12 md:mt-28" : ""
+              }`}
+            >
               <Rise>
                 <p className="max-w-[46ch] text-lg leading-relaxed text-muted-foreground md:text-xl">
                   Quer entender se a sua marca chegou ao momento de um rebranding?

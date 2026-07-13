@@ -24,12 +24,14 @@ export const Route = createFileRoute("/servicos/branding")({
         .from("cases")
         .select("slug, title, year, category, descriptor, cover_url")
         .eq("published", true)
+        .eq("service", "branding")
         .order("sort_order", { ascending: true })
         .order("created_at", { ascending: true }),
       supabase
         .from("portfolio_projects")
         .select("title, year, category")
         .eq("published", true)
+        .eq("service", "branding")
         .order("sort_order", { ascending: true })
         .order("created_at", { ascending: true }),
     ]);
