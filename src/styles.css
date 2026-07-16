@@ -124,7 +124,7 @@
 
 /* ————————————————————————————————————————————————
    Movimento editorial — marquee, texto contornado, deriva suave.
-   Usados nas telas de serviço (ex.: /servicos/branding).
+   Usados nas telas de serviço (ex.: /branding).
    ———————————————————————————————————————————————— */
 
 @keyframes marquee-x {

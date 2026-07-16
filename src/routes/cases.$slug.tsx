@@ -80,11 +80,11 @@ function CasePage() {
                 aria-label="breadcrumb"
                 className="mb-10 flex items-center gap-2 text-sm text-muted-foreground"
               >
-                <Link to="/servicos/branding" className="text-foreground hover:underline">
+                <Link to="/branding" className="text-foreground hover:underline">
                   Serviços
                 </Link>
                 <span>/</span>
-                <Link to="/servicos/branding" className="text-foreground hover:underline">
+                <Link to="/branding" className="text-foreground hover:underline">
                   Portfólio
                 </Link>
                 <span>/</span>
@@ -501,7 +501,7 @@ function CasePage() {
 
                 <Rise delay={0.12}>
                   <div className="mt-6">
-                    <ArrowLink href="/servicos/branding" variant="pill" size="lg">
+                    <ArrowLink href="/branding" variant="pill" size="lg">
                       Faça um diagnóstico da sua marca
                     </ArrowLink>
                   </div>

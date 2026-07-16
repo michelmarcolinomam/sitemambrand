@@ -6,6 +6,7 @@ import { Footer } from "@/components/Footer";
 import { SectionKicker } from "@/components/SectionKicker";
 import { ServiceHero } from "@/components/servico/ServiceHero";
 import { ProcessTimeline } from "@/components/servico/ProcessTimeline";
+import { DeliverableCard } from "@/components/servico/DeliverableCard";
 import { CaseCard } from "@/components/servico/CaseCard";
 import { ProjectCarousel } from "@/components/servico/ProjectCarousel";
 import { BenefitBlock } from "@/components/servico/BenefitBlock";
@@ -15,22 +16,22 @@ import { ContactForm } from "@/components/servico/ContactForm";
 import { ScrollProgress } from "@/components/servico/ScrollProgress";
 import { supabase } from "@/integrations/supabase/client";
 
-export const Route = createFileRoute("/servicos/rebranding")({
-  // Portfólio (destaques + carrossel) vem do banco — mesma base da tela de branding, administrada em /admin.
+export const Route = createFileRoute("/branding")({
+  // Portfólio (destaques + carrossel) vem do banco — administrado em /admin.
   loader: async () => {
     const [casesRes, projetosRes] = await Promise.all([
       supabase
         .from("cases")
         .select("slug, title, year, category, descriptor, cover_url")
         .eq("published", true)
-        .eq("service", "rebranding")
+        .eq("service", "branding")
         .order("sort_order", { ascending: true })
         .order("created_at", { ascending: true }),
       supabase
         .from("portfolio_projects")
         .select("title, year, category")
         .eq("published", true)
-        .eq("service", "rebranding")
+        .eq("service", "branding")
         .order("sort_order", { ascending: true })
         .order("created_at", { ascending: true }),
     ]);
@@ -42,113 +43,74 @@ export const Route = createFileRoute("/servicos/rebranding")({
   },
   head: () => ({
     meta: [
-      { title: "Rebranding — MAM Branding" },
+      { title: "Branding — MAM Branding" },
       {
         name: "description",
         content:
-          "A marca cresceu e a identidade ficou para trás. Rebranding estratégico que realinha a expressão da marca com o que o negócio se tornou — preservando o capital construído.",
+          "Marcas construídas para crescer sem desconto. Posicionamento, narrativa, identidade e sistema — branding estratégico que cria percepção de valor.",
       },
-      { property: "og:title", content: "Rebranding — MAM Branding" },
+      { property: "og:title", content: "Branding — MAM Branding" },
       {
         property: "og:description",
         content:
-          "Do diagnóstico ao sistema renovado: evolução de marca que preserva o que foi construído e recupera relevância.",
+          "Do diagnóstico ao sistema vivo: método de branding que transforma percepção e permite vender com margem.",
       },
     ],
   }),
-  component: RebrandingPage,
+  component: BrandingPage,
 });
 
 /* ————————————————————————————————————————————————
-   Dados. Portfólio (cases + projetos) vem do Supabase, igual à tela de branding.
+   Dados. Cases: Black Herva confirmado; os outros 3 são placeholders.
    ———————————————————————————————————————————————— */
 
-const heroMarquee = ["Reposicionamento", "Evolução", "Coerência", "Relevância"];
+const heroMarquee = ["Posicionamento", "Narrativa", "Identidade", "Expressão"];
 
 const problemas = [
   {
     number: "01",
-    title: "A marca envergonha o dono",
+    title: "Crescem sem posicionamento",
     description:
-      "O negócio cresceu, o time melhorou, o produto evoluiu. Mas a marca ainda parece a mesma do começo. Apresentar a empresa vira um pedido de desculpa.",
+      "Executam, vendem, mas ninguém entende por que escolher essa marca ao invés de outra. Resultado: concorrência por preço.",
   },
   {
     number: "02",
-    title: "O mercado não entende mais o que você é",
+    title: "Investem sem direcionamento",
     description:
-      "A empresa mudou de segmento, expandiu o portfólio ou passou a atender um público diferente — mas a marca ainda comunica o que você era antes. O mercado olha para a versão antiga.",
+      "Marketing, propaganda, design — tudo acontece sem conexão com uma estratégia central. Gasto sem retorno claro.",
   },
   {
     number: "03",
-    title: "Concorrentes parecem maiores do que são",
+    title: "Vendem sem margem",
     description:
-      "Não é que eles sejam melhores. É que a marca deles parece maior, mais confiável, mais profissional. E no mercado, percepção é realidade. Você perde negócios que deveria ganhar.",
+      "Precisam descontar pra vender porque o mercado não entende o valor real. Estrutura cresce, mas a marca não.",
   },
   {
     number: "04",
-    title: "A marca não converte mais",
+    title: "Não conseguem escalar",
     description:
-      "O que funcionou para crescer até aqui não está funcionando para o próximo nível. A marca perdeu relevância para o público que você agora quer atrair.",
+      "Dependem do dono ou do time para vender. Marca não trabalha sozinha no mercado. Não cresce sem você.",
   },
 ];
 
 const principios = [
   {
     rom: "I",
-    title: "Estratégia antes de estética.",
+    title: "Decidir antes de executar.",
     description:
-      "Rebranding não começa pelo logo. Começa pela pergunta: o que o negócio se tornou, e o que a marca precisa comunicar agora? Identidade visual é consequência — não ponto de partida.",
+      "Estratégia precede estética. Toda decisão visual nasce de uma decisão de negócio.",
   },
   {
     rom: "II",
-    title: "Preservar o que foi construído.",
+    title: "Marca é ativo, não enfeite.",
     description:
-      "Capital de marca não é descartável. Anos de relacionamento, reconhecimento e memória têm valor — e precisam ser mantidos mesmo quando a expressão muda. Evolução, não demolição.",
+      "Construímos marcas que sustentam preço, atraem talento e duram décadas — não trimestres.",
   },
   {
     rom: "III",
-    title: "Sistema, não intervenção pontual.",
+    title: "Sistema, não peças soltas.",
     description:
-      "Trocar o logo sem ajustar posicionamento, narrativa e expressão é desperdício. Um rebranding real entrega um sistema coerente — para que a nova marca funcione em todos os pontos de contato.",
-  },
-];
-
-const sinais = [
-  {
-    number: "01",
-    title: "A empresa cresceu de segmento",
-    description:
-      "Começou atendendo PMEs e agora quer grandes corporações. Ou saiu do regional para o nacional. A marca precisa acompanhar essa mudança de patamar.",
-  },
-  {
-    number: "02",
-    title: "O público mudou",
-    description:
-      "O cliente de hoje não é o mesmo de quando a marca foi criada. Valores, estética e referências do seu público evoluíram — e a marca ficou para trás.",
-  },
-  {
-    number: "03",
-    title: "Fusão, aquisição ou expansão",
-    description:
-      "A estrutura do negócio mudou. Empresas foram unidas, portfólios foram expandidos, novos mercados foram abertos. A marca precisa refletir essa nova realidade.",
-  },
-  {
-    number: "04",
-    title: "A marca perdeu relevância",
-    description:
-      "O mercado mudou ao redor, os concorrentes evoluíram e a sua marca ficou parada no tempo. Não é crise — é momento de atualização estratégica antes que vire crise.",
-  },
-  {
-    number: "05",
-    title: "A identidade nunca foi estratégica",
-    description:
-      "A marca foi criada no início, com pressa, sem método. Funcionou para começar — mas o negócio cresceu além dela. Chegou a hora de fazer certo.",
-  },
-  {
-    number: "06",
-    title: "Abertura de capital ou novo ciclo de investimento",
-    description:
-      "Quando o negócio entra em uma nova fase de captação ou escala, a marca precisa sustentar a credibilidade que esse momento exige.",
+      "Entregamos uma lógica de expressão coerente, não um amontoado de artes desconectadas.",
   },
 ];
 
@@ -158,90 +120,108 @@ const etapas = [
     title: "Diagnóstico",
     duration: "2 a 3 semanas",
     description:
-      "Aplicamos o Ciclo de Marca para entender em que fase a marca está hoje, o que gerou o desalinhamento e o que precisa ser preservado versus o que precisa mudar. É aqui que decidimos o alcance do rebranding.",
+      "Mergulho no negócio, no mercado e na percepção atual. Respondemos: em qual fase a marca está e o que precisa ser resolvido primeiro.",
     entregas: [
-      "Diagnóstico do Ciclo de Marca",
-      "Auditoria de percepção",
-      "Mapeamento de equity",
-      "Relatório de recomendação",
+      "Imersão executiva",
+      "Pesquisa de percepção",
+      "Mapeamento competitivo",
+      "Relatório estratégico",
     ],
   },
   {
     number: "02",
-    title: "Estratégia de evolução",
+    title: "Estratégia",
     duration: "3 a 4 semanas",
     description:
-      "Redefinimos o território da marca para o próximo ciclo: novo posicionamento, nova promessa, novo público ou reafirmação do que já existe. Decidimos o que muda, o que fica e o que é amplificado.",
+      "Definição do território da marca: propósito, posicionamento, público, promessa e arquitetura. Aqui o negócio ganha clareza sobre onde quer chegar.",
     entregas: [
-      "Plataforma de marca atualizada",
-      "Novo posicionamento",
-      "Estratégia de transição",
-      "Arquitetura revisada",
+      "Plataforma de marca",
+      "Posicionamento",
+      "Arquitetura de marca",
+      "Personalidade",
     ],
   },
   {
     number: "03",
-    title: "Narrativa renovada",
+    title: "Narrativa",
     duration: "2 a 3 semanas",
     description:
-      "A nova estratégia vira linguagem. Reconstruímos a voz da marca, os territórios de conteúdo e os manifestos para que a marca diga — de forma consistente — quem ela é agora.",
-    entregas: [
-      "Tom de voz revisado",
-      "Manifesto",
-      "Mensagens-chave",
-      "Naming (quando aplicável)",
-    ],
+      "Tradução da estratégia em linguagem. Construímos a voz, os territórios de conteúdo e os manifestos que dão consistência a tudo o que a marca diz.",
+    entregas: ["Tom de voz", "Manifesto", "Naming (quando aplicável)", "Mensagens-chave"],
   },
   {
     number: "04",
-    title: "Nova identidade",
+    title: "Identidade",
     duration: "4 a 6 semanas",
     description:
-      "O sistema visual é redesenhado a partir da nova estratégia — preservando o que tem valor de reconhecimento e renovando o que estava desalinhado. O resultado é uma marca que parece nova, mas não estranha.",
-    entregas: [
-      "Símbolo e logotipo",
-      "Tipografia e paleta",
-      "Princípios visuais",
-      "Aplicações principais",
-    ],
+      "Sistema visual que expressa a estratégia. Símbolo, tipografia, cor e composição se organizam como um vocabulário — não como um conjunto de peças soltas.",
+    entregas: ["Símbolo e logotipo", "Tipografia", "Paleta cromática", "Princípios visuais"],
   },
   {
     number: "05",
-    title: "Sistema e transição",
+    title: "Sistema",
     duration: "3 a 5 semanas",
     description:
-      "A nova marca precisa entrar no mercado de forma ordenada. Manual, guidelines, plano de transição e handoff para que times internos e parceiros apliquem a marca corretamente desde o primeiro dia.",
-    entregas: [
-      "Manual de marca",
-      "Plano de transição",
-      "Templates e aplicações",
-      "Handoff e treinamento",
-    ],
+      "Operacionalização. Manual, guidelines, templates e a estrutura para que a marca viva consistente entre times internos, parceiros e fornecedores.",
+    entregas: ["Manual de marca", "Aplicações-chave", "Templates", "Handoff e treinamento"],
+  },
+];
+
+const entregaveis = [
+  {
+    number: "01",
+    title: "Manual de Marca",
+    description:
+      "O documento que guia todas as decisões futuras. Sem isso, sua marca vira inconsistente. Com isso, qualquer pessoa na sua equipe sabe como falar em nome da marca.",
+  },
+  {
+    number: "02",
+    title: "Identidade Visual",
+    description:
+      "Logo, tipografia, paleta de cores, iconografia e sistema de componentes. Tudo funciona como um vocabulário visual coeso — não como peças desconectadas.",
+  },
+  {
+    number: "03",
+    title: "Aplicações",
+    description:
+      "Como a marca funciona na prática: rotulagem, material impresso, templates digitais, assinatura de e-mail. Cada ponto de contato é pensado.",
+  },
+  {
+    number: "04",
+    title: "Sistema de Expressão",
+    description:
+      "Padrões de fotografia, ilustração, linguagem visual, tom de voz. É o que torna sua marca reconhecível — quando alguém vê, já sabe que é você.",
+  },
+  {
+    number: "05",
+    title: "Guia de Implementação",
+    description:
+      "Como aplicar a marca no dia a dia — desde a comunicação interna até o ponto de venda. Nada fica ao acaso. Sua equipe sabe exatamente o que fazer.",
   },
 ];
 
 const resultados = [
   {
     number: "01",
-    title: "Relevância recuperada",
+    title: "Venda com margem",
     description:
-      "A marca volta a fazer sentido para o mercado que você quer atrair. O mercado entende o que você é, por que você importa e por que escolher você.",
+      "Quando há percepção de valor, o cliente aceita pagar mais. Não precisa descontar. Margem melhora, e o crescimento não depende mais de volume.",
   },
   {
     number: "02",
-    title: "Credibilidade que o negócio merece",
+    title: "Fidelidade",
     description:
-      "A expressão da marca finalmente representa o tamanho real do negócio. Você para de pedir desculpa pela identidade e começa a usá-la como argumento de venda.",
+      "Cliente volta porque entende por que a marca vale. Não compra uma vez — compra consistentemente. Lifetime value e recomendações crescem naturalmente.",
   },
   {
     number: "03",
-    title: "Time e mercado alinhados",
+    title: "Independência",
     description:
-      "Quando a marca é clara, todo mundo sabe como falar por ela. Time interno, parceiros e fornecedores se alinham com menos fricção. A marca trabalha a seu favor, não contra.",
+      "Marca trabalha sozinha no mercado. Não depende de você vender, de propaganda ou de desconto. Cresce por reputação, não por grito.",
   },
 ];
 
-// TODO: trocar pelos links reais (mesma pendência da tela de branding).
+// TODO: trocar pelos links reais (LinkedIn, Instagram, WhatsApp, YouTube).
 const socials = [
   { label: "LinkedIn", href: "#", Icon: Linkedin },
   { label: "Instagram", href: "#", Icon: Instagram },
@@ -249,7 +229,7 @@ const socials = [
   { label: "YouTube", href: "#", Icon: Youtube },
 ];
 
-function RebrandingPage() {
+function BrandingPage() {
   const { destaques, projetos } = Route.useLoaderData();
 
   return (
@@ -262,17 +242,17 @@ function RebrandingPage() {
         <ServiceHero
           id="hero"
           number="01"
-          label="Serviços / Rebranding"
+          label="Serviços / Branding"
           title={
             <>
-              A marca cresceu.{" "}
+              Marcas não nascem.{" "}
               <span className="font-light italic text-mint-ink">
-                A identidade ficou para trás.
+                Marcas são construídas.
               </span>
             </>
           }
-          lead="Rebranding não é redesenhar um logo. É realinhar a expressão da marca com o que o negócio se tornou — preservando o capital que já foi construído e abrindo espaço para o próximo ciclo de crescimento. Quando a marca não representa mais a empresa, o mercado não entende o que você é."
-          ctaLabel="Conversar sobre a minha marca"
+          lead="Construir uma marca é diferente de criar um logo ou escolher cores. É definir o lugar que a marca ocupa na mente do mercado, a narrativa que a sustenta, e como ela se expressa em cada ponto de contato. Quando bem feita, branding transforma percepção — e percepção de valor é o que permite vender com margem, sem desconto."
+          ctaLabel="Descubra o momento da sua marca"
           ctaHref="#contato"
           marqueeWords={heroMarquee}
         />
@@ -291,12 +271,12 @@ function RebrandingPage() {
               </div>
             </Rise>
 
-            <h2 className="mt-10 max-w-[22ch] font-display text-[clamp(2.25rem,5vw,4.5rem)] font-semibold leading-[1] tracking-[-0.04em] text-background">
+            <h2 className="mt-10 max-w-[20ch] font-display text-[clamp(2.25rem,5vw,4.5rem)] font-semibold leading-[1] tracking-[-0.04em] text-background">
               <Reveal delay={0.06}>
                 <>
-                  Quando a marca não acompanha{" "}
+                  Marcas sem branding não conseguem{" "}
                   <span className="font-light italic text-mint">
-                    o negócio que você construiu.
+                    sair da correria.
                   </span>
                 </>
               </Reveal>
@@ -337,12 +317,12 @@ function RebrandingPage() {
             <Rise>
               <SectionKicker number="03" label="No que acreditamos" />
             </Rise>
-            <h2 className="mt-10 max-w-[24ch] font-display text-[clamp(2rem,4.5vw,4rem)] font-semibold leading-[1.02] tracking-[-0.035em]">
+            <h2 className="mt-10 max-w-[22ch] font-display text-[clamp(2rem,4.5vw,4rem)] font-semibold leading-[1.02] tracking-[-0.035em]">
               <Reveal delay={0.06}>
                 <>
-                  Três princípios que{" "}
-                  <span className="font-light italic text-mint-ink">guiam</span>{" "}
-                  todo processo de evolução.
+                  Três princípios{" "}
+                  <span className="font-light italic text-mint-ink">orientam</span>{" "}
+                  tudo o que entregamos.
                 </>
               </Reveal>
             </h2>
@@ -370,91 +350,74 @@ function RebrandingPage() {
             <Rise delay={0.1}>
               <div className="mt-14 bg-mint p-8 md:mt-20 md:p-12">
                 <p className="max-w-[68ch] font-display text-xl font-medium leading-snug tracking-[-0.02em] text-foreground md:text-2xl">
-                  Rebranding feito certo não apaga o passado — ele usa o que foi
-                  construído como base para o próximo ciclo.
+                  Quando esses três princípios estão alinhados, a marca não depende
+                  mais de propaganda — o mercado a escolhe porque a entende.
                 </p>
               </div>
             </Rise>
           </div>
         </section>
 
-        {/* 04 — QUANDO FAZ SENTIDO (sinais) */}
-        <section
-          id="quando"
-          className="scroll-mt-24 border-t border-border px-6 py-24 md:px-10 md:py-36"
-        >
-          <div className="mx-auto max-w-[1400px]">
-            <Rise>
-              <SectionKicker number="04" label="Quando faz sentido" />
-            </Rise>
-            <h2 className="mt-10 max-w-[26ch] font-display text-[clamp(2rem,4.5vw,4rem)] font-semibold leading-[1.02] tracking-[-0.035em]">
-              <Reveal delay={0.06}>
-                <>
-                  Os sinais de que é hora de{" "}
-                  <span className="font-light italic text-mint-ink">
-                    evoluir a marca.
-                  </span>
-                </>
-              </Reveal>
-            </h2>
-            <Rise delay={0.12}>
-              <p className="mt-8 max-w-[52ch] text-base leading-relaxed text-muted-foreground md:text-lg">
-                Nem toda marca precisa de rebranding agora. Mas existem sinais
-                claros de que chegou a hora.
-              </p>
-            </Rise>
-
-            <div className="mt-16 grid gap-x-12 md:mt-24 md:grid-cols-2">
-              {sinais.map((s, i) => (
-                <Rise
-                  key={s.number}
-                  delay={(i % 2) * 0.08}
-                  className="flex items-start gap-6 border-t border-border py-10 md:py-12"
-                >
-                  <span className="pt-1.5 font-mono text-xs tabular-nums text-muted-foreground">
-                    {s.number}
-                  </span>
-                  <div>
-                    <h3 className="font-display text-xl font-semibold leading-tight tracking-[-0.02em] md:text-2xl">
-                      {s.title}
-                    </h3>
-                    <p className="mt-3 max-w-[42ch] text-sm leading-relaxed text-muted-foreground md:text-base">
-                      {s.description}
-                    </p>
-                  </div>
-                </Rise>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* 05 — PROCESSO (timeline) */}
+        {/* 04 — MÉTODO (timeline rica) */}
         <section
           id="processo"
           className="scroll-mt-24 border-t border-border px-6 py-24 md:px-10 md:py-36"
         >
           <div className="mx-auto max-w-[1400px]">
             <Rise>
-              <SectionKicker number="05" label="Processo" />
+              <SectionKicker number="04" label="Método" />
             </Rise>
-            <h2 className="mt-10 max-w-[26ch] font-display text-[clamp(2rem,4.5vw,4rem)] font-semibold leading-[1.02] tracking-[-0.035em]">
+            <h2 className="mt-10 max-w-[24ch] font-display text-[clamp(2rem,4.5vw,4rem)] font-semibold leading-[1.02] tracking-[-0.035em]">
               <Reveal delay={0.06}>
                 <>
-                  Cinco etapas.{" "}
-                  <span className="font-light italic text-mint-ink">Uma lógica:</span>{" "}
-                  do diagnóstico ao sistema renovado.
+                  Cinco etapas,{" "}
+                  <span className="font-light italic text-mint-ink">uma lógica:</span>{" "}
+                  do diagnóstico ao sistema vivo.
                 </>
               </Reveal>
             </h2>
             <Rise delay={0.12}>
               <p className="mt-8 max-w-[52ch] text-base leading-relaxed text-muted-foreground md:text-lg">
-                Rebranding não começa pelo visual. Começa pela compreensão do que
-                a marca é hoje, do que o negócio se tornou e de onde precisa
-                chegar.
+                Cada etapa entrega artefatos concretos e abre a próxima. Nenhum
+                trabalho começa pela identidade — começa pela decisão.
               </p>
             </Rise>
 
             <ProcessTimeline steps={etapas} />
+          </div>
+        </section>
+
+        {/* 05 — ENTREGÁVEIS */}
+        <section
+          id="entregaveis"
+          className="scroll-mt-24 border-t border-border px-6 py-24 md:px-10 md:py-36"
+        >
+          <div className="mx-auto max-w-[1400px]">
+            <Rise>
+              <SectionKicker number="05" label="O que você leva" />
+            </Rise>
+            <h2 className="mt-10 max-w-[22ch] font-display text-[clamp(2rem,4.5vw,4rem)] font-semibold leading-[1.02] tracking-[-0.035em]">
+              <Reveal delay={0.06}>
+                <>
+                  Branding é um{" "}
+                  <span className="font-light italic text-mint-ink">
+                    pacote completo.
+                  </span>
+                </>
+              </Reveal>
+            </h2>
+
+            <div className="mt-16 grid gap-x-10 gap-y-14 md:mt-24 md:grid-cols-2 lg:grid-cols-3">
+              {entregaveis.map((d, i) => (
+                <DeliverableCard
+                  key={d.number}
+                  number={d.number}
+                  title={d.title}
+                  description={d.description}
+                  delay={(i % 3) * 0.05}
+                />
+              ))}
+            </div>
           </div>
         </section>
 
@@ -471,22 +434,20 @@ function RebrandingPage() {
               <h2 className="max-w-[20ch] font-display text-[clamp(2rem,4.5vw,4rem)] font-semibold leading-[1.02] tracking-[-0.035em] md:col-span-8">
                 <Reveal delay={0.06}>
                   <>
-                    Marcas que{" "}
-                    <span className="font-light italic text-mint-ink">evoluíram</span>{" "}
-                    sem perder o que tinham.
+                    Marcas que confiaram{" "}
+                    <span className="font-light italic text-mint-ink">no processo.</span>
                   </>
                 </Reveal>
               </h2>
               <Rise delay={0.12} className="md:col-span-4">
                 <p className="text-base leading-relaxed text-muted-foreground md:text-lg">
-                  Cada projeto de rebranding começa por entender o que foi
-                  construído. O que muda é a expressão — o propósito é preservado
-                  e amplificado.
+                  Uma seleção dos trabalhos mais recentes. Cada projeto começou por
+                  uma decisão de negócio — e terminou em um sistema de marca.
                 </p>
               </Rise>
             </div>
 
-            {/* Destaques — 2 por linha (cards grandes) */}
+            {/* 6 destaques — 2 por linha (cards grandes) */}
             <div className="mt-16 grid gap-x-8 gap-y-16 md:mt-24 md:grid-cols-2 md:gap-y-24">
               {destaques.map((c, i) => (
                 <CaseCard
@@ -505,39 +466,30 @@ function RebrandingPage() {
 
           {/* Carrossel — repertório ilimitado (full-bleed) */}
           <div className="mt-28 border-t border-border pt-20 md:mt-40 md:pt-28">
-            {/* Carrossel só aparece quando há projetos de rebranding cadastrados. */}
-            {projetos.length > 0 && (
-              <>
-                <div className="mx-auto mb-14 max-w-[1400px] md:mb-20">
-                  <Rise>
-                    <div className="flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
-                      <span aria-hidden>—</span>
-                      <span>Mais projetos</span>
-                    </div>
-                  </Rise>
-                  <h3 className="mt-8 max-w-[18ch] font-display text-[clamp(1.75rem,4vw,3.25rem)] font-semibold leading-[1.03] tracking-[-0.03em]">
-                    <Reveal delay={0.06}>
-                      <>
-                        Um recorte mais amplo do{" "}
-                        <span className="font-light italic text-mint-ink">repertório.</span>
-                      </>
-                    </Reveal>
-                  </h3>
+            <div className="mx-auto mb-14 max-w-[1400px] md:mb-20">
+              <Rise>
+                <div className="flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
+                  <span aria-hidden>—</span>
+                  <span>Mais projetos</span>
                 </div>
+              </Rise>
+              <h3 className="mt-8 max-w-[18ch] font-display text-[clamp(1.75rem,4vw,3.25rem)] font-semibold leading-[1.03] tracking-[-0.03em]">
+                <Reveal delay={0.06}>
+                  <>
+                    Um recorte mais amplo do{" "}
+                    <span className="font-light italic text-mint-ink">repertório.</span>
+                  </>
+                </Reveal>
+              </h3>
+            </div>
 
-                <ProjectCarousel projetos={projetos} />
-              </>
-            )}
+            <ProjectCarousel projetos={projetos} />
 
-            <div
-              className={`mx-auto flex max-w-[1400px] flex-col gap-6 md:flex-row md:items-end md:justify-between ${
-                projetos.length > 0 ? "mt-20 border-t border-border pt-12 md:mt-28" : ""
-              }`}
-            >
+            <div className="mx-auto mt-20 flex max-w-[1400px] flex-col gap-6 border-t border-border pt-12 md:mt-28 md:flex-row md:items-end md:justify-between">
               <Rise>
                 <p className="max-w-[46ch] text-lg leading-relaxed text-muted-foreground md:text-xl">
-                  Quer entender se a sua marca chegou ao momento de um rebranding?
-                  Começamos pelo diagnóstico.
+                  Quer saber se a sua marca está no momento certo para um projeto
+                  de branding? Começamos pelo diagnóstico.
                 </p>
               </Rise>
               <Rise delay={0.06}>
@@ -561,8 +513,8 @@ function RebrandingPage() {
             <h2 className="mt-10 max-w-[20ch] font-display text-[clamp(2rem,4.5vw,4rem)] font-semibold leading-[1.02] tracking-[-0.035em]">
               <Reveal delay={0.06}>
                 <>
-                  Quando o rebranding é{" "}
-                  <span className="font-light italic text-mint-ink">feito certo.</span>
+                  Quando branding é construído{" "}
+                  <span className="font-light italic text-mint-ink">de verdade.</span>
                 </>
               </Reveal>
             </h2>
@@ -594,9 +546,9 @@ function RebrandingPage() {
             <h2 className="mt-12 max-w-[24ch] font-display text-[clamp(2.25rem,6vw,5rem)] font-semibold leading-[0.98] tracking-[-0.04em]">
               <Reveal delay={0.06}>
                 <>
-                  Sua marca ainda representa{" "}
+                  Sua marca está crescendo,{" "}
                   <span className="font-light italic text-mint-ink">
-                    o que o negócio virou?
+                    mas você ainda precisa descontar?
                   </span>
                 </>
               </Reveal>
@@ -605,9 +557,8 @@ function RebrandingPage() {
             <Rise delay={0.1}>
               <div className="mt-10 bg-mint p-8 md:p-10">
                 <p className="max-w-[60ch] font-display text-lg font-medium leading-snug tracking-[-0.01em] text-foreground md:text-xl">
-                  Se a resposta for não — ou se você não tiver certeza — é o
-                  momento de entender o que mudou e o que precisa ser feito. Vamos
-                  conversar sobre o seu momento.
+                  Se a resposta é sim, você não tem marca — tem propaganda. Vamos
+                  conversar sobre o que falta.
                 </p>
               </div>
             </Rise>
@@ -615,13 +566,14 @@ function RebrandingPage() {
             <div className="mt-16 grid gap-16 md:mt-20 md:grid-cols-12 md:gap-x-10">
               <Rise delay={0.12} className="md:col-span-5">
                 <p className="max-w-[44ch] text-base leading-relaxed text-muted-foreground md:text-lg">
-                  Descubra se chegou o momento de evoluir a sua marca. Conte sobre
-                  o que mudou no seu negócio — respondemos pessoalmente.
+                  Descubra o que sua marca precisa agora para vender com valor, sem
+                  depender de promoção. Conte um pouco sobre seu momento —
+                  respondemos pessoalmente.
                 </p>
 
                 <div className="mt-10">
                   <ArrowLink href="#contact-form" variant="pill" size="lg">
-                    Conversar sobre a minha marca
+                    Conversar sobre a sua marca
                   </ArrowLink>
                 </div>
 

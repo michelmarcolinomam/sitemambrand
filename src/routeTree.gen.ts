@@ -11,14 +11,14 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SobreRouteImport } from './routes/sobre'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as RebrandingRouteImport } from './routes/rebranding'
 import { Route as EstudioRouteImport } from './routes/estudio'
 import { Route as DiarioRouteImport } from './routes/diario'
+import { Route as CicloDeMarcaRouteImport } from './routes/ciclo-de-marca'
+import { Route as BrandingRouteImport } from './routes/branding'
 import { Route as AdminRouteRouteImport } from './routes/admin/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
-import { Route as ServicosRebrandingRouteImport } from './routes/servicos.rebranding'
-import { Route as ServicosCicloDeMarcaRouteImport } from './routes/servicos.ciclo-de-marca'
-import { Route as ServicosBrandingRouteImport } from './routes/servicos.branding'
 import { Route as CasesSlugRouteImport } from './routes/cases.$slug'
 import { Route as AdminProjetosRouteImport } from './routes/admin/projetos'
 import { Route as AdminContatosRouteImport } from './routes/admin/contatos'
@@ -35,6 +35,11 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RebrandingRoute = RebrandingRouteImport.update({
+  id: '/rebranding',
+  path: '/rebranding',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EstudioRoute = EstudioRouteImport.update({
   id: '/estudio',
   path: '/estudio',
@@ -43,6 +48,16 @@ const EstudioRoute = EstudioRouteImport.update({
 const DiarioRoute = DiarioRouteImport.update({
   id: '/diario',
   path: '/diario',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CicloDeMarcaRoute = CicloDeMarcaRouteImport.update({
+  id: '/ciclo-de-marca',
+  path: '/ciclo-de-marca',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BrandingRoute = BrandingRouteImport.update({
+  id: '/branding',
+  path: '/branding',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminRouteRoute = AdminRouteRouteImport.update({
@@ -59,21 +74,6 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AdminRouteRoute,
-} as any)
-const ServicosRebrandingRoute = ServicosRebrandingRouteImport.update({
-  id: '/servicos/rebranding',
-  path: '/servicos/rebranding',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ServicosCicloDeMarcaRoute = ServicosCicloDeMarcaRouteImport.update({
-  id: '/servicos/ciclo-de-marca',
-  path: '/servicos/ciclo-de-marca',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ServicosBrandingRoute = ServicosBrandingRouteImport.update({
-  id: '/servicos/branding',
-  path: '/servicos/branding',
-  getParentRoute: () => rootRouteImport,
 } as any)
 const CasesSlugRoute = CasesSlugRouteImport.update({
   id: '/cases/$slug',
@@ -104,32 +104,32 @@ const AdminCasesIdRoute = AdminCasesIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteRouteWithChildren
+  '/branding': typeof BrandingRoute
+  '/ciclo-de-marca': typeof CicloDeMarcaRoute
   '/diario': typeof DiarioRoute
   '/estudio': typeof EstudioRoute
+  '/rebranding': typeof RebrandingRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre': typeof SobreRoute
   '/admin/contatos': typeof AdminContatosRoute
   '/admin/projetos': typeof AdminProjetosRoute
   '/cases/$slug': typeof CasesSlugRoute
-  '/servicos/branding': typeof ServicosBrandingRoute
-  '/servicos/ciclo-de-marca': typeof ServicosCicloDeMarcaRoute
-  '/servicos/rebranding': typeof ServicosRebrandingRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/cases/$id': typeof AdminCasesIdRoute
   '/api/public/contact': typeof ApiPublicContactRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/branding': typeof BrandingRoute
+  '/ciclo-de-marca': typeof CicloDeMarcaRoute
   '/diario': typeof DiarioRoute
   '/estudio': typeof EstudioRoute
+  '/rebranding': typeof RebrandingRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre': typeof SobreRoute
   '/admin/contatos': typeof AdminContatosRoute
   '/admin/projetos': typeof AdminProjetosRoute
   '/cases/$slug': typeof CasesSlugRoute
-  '/servicos/branding': typeof ServicosBrandingRoute
-  '/servicos/ciclo-de-marca': typeof ServicosCicloDeMarcaRoute
-  '/servicos/rebranding': typeof ServicosRebrandingRoute
   '/admin': typeof AdminIndexRoute
   '/admin/cases/$id': typeof AdminCasesIdRoute
   '/api/public/contact': typeof ApiPublicContactRoute
@@ -138,16 +138,16 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteRouteWithChildren
+  '/branding': typeof BrandingRoute
+  '/ciclo-de-marca': typeof CicloDeMarcaRoute
   '/diario': typeof DiarioRoute
   '/estudio': typeof EstudioRoute
+  '/rebranding': typeof RebrandingRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre': typeof SobreRoute
   '/admin/contatos': typeof AdminContatosRoute
   '/admin/projetos': typeof AdminProjetosRoute
   '/cases/$slug': typeof CasesSlugRoute
-  '/servicos/branding': typeof ServicosBrandingRoute
-  '/servicos/ciclo-de-marca': typeof ServicosCicloDeMarcaRoute
-  '/servicos/rebranding': typeof ServicosRebrandingRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/cases/$id': typeof AdminCasesIdRoute
   '/api/public/contact': typeof ApiPublicContactRoute
@@ -157,32 +157,32 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/admin'
+    | '/branding'
+    | '/ciclo-de-marca'
     | '/diario'
     | '/estudio'
+    | '/rebranding'
     | '/sitemap.xml'
     | '/sobre'
     | '/admin/contatos'
     | '/admin/projetos'
     | '/cases/$slug'
-    | '/servicos/branding'
-    | '/servicos/ciclo-de-marca'
-    | '/servicos/rebranding'
     | '/admin/'
     | '/admin/cases/$id'
     | '/api/public/contact'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/branding'
+    | '/ciclo-de-marca'
     | '/diario'
     | '/estudio'
+    | '/rebranding'
     | '/sitemap.xml'
     | '/sobre'
     | '/admin/contatos'
     | '/admin/projetos'
     | '/cases/$slug'
-    | '/servicos/branding'
-    | '/servicos/ciclo-de-marca'
-    | '/servicos/rebranding'
     | '/admin'
     | '/admin/cases/$id'
     | '/api/public/contact'
@@ -190,16 +190,16 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/admin'
+    | '/branding'
+    | '/ciclo-de-marca'
     | '/diario'
     | '/estudio'
+    | '/rebranding'
     | '/sitemap.xml'
     | '/sobre'
     | '/admin/contatos'
     | '/admin/projetos'
     | '/cases/$slug'
-    | '/servicos/branding'
-    | '/servicos/ciclo-de-marca'
-    | '/servicos/rebranding'
     | '/admin/'
     | '/admin/cases/$id'
     | '/api/public/contact'
@@ -208,14 +208,14 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRouteRoute: typeof AdminRouteRouteWithChildren
+  BrandingRoute: typeof BrandingRoute
+  CicloDeMarcaRoute: typeof CicloDeMarcaRoute
   DiarioRoute: typeof DiarioRoute
   EstudioRoute: typeof EstudioRoute
+  RebrandingRoute: typeof RebrandingRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SobreRoute: typeof SobreRoute
   CasesSlugRoute: typeof CasesSlugRoute
-  ServicosBrandingRoute: typeof ServicosBrandingRoute
-  ServicosCicloDeMarcaRoute: typeof ServicosCicloDeMarcaRoute
-  ServicosRebrandingRoute: typeof ServicosRebrandingRoute
   ApiPublicContactRoute: typeof ApiPublicContactRoute
 }
 
@@ -235,6 +235,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/rebranding': {
+      id: '/rebranding'
+      path: '/rebranding'
+      fullPath: '/rebranding'
+      preLoaderRoute: typeof RebrandingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/estudio': {
       id: '/estudio'
       path: '/estudio'
@@ -247,6 +254,20 @@ declare module '@tanstack/react-router' {
       path: '/diario'
       fullPath: '/diario'
       preLoaderRoute: typeof DiarioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ciclo-de-marca': {
+      id: '/ciclo-de-marca'
+      path: '/ciclo-de-marca'
+      fullPath: '/ciclo-de-marca'
+      preLoaderRoute: typeof CicloDeMarcaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/branding': {
+      id: '/branding'
+      path: '/branding'
+      fullPath: '/branding'
+      preLoaderRoute: typeof BrandingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin': {
@@ -269,27 +290,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/'
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRouteRoute
-    }
-    '/servicos/rebranding': {
-      id: '/servicos/rebranding'
-      path: '/servicos/rebranding'
-      fullPath: '/servicos/rebranding'
-      preLoaderRoute: typeof ServicosRebrandingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/servicos/ciclo-de-marca': {
-      id: '/servicos/ciclo-de-marca'
-      path: '/servicos/ciclo-de-marca'
-      fullPath: '/servicos/ciclo-de-marca'
-      preLoaderRoute: typeof ServicosCicloDeMarcaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/servicos/branding': {
-      id: '/servicos/branding'
-      path: '/servicos/branding'
-      fullPath: '/servicos/branding'
-      preLoaderRoute: typeof ServicosBrandingRouteImport
-      parentRoute: typeof rootRouteImport
     }
     '/cases/$slug': {
       id: '/cases/$slug'
@@ -350,14 +350,14 @@ const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRouteRoute: AdminRouteRouteWithChildren,
+  BrandingRoute: BrandingRoute,
+  CicloDeMarcaRoute: CicloDeMarcaRoute,
   DiarioRoute: DiarioRoute,
   EstudioRoute: EstudioRoute,
+  RebrandingRoute: RebrandingRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SobreRoute: SobreRoute,
   CasesSlugRoute: CasesSlugRoute,
-  ServicosBrandingRoute: ServicosBrandingRoute,
-  ServicosCicloDeMarcaRoute: ServicosCicloDeMarcaRoute,
-  ServicosRebrandingRoute: ServicosRebrandingRoute,
   ApiPublicContactRoute: ApiPublicContactRoute,
 }
 export const routeTree = rootRouteImport

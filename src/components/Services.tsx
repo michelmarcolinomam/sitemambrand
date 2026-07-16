@@ -7,13 +7,13 @@ const services = [
     number: "01",
     name: "Branding",
     desc: "Construção estratégica de marcas — posicionamento, narrativa, identidade e sistema de expressão.",
-    to: "/servicos/branding",
+    to: "/branding",
   },
   {
     number: "02",
     name: "Rebranding",
     desc: "Reposicionamento e evolução de marcas que precisam responder a um novo momento de mercado.",
-    to: "/servicos/rebranding",
+    to: "/rebranding",
   },
   {
     number: "03",

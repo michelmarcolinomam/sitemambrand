@@ -10,7 +10,7 @@ import { ArrowLink } from "@/components/servico/ArrowLink";
 import { ContactForm } from "@/components/servico/ContactForm";
 import { ScrollProgress } from "@/components/servico/ScrollProgress";
 
-export const Route = createFileRoute("/servicos/ciclo-de-marca")({
+export const Route = createFileRoute("/ciclo-de-marca")({
   head: () => ({
     meta: [
       { title: "Ciclo de Marca — MAM Branding" },
