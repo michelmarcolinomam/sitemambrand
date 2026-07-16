@@ -12,7 +12,7 @@
 
 ## Banco de dados (Supabase)
 - **Projeto:** `mam-site` (ref `uelrxokvxiqgjdlwhkzw`), sa-east-1 — **separado** do banco do sistema de gestão (`gestor-mam`).
-- **Tabelas:** `cases` (portfólio + página completa em `content` jsonb), `portfolio_projects` (carrossel), `contacts` (formulário).
+- **Tabelas:** `cases` (portfólio + página completa em `content` jsonb), `portfolio_projects` (carrossel), `contacts` (formulário). `cases` e `portfolio_projects` têm a coluna **`service`** (`branding` / `rebranding`, default `branding`) que separa o portfólio de cada tela de serviço.
 - **Storage:** bucket público `site` (imagens dos cases). Leitura pública por URL; escrita só do admin.
 - **Segurança (RLS):** público só lê o que está `published`; escrita/uploads só para `contato@mamgestao.com` (função `public.is_admin()`).
 - **Env vars:** `.env` local já configurado. **Na Vercel, configurar** `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY` (valores no `.env`). O `SUPABASE_SERVICE_ROLE_KEY` **não é mais necessário**.
@@ -104,8 +104,11 @@ Decisões desta tela (definidas pelo Michel):
 **Hero (layout) — 2026-07-13:** o hero foi remontado no **mesmo layout da seção 3 da home** (o
 `CicloDeMarca` "Metodologia proprietária"): fundo **mint**, kicker no topo, **título à esquerda**
 (col-span-7) + **texto de apoio + CTA à direita** (col-start-9), e o **gráfico animado full-width embaixo**.
-Conteúdo é o que o Michel codou. Valores finais da animação: pontos **pretos** (`fill-foreground`), traço
-**2,25px**, desenho de **6s**.
+Conteúdo é o que o Michel codou. O navbar/logo é o `<Navbar/>` oficial (`/mam-logo.svg`) — não recriar na mão.
+Navbar agora com **fundo branco sólido** (`bg-background`, era `/85` que sobre o mint puxava esverdeado) — mudança global no `Navbar.tsx`.
+Valores finais da animação: pontos **pretos** (`fill-foreground`), traço **2,25px**, desenho de **6s**.
+Gráfico fica num container mais largo que o texto (`max-w-[1680px]`) e a curva se espalha mais pras laterais
+(nós em `cicloNodes`, x de 45 a 970).
 
 **Animação do gráfico (hero) — 2026-07-13:** o gráfico do ciclo se CONSTRÓI ao entrar em tela: a curva se
 desenha da esquerda p/ direita e cada fase (número + título + texto) aparece no instante em que o traço

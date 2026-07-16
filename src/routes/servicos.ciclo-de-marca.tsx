@@ -45,39 +45,39 @@ const cicloNodes = [
     number: "01",
     label: "Introdução",
     desc: "Construir fundação, identidade e narrativa.",
-    cx: 100,
+    cx: 45,
     cy: 168,
   },
   {
     number: "02",
     label: "Crescimento",
     desc: "Acelerar com consistência e posicionamento.",
-    cx: 280,
+    cx: 241,
     cy: 166,
   },
   {
     number: "03",
     label: "Platô",
     desc: "Reler o mercado e renovar a relevância.",
-    cx: 405,
+    cx: 377,
     cy: 66,
   },
   {
     number: "04",
     label: "Declínio",
     desc: "Diagnosticar causas e decidir o próximo passo.",
-    cx: 700,
+    cx: 698,
     cy: 60,
   },
   {
     number: "05",
     label: "Reestruturação",
     desc: "Reposicionar para o próximo ciclo.",
-    cx: 800,
+    cx: 807,
     cy: 128,
   },
   // ponto final sem rótulo — a linha volta a subir: o próximo ciclo recomeçando.
-  { cx: 950, cy: 44 },
+  { cx: 970, cy: 44 },
 ];
 
 const erros = [
@@ -219,11 +219,12 @@ function CicloDeMarcaPage() {
                 </div>
               </Rise>
             </div>
+          </div>
 
-            {/* Gráfico animado — se constrói e cada fase entra em sincronia. */}
-            <div className="mt-20 md:mt-28">
-              <CicloAnimatedChart nodes={cicloNodes} />
-            </div>
+          {/* Gráfico animado — container mais largo que o texto, amplo "pras
+              laterais". Se constrói e cada fase entra em sincronia. */}
+          <div className="mx-auto mt-20 w-full max-w-[1680px] md:mt-28">
+            <CicloAnimatedChart nodes={cicloNodes} />
           </div>
         </section>
 

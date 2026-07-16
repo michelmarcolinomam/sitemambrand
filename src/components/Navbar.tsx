@@ -61,7 +61,7 @@ export function Navbar() {
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-50 border-b border-border/60 bg-background/85 backdrop-blur-md">
+      <header className="fixed inset-x-0 top-0 z-50 border-b border-border/60 bg-background backdrop-blur-md">
         <div className="mx-auto flex max-w-[1400px] items-center justify-between px-6 py-4 md:px-10 md:py-5">
           <Link to="/" className="flex items-center" aria-label="MAM Branding — início">
             <img src="/mam-logo.svg" alt="MAM Branding" className="h-6 w-auto md:h-7" />
