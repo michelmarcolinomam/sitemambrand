@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { z } from "zod";
 import { toast } from "sonner";
+import { trackLead } from "@/lib/tracking";
 
 const contactSchema = z.object({
   name: z.string().trim().min(1, "Informe seu nome.").max(100),
@@ -58,6 +59,7 @@ export function ContactForm() {
         toast.error("Não foi possível enviar agora. Tente novamente em instantes.");
         return;
       }
+      trackLead("contato_servico");
       toast.success("Recebemos seu contato — em breve respondemos.");
       form.reset();
     } catch {

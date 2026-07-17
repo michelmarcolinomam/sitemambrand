@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { z } from "zod";
 import { toast } from "sonner";
+import { trackLead } from "@/lib/tracking";
 import { Linkedin, Instagram, Youtube, MessageCircle } from "lucide-react";
 import { FadeIn } from "./FadeIn";
 import { SectionKicker } from "./SectionKicker";
@@ -65,6 +66,7 @@ export function ContactCTA() {
         toast.error("Não foi possível enviar agora. Tente novamente em instantes.");
         return;
       }
+      trackLead("contato_home");
       toast.success("Recebemos seu contato — em breve respondemos.");
       form.reset();
     } catch {

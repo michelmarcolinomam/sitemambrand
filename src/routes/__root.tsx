@@ -13,6 +13,7 @@ import { type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { Toaster } from "@/components/ui/sonner";
 import { SITE_URL, SITE_NAME, canonical, structuredDataJson } from "@/lib/seo";
+import { GTAG_SRC, GTAG_BOOTSTRAP } from "@/lib/tracking";
 
 function NotFoundComponent() {
   return (
@@ -134,6 +135,9 @@ function RootShell({ children }: { children: ReactNode }) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: structuredDataJson }}
         />
+        {/* Google tag (GA4 + Google Ads) */}
+        <script async src={GTAG_SRC} />
+        <script dangerouslySetInnerHTML={{ __html: GTAG_BOOTSTRAP }} />
       </head>
       <body>
         {children}
