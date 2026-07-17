@@ -172,14 +172,14 @@ export function Navbar() {
                 </div>
                 <div className="mt-6 flex flex-col gap-4 text-base text-foreground md:text-lg">
                   <a
-                    href="mailto:contato@mambranding.com.br"
+                    href="mailto:contato@mambrand.com.br"
                     className="hover:text-mint-ink"
                   >
-                    contato@mambranding.com.br
+                    contato@mambrand.com.br
                   </a>
                 </div>
                 <a
-                  href="mailto:contato@mambranding.com.br"
+                  href="mailto:contato@mambrand.com.br"
                   onClick={close}
                   className="group mt-10 inline-flex items-center gap-3 text-base font-medium text-foreground md:text-lg"
                 >

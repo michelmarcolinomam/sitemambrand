@@ -30,11 +30,21 @@ export function Footer() {
           </div>
           <ul className="mt-4 space-y-2 text-sm text-foreground">
             <li>
-              <a href="mailto:contato@mambranding.com.br" className="hover:underline">
-                contato@mambranding.com.br
+              <a href="mailto:contato@mambrand.com.br" className="hover:underline">
+                contato@mambrand.com.br
               </a>
             </li>
-            <li className="text-muted-foreground">São Paulo · Brasil</li>
+            <li>
+              <a
+                href="https://wa.me/5544988085474"
+                target="_blank"
+                rel="noreferrer"
+                className="hover:underline"
+              >
+                WhatsApp (44) 98808-5474
+              </a>
+            </li>
+            <li className="text-muted-foreground">Maringá · PR</li>
           </ul>
         </div>
       </div>

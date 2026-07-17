@@ -9,21 +9,34 @@ import { CicloAnimatedChart } from "@/components/servico/CicloAnimatedChart";
 import { ArrowLink } from "@/components/servico/ArrowLink";
 import { ContactForm } from "@/components/servico/ContactForm";
 import { ScrollProgress } from "@/components/servico/ScrollProgress";
+import { serviceJsonLd } from "@/lib/seo";
 
 export const Route = createFileRoute("/ciclo-de-marca")({
   head: () => ({
     meta: [
-      { title: "Ciclo de Marca — MAM Brand" },
+      { title: "Ciclo de Marca: Diagnóstico Estratégico | MAM Brand" },
       {
         name: "description",
         content:
           "Toda marca está em alguma fase do ciclo. O Ciclo de Marca é o diagnóstico proprietário da MAM: identifica o estágio atual, mapeia prioridades e entrega o plano de ação para o próximo movimento estratégico.",
       },
-      { property: "og:title", content: "Ciclo de Marca — MAM Brand" },
+      { property: "og:title", content: "Ciclo de Marca: Diagnóstico Estratégico | MAM Brand" },
       {
         property: "og:description",
         content:
           "Um diagnóstico, não uma opinião. Descubra em qual fase do ciclo sua marca está e qual é o próximo movimento certo.",
+      },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: serviceJsonLd({
+          name: "Ciclo de Marca",
+          serviceType: "Diagnóstico e consultoria estratégica de marca",
+          path: "/ciclo-de-marca",
+          description:
+            "Diagnóstico proprietário que identifica o estágio da marca no seu ciclo de vida e define os próximos movimentos estratégicos.",
+        }),
       },
     ],
   }),
@@ -166,10 +179,10 @@ const portfolio = [
 
 // TODO: trocar pelos links reais (mesma pendência das telas de branding/rebranding).
 const socials = [
-  { label: "LinkedIn", href: "#", Icon: Linkedin },
-  { label: "Instagram", href: "#", Icon: Instagram },
-  { label: "WhatsApp", href: "#", Icon: MessageCircle },
-  { label: "YouTube", href: "#", Icon: Youtube },
+  { label: "LinkedIn", href: "https://www.linkedin.com/company/mambranding/", Icon: Linkedin },
+  { label: "Instagram", href: "https://www.instagram.com/mambranding/", Icon: Instagram },
+  { label: "WhatsApp", href: "https://wa.me/5544988085474", Icon: MessageCircle },
+  { label: "YouTube", href: "https://www.youtube.com/@mambrand/playlists", Icon: Youtube },
 ];
 
 function CicloDeMarcaPage() {
@@ -554,10 +567,10 @@ function CicloDeMarcaPage() {
                     ))}
                   </ul>
                   <a
-                    href="mailto:contato@mambranding.com.br"
+                    href="mailto:contato@mambrand.com.br"
                     className="mt-8 inline-block text-base text-foreground hover:text-mint-ink md:text-lg"
                   >
-                    contato@mambranding.com.br
+                    contato@mambrand.com.br
                   </a>
                 </div>
               </Rise>

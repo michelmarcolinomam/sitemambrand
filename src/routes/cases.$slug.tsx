@@ -16,6 +16,7 @@ import {
 } from "@/components/case/CaseBlocks";
 import { supabase } from "@/integrations/supabase/client";
 import { normalizeCaseContent } from "@/lib/case-content";
+import { breadcrumbJsonLd } from "@/lib/seo";
 
 /* ————————————————————————————————————————————————
    Página de case do portfólio — template Black Herva.
@@ -39,7 +40,7 @@ export const Route = createFileRoute("/cases/$slug")({
       content: normalizeCaseContent(data.content),
     };
   },
-  head: ({ loaderData }) => ({
+  head: ({ loaderData, params }) => ({
     meta: [
       { title: `Case ${loaderData?.title ?? ""} — MAM Brand` },
       { name: "description", content: loaderData?.seoDescription ?? "" },
@@ -48,6 +49,16 @@ export const Route = createFileRoute("/cases/$slug")({
         content: `Case ${loaderData?.title ?? ""} — MAM Brand`,
       },
       { property: "og:description", content: loaderData?.seoDescription ?? "" },
+      { property: "og:type", content: "article" },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: breadcrumbJsonLd([
+          { name: "Início", path: "/" },
+          { name: loaderData?.title ?? "Case", path: `/cases/${params.slug}` },
+        ]),
+      },
     ],
   }),
   component: CasePage,
@@ -55,10 +66,10 @@ export const Route = createFileRoute("/cases/$slug")({
 
 // TODO: trocar pelos links reais (mesmos da tela de branding).
 const socials = [
-  { label: "LinkedIn", href: "#", Icon: Linkedin },
-  { label: "Instagram", href: "#", Icon: Instagram },
-  { label: "WhatsApp", href: "#", Icon: MessageCircle },
-  { label: "YouTube", href: "#", Icon: Youtube },
+  { label: "LinkedIn", href: "https://www.linkedin.com/company/mambranding/", Icon: Linkedin },
+  { label: "Instagram", href: "https://www.instagram.com/mambranding/", Icon: Instagram },
+  { label: "WhatsApp", href: "https://wa.me/5544988085474", Icon: MessageCircle },
+  { label: "YouTube", href: "https://www.youtube.com/@mambrand/playlists", Icon: Youtube },
 ];
 
 function CasePage() {
@@ -528,10 +539,10 @@ function CasePage() {
                       ))}
                     </ul>
                     <a
-                      href="mailto:contato@mambranding.com.br"
+                      href="mailto:contato@mambrand.com.br"
                       className="mt-8 inline-block text-base text-foreground hover:text-mint-ink md:text-lg"
                     >
-                      contato@mambranding.com.br
+                      contato@mambrand.com.br
                     </a>
                   </div>
                 </Rise>

@@ -14,6 +14,7 @@ import { ArrowLink } from "@/components/servico/ArrowLink";
 import { ContactForm } from "@/components/servico/ContactForm";
 import { ScrollProgress } from "@/components/servico/ScrollProgress";
 import { supabase } from "@/integrations/supabase/client";
+import { serviceJsonLd } from "@/lib/seo";
 
 export const Route = createFileRoute("/rebranding")({
   // Portfólio (destaques + carrossel) vem do banco — mesma base da tela de branding, administrada em /admin.
@@ -42,17 +43,29 @@ export const Route = createFileRoute("/rebranding")({
   },
   head: () => ({
     meta: [
-      { title: "Rebranding — MAM Brand" },
+      { title: "Rebranding e Reposicionamento de Marca | MAM Brand" },
       {
         name: "description",
         content:
           "A marca cresceu e a identidade ficou para trás. Rebranding estratégico que realinha a expressão da marca com o que o negócio se tornou — preservando o capital construído.",
       },
-      { property: "og:title", content: "Rebranding — MAM Brand" },
+      { property: "og:title", content: "Rebranding e Reposicionamento de Marca | MAM Brand" },
       {
         property: "og:description",
         content:
           "Do diagnóstico ao sistema renovado: evolução de marca que preserva o que foi construído e recupera relevância.",
+      },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: serviceJsonLd({
+          name: "Rebranding",
+          serviceType: "Rebranding e reposicionamento de marca",
+          path: "/rebranding",
+          description:
+            "Reposicionamento e evolução de marcas que precisam responder a um novo momento de mercado, preservando o capital de marca construído.",
+        }),
       },
     ],
   }),
@@ -243,10 +256,10 @@ const resultados = [
 
 // TODO: trocar pelos links reais (mesma pendência da tela de branding).
 const socials = [
-  { label: "LinkedIn", href: "#", Icon: Linkedin },
-  { label: "Instagram", href: "#", Icon: Instagram },
-  { label: "WhatsApp", href: "#", Icon: MessageCircle },
-  { label: "YouTube", href: "#", Icon: Youtube },
+  { label: "LinkedIn", href: "https://www.linkedin.com/company/mambranding/", Icon: Linkedin },
+  { label: "Instagram", href: "https://www.instagram.com/mambranding/", Icon: Instagram },
+  { label: "WhatsApp", href: "https://wa.me/5544988085474", Icon: MessageCircle },
+  { label: "YouTube", href: "https://www.youtube.com/@mambrand/playlists", Icon: Youtube },
 ];
 
 function RebrandingPage() {
@@ -645,10 +658,10 @@ function RebrandingPage() {
                     ))}
                   </ul>
                   <a
-                    href="mailto:contato@mambranding.com.br"
+                    href="mailto:contato@mambrand.com.br"
                     className="mt-8 inline-block text-base text-foreground hover:text-mint-ink md:text-lg"
                   >
-                    contato@mambranding.com.br
+                    contato@mambrand.com.br
                   </a>
                 </div>
               </Rise>

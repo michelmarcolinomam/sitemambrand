@@ -15,6 +15,7 @@ import { ArrowLink } from "@/components/servico/ArrowLink";
 import { ContactForm } from "@/components/servico/ContactForm";
 import { ScrollProgress } from "@/components/servico/ScrollProgress";
 import { supabase } from "@/integrations/supabase/client";
+import { serviceJsonLd } from "@/lib/seo";
 
 export const Route = createFileRoute("/branding")({
   // Portfólio (destaques + carrossel) vem do banco — administrado em /admin.
@@ -43,17 +44,29 @@ export const Route = createFileRoute("/branding")({
   },
   head: () => ({
     meta: [
-      { title: "Branding — MAM Brand" },
+      { title: "Agência de Branding e Estratégia de Marca | MAM Brand" },
       {
         name: "description",
         content:
           "Marcas construídas para crescer sem desconto. Posicionamento, narrativa, identidade e sistema — branding estratégico que cria percepção de valor.",
       },
-      { property: "og:title", content: "Branding — MAM Brand" },
+      { property: "og:title", content: "Agência de Branding e Estratégia de Marca | MAM Brand" },
       {
         property: "og:description",
         content:
           "Do diagnóstico ao sistema vivo: método de branding que transforma percepção e permite vender com margem.",
+      },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: serviceJsonLd({
+          name: "Branding",
+          serviceType: "Branding e criação de marca",
+          path: "/branding",
+          description:
+            "Construção estratégica de marca: posicionamento, narrativa, identidade e sistema de expressão.",
+        }),
       },
     ],
   }),
@@ -223,10 +236,10 @@ const resultados = [
 
 // TODO: trocar pelos links reais (LinkedIn, Instagram, WhatsApp, YouTube).
 const socials = [
-  { label: "LinkedIn", href: "#", Icon: Linkedin },
-  { label: "Instagram", href: "#", Icon: Instagram },
-  { label: "WhatsApp", href: "#", Icon: MessageCircle },
-  { label: "YouTube", href: "#", Icon: Youtube },
+  { label: "LinkedIn", href: "https://www.linkedin.com/company/mambranding/", Icon: Linkedin },
+  { label: "Instagram", href: "https://www.instagram.com/mambranding/", Icon: Instagram },
+  { label: "WhatsApp", href: "https://wa.me/5544988085474", Icon: MessageCircle },
+  { label: "YouTube", href: "https://www.youtube.com/@mambrand/playlists", Icon: Youtube },
 ];
 
 function BrandingPage() {
@@ -597,10 +610,10 @@ function BrandingPage() {
                     ))}
                   </ul>
                   <a
-                    href="mailto:contato@mambranding.com.br"
+                    href="mailto:contato@mambrand.com.br"
                     className="mt-8 inline-block text-base text-foreground hover:text-mint-ink md:text-lg"
                   >
-                    contato@mambranding.com.br
+                    contato@mambrand.com.br
                   </a>
                 </div>
               </Rise>

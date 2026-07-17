@@ -18,10 +18,10 @@ type FieldErrors = Partial<Record<keyof z.infer<typeof contactSchema>, string>>;
 
 // TODO: trocar pelos links reais quando a MAM enviar (LinkedIn, Instagram, WhatsApp, YouTube)
 const socials = [
-  { label: "LinkedIn", href: "#", Icon: Linkedin },
-  { label: "Instagram", href: "#", Icon: Instagram },
-  { label: "WhatsApp", href: "#", Icon: MessageCircle },
-  { label: "YouTube", href: "#", Icon: Youtube },
+  { label: "LinkedIn", href: "https://www.linkedin.com/company/mambranding/", Icon: Linkedin },
+  { label: "Instagram", href: "https://www.instagram.com/mambranding/", Icon: Instagram },
+  { label: "WhatsApp", href: "https://wa.me/5544988085474", Icon: MessageCircle },
+  { label: "YouTube", href: "https://www.youtube.com/@mambrand/playlists", Icon: Youtube },
 ];
 
 export function ContactCTA() {
@@ -126,10 +126,10 @@ export function ContactCTA() {
                 ))}
               </ul>
               <a
-                href="mailto:contato@mambranding.com.br"
+                href="mailto:contato@mambrand.com.br"
                 className="mt-8 inline-block text-base text-foreground hover:text-mint-ink md:text-lg"
               >
-                contato@mambranding.com.br
+                contato@mambrand.com.br
               </a>
             </div>
           </FadeIn>
