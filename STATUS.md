@@ -1,7 +1,36 @@
 # Status do Site MAM Branding
 
 > Quadro de obra do projeto. Toda sessão (chat ou Claude Code) começa lendo este arquivo.
-> Ao fechar qualquer etapa, atualizar aqui. Última atualização: 2026-07-16.
+> Ao fechar qualquer etapa, atualizar aqui. Última atualização: 2026-07-17.
+
+---
+## 🚦 HANDOFF — onde estamos (2026-07-17)
+
+**Marca:** é **MAM Brand** (NÃO "Branding"). Site no ar em **https://mambrand.com.br** (domínio próprio + SSL). "branding" só sobrevive como nome do *serviço* (`/branding`).
+
+**Fase concluída → SEO on-page 100% completo e no ar.** Feito nesta sessão:
+- **Domínio conectado** (DNS na HostGator/cPanel → Vercel). ⚠️ **NUNCA tocar em MX/SPF/DKIM** (e-mail Titan). Site = apex A `216.198.79.1` + `www` CNAME `cname.vercel-dns.com` (redirect 308 → apex).
+- **URLs limpas** de intenção: `/branding` `/rebranding` `/ciclo-de-marca` (sem `/servicos/`, sem redirect duplicado).
+- **SEO técnico:** sitemap dinâmico (`src/routes/sitemap[.]xml.ts`), robots com `Sitemap:` + `Disallow /admin`, **canonical** por rota (global via `useRouterState` no `__root`), **Open Graph completo** incl. imagem `public/og-cover.jpg` (1200×630), **JSON-LD** em `src/lib/seo.ts` (Organization + WebSite + ProfessionalService **Maringá-PR** + Service por página + BreadcrumbList nos cases). H1 auditado (ok). Títulos/descrições com keyword comercial.
+- **Contato real:** e-mail `contato@mambrand.com.br`, WhatsApp `44988085474` (wa.me/5544988085474), Maringá-PR, redes (IG/LinkedIn/YouTube em `sameAs`). Módulo `src/lib/seo.ts` centraliza.
+- **GA4 + conversão medindo:** conta **MAM GESTÃO**, fluxo Web, **Measurement ID `G-BSFQ9JTVPQ`** (em `src/lib/tracking.ts`). gtag no `__root`. Evento **`generate_lead`** dispara no envio real do form (home + serviço) — **CONFIRMADO no Tempo Real do GA4**.
+- **Search Console:** propriedade `https://mambrand.com.br` **verificada** (auto, via tag GA4) + **sitemap enviado** (Processado, 9 páginas).
+- **Limpeza do domínio:** o domínio tinha histórico de site WordPress/spam (13k+ páginas). Removi os 7 sitemaps velhos do GSC + submeti remoções de prefixo (`/vendor/`, `/wp-content/`, `/serpihan-debu/`). URLs velhas dão 404 → Google desindexa ao longo de semanas.
+
+**Pendências pequenas (não bloqueiam):**
+- [ ] **Marcar `generate_lead` como evento-chave** no GA4 → aparece na lista "Eventos recentes" em até 24h (trava do Google); depois é 1 clique na estrela. Sem isso, o Ads não mede conversão.
+- [ ] Monitorar em GSC → Páginas a queda do spam ao longo das semanas.
+- [ ] Ciclo de Marca ainda tem portfólio placeholder ("Cliente 0X") — o Michel edita.
+
+**➡️ PRÓXIMA FASE (Bloco 2) — Campanha de Google Ads:** o Michel **já criou a conta Google Ads**. A base de medição está pronta (conversão medindo). Falta:
+1. **Vincular GA4 ↔ Google Ads** e **importar `generate_lead`** como conversão no Ads.
+2. Preencher `ADS_ID` (AW-XXXXXXXXX) em `src/lib/tracking.ts` (const já existe, vazia) → gtag passa a alimentar GA4 + Ads.
+3. **Modelar a campanha inteira** (postura de gestor criterioso, medição-primeiro): campanhas por intenção (Branding / Rebranding / Ciclo-Diagnóstico + defesa de marca "MAM Brand"), grupos temáticos, keywords phrase/exact, **negativas** (grátis/curso/emprego/o que é/vaga…), **RSAs** (headlines/descrições), **extensões** (sitelinks p/ as páginas limpas, callouts +13 anos, structured snippets, local+GBP, call), **geo Maringá + região**, orçamento e lances (começar Maximize Clicks/Manual → tCPA após ~15-30 conversões). Mapear **keyword → landing page** (as URLs limpas).
+4. **Montar PAUSADA** — nunca ligar spend sem "pode ativar" do Michel. **Não digitar cartão/billing** (é o Michel).
+- Referência: o Michel forneceu um doc-playbook completo (implementação Korthex: SEO + form Web3Forms + rastreamento) — reaproveitar o framework, trocar valores por cliente.
+
+**Como trabalhar:** posso dirigir o Chrome logado do Michel (Vercel/HostGator/GA4/GSC/Ads) — mas **não digito senha nem cartão**, e **campos de DNS o classificador bloqueia** (o Michel digita). Michel não é programador: explicar simples. Sessões paralelas no repo: checkpoint antes de mexer, commitar só arquivos próprios; push=deploy só com aval.
+---
 
 ## Endereços
 - **Produção:** https://mambrand.com.br (domínio próprio, no ar) — também acessível por https://sitemambrand.vercel.app
