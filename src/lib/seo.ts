@@ -5,6 +5,7 @@
 
 export const SITE_URL = "https://mambrand.com.br";
 export const SITE_NAME = "MAM Brand";
+export const OG_IMAGE = `${SITE_URL}/og-cover.jpg`; // cartão social 1200×630
 export const SITE_DESCRIPTION =
   "Consultoria especializada em construção, evolução e reposicionamento de marcas. Mais de 13 anos de atuação em branding estratégico.";
 

@@ -12,7 +12,7 @@ import { type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { Toaster } from "@/components/ui/sonner";
-import { SITE_URL, SITE_NAME, canonical, structuredDataJson } from "@/lib/seo";
+import { SITE_URL, SITE_NAME, OG_IMAGE, canonical, structuredDataJson } from "@/lib/seo";
 import { GTAG_SRC, GTAG_BOOTSTRAP } from "@/lib/tracking";
 
 function NotFoundComponent() {
@@ -95,7 +95,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:url", content: SITE_URL },
       { property: "og:site_name", content: SITE_NAME },
       { property: "og:locale", content: "pt_BR" },
+      { property: "og:image", content: OG_IMAGE },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: OG_IMAGE },
     ],
     links: [
       {
