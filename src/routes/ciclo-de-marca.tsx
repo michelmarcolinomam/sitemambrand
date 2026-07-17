@@ -13,13 +13,13 @@ import { ScrollProgress } from "@/components/servico/ScrollProgress";
 export const Route = createFileRoute("/ciclo-de-marca")({
   head: () => ({
     meta: [
-      { title: "Ciclo de Marca — MAM Branding" },
+      { title: "Ciclo de Marca — MAM Brand" },
       {
         name: "description",
         content:
           "Toda marca está em alguma fase do ciclo. O Ciclo de Marca é o diagnóstico proprietário da MAM: identifica o estágio atual, mapeia prioridades e entrega o plano de ação para o próximo movimento estratégico.",
       },
-      { property: "og:title", content: "Ciclo de Marca — MAM Branding" },
+      { property: "og:title", content: "Ciclo de Marca — MAM Brand" },
       {
         property: "og:description",
         content:

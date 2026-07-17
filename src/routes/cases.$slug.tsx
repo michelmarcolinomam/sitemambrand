@@ -41,11 +41,11 @@ export const Route = createFileRoute("/cases/$slug")({
   },
   head: ({ loaderData }) => ({
     meta: [
-      { title: `Case ${loaderData?.title ?? ""} — MAM Branding` },
+      { title: `Case ${loaderData?.title ?? ""} — MAM Brand` },
       { name: "description", content: loaderData?.seoDescription ?? "" },
       {
         property: "og:title",
-        content: `Case ${loaderData?.title ?? ""} — MAM Branding`,
+        content: `Case ${loaderData?.title ?? ""} — MAM Brand`,
       },
       { property: "og:description", content: loaderData?.seoDescription ?? "" },
     ],

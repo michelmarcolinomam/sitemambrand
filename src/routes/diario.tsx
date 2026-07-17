@@ -8,12 +8,12 @@ import { FadeIn } from "@/components/FadeIn";
 export const Route = createFileRoute("/diario")({
   head: () => ({
     meta: [
-      { title: "Diário — MAM Branding" },
+      { title: "Diário — MAM Brand" },
       {
         name: "description",
         content: "Notas, ensaios e leituras sobre marca, estratégia e cultura.",
       },
-      { property: "og:title", content: "Diário — MAM Branding" },
+      { property: "og:title", content: "Diário — MAM Brand" },
       {
         property: "og:description",
         content: "Notas, ensaios e leituras sobre marca, estratégia e cultura.",

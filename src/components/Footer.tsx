@@ -4,7 +4,7 @@ export function Footer() {
     <footer className="border-t border-border px-6 py-12 md:px-10 md:py-16">
       <div className="mx-auto grid max-w-[1400px] gap-8 md:grid-cols-12">
         <div className="md:col-span-4">
-          <img src="/mam-logo.svg" alt="MAM Branding" className="h-7 w-auto" />
+          <img src="/mam-logo.svg" alt="MAM Brand" className="h-7 w-auto" />
           <p className="mt-6 max-w-[34ch] text-sm leading-relaxed text-muted-foreground">
             Consultoria especializada em construção, evolução e
             reposicionamento de marcas.
@@ -40,7 +40,7 @@ export function Footer() {
       </div>
 
       <div className="mx-auto mt-16 flex max-w-[1400px] items-center justify-between border-t border-border pt-6 text-xs text-muted-foreground">
-        <span>© {year} MAM Branding</span>
+        <span>© {year} MAM Brand</span>
         <span>Inteligência estratégica para marcas</span>
       </div>
     </footer>

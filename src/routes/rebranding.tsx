@@ -42,13 +42,13 @@ export const Route = createFileRoute("/rebranding")({
   },
   head: () => ({
     meta: [
-      { title: "Rebranding — MAM Branding" },
+      { title: "Rebranding — MAM Brand" },
       {
         name: "description",
         content:
           "A marca cresceu e a identidade ficou para trás. Rebranding estratégico que realinha a expressão da marca com o que o negócio se tornou — preservando o capital construído.",
       },
-      { property: "og:title", content: "Rebranding — MAM Branding" },
+      { property: "og:title", content: "Rebranding — MAM Brand" },
       {
         property: "og:description",
         content:

@@ -76,7 +76,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "MAM Branding | Inteligência Estratégica para Marcas" },
+      { title: "MAM Brand | Inteligência Estratégica para Marcas" },
       {
         name: "description",
         content:
@@ -84,7 +84,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       {
         property: "og:title",
-        content: "MAM Branding | Inteligência Estratégica para Marcas",
+        content: "MAM Brand | Inteligência Estratégica para Marcas",
       },
       {
         property: "og:description",

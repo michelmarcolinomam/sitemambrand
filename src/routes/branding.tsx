@@ -43,13 +43,13 @@ export const Route = createFileRoute("/branding")({
   },
   head: () => ({
     meta: [
-      { title: "Branding — MAM Branding" },
+      { title: "Branding — MAM Brand" },
       {
         name: "description",
         content:
           "Marcas construídas para crescer sem desconto. Posicionamento, narrativa, identidade e sistema — branding estratégico que cria percepção de valor.",
       },
-      { property: "og:title", content: "Branding — MAM Branding" },
+      { property: "og:title", content: "Branding — MAM Brand" },
       {
         property: "og:description",
         content:

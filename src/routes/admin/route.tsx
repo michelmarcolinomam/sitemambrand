@@ -14,7 +14,7 @@ export const Route = createFileRoute("/admin")({
   // Painel é privado: não deve ser indexado por buscadores.
   head: () => ({
     meta: [
-      { title: "Painel — MAM Branding" },
+      { title: "Painel — MAM Brand" },
       { name: "robots", content: "noindex, nofollow" },
     ],
   }),

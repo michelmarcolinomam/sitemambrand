@@ -15,7 +15,7 @@ import { Footer } from "@/components/Footer";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "MAM Branding — Consultoria estratégica para marcas" },
+      { title: "MAM Brand — Consultoria estratégica para marcas" },
       {
         name: "description",
         content:
@@ -23,7 +23,7 @@ export const Route = createFileRoute("/")({
       },
       {
         property: "og:title",
-        content: "MAM Branding — Consultoria estratégica para marcas",
+        content: "MAM Brand — Consultoria estratégica para marcas",
       },
       {
         property: "og:description",

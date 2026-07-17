@@ -8,12 +8,12 @@ import { FadeIn } from "@/components/FadeIn";
 export const Route = createFileRoute("/estudio")({
   head: () => ({
     meta: [
-      { title: "Estúdio — MAM Branding" },
+      { title: "Estúdio — MAM Brand" },
       {
         name: "description",
         content: "Como o estúdio opera, processo, time e parcerias.",
       },
-      { property: "og:title", content: "Estúdio — MAM Branding" },
+      { property: "og:title", content: "Estúdio — MAM Brand" },
       {
         property: "og:description",
         content: "Como o estúdio opera, processo, time e parcerias.",

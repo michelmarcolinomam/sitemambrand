@@ -6,7 +6,7 @@ export function Hero() {
       <div className="mx-auto max-w-[1400px]">
         <FadeIn>
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[11px] font-medium uppercase tracking-[0.24em] text-muted-foreground">
-            <span>MAM Branding</span>
+            <span>MAM Brand</span>
             <span className="hidden h-px w-12 bg-current opacity-40 sm:inline-block" aria-hidden />
             <span>Inteligência estratégica para marcas</span>
           </div>
