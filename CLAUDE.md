@@ -22,12 +22,12 @@ Regras do ciclo:
 - Scripts: `bun dev` / `bun run build` (lockfile é `bun.lock`)
 
 ## Deploy
-- Produção: https://sitemambrand.vercel.app (Vercel)
-- Domínio mambranding.com.br: **não conectar ainda** — só quando o site estiver 100% (decisão do Michel)
+- Produção: https://mambrand.com.br (Vercel) — domínio próprio conectado em 2026-07-16; também abre por sitemambrand.vercel.app
+- DNS gerenciado no cPanel da HostGator (NS ns1002/ns1003.hostgator.com.br). Ao mexer em DNS: **nunca tocar em MX/SPF/DKIM** (e-mail Titan). Site = apex A `216.198.79.1` + `www` CNAME `cname.vercel-dns.com` (redirect 308 → apex).
 
 ## Padrões visuais (não recriar de memória)
 - Logo, fontes e cores: ver seção "Padrões estabelecidos" do `STATUS.md`
-- Em dúvida sobre qualquer padrão visual, extrair do site no ar (view-source de sitemambrand.vercel.app) — nunca inventar
+- Em dúvida sobre qualquer padrão visual, extrair do site no ar (view-source de mambrand.com.br) — nunca inventar
 - Animações: sutis e editoriais; sempre com `prefers-reduced-motion` e fallback sem JS
 
 ## Comunicação

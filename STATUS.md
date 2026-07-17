@@ -1,11 +1,11 @@
 # Status do Site MAM Branding
 
 > Quadro de obra do projeto. Toda sessão (chat ou Claude Code) começa lendo este arquivo.
-> Ao fechar qualquer etapa, atualizar aqui. Última atualização: 2026-07-13.
+> Ao fechar qualquer etapa, atualizar aqui. Última atualização: 2026-07-16.
 
 ## Endereços
-- **Produção:** https://sitemambrand.vercel.app
-- **Domínio final:** mambranding.com.br — ainda NÃO conectado (decisão: só quando o site estiver 100%)
+- **Produção:** https://mambrand.com.br (domínio próprio, no ar) — também acessível por https://sitemambrand.vercel.app
+- **Domínio final:** **mambrand.com.br** — ✅ CONECTADO em 2026-07-16 (apex A → Vercel `216.198.79.1`; `www` → CNAME `cname.vercel-dns.com` com redirect 308 → apex; SSL emitido pela Vercel). E-mail Titan (MX titan.email) intacto na HostGator. DNS gerenciado no cPanel da HostGator (NS ns1002/ns1003.hostgator.com.br).
 - **Repositório local:** `~/Desktop/MAM-site-limpo` (fonte da verdade)
 - **GitHub:** github.com/michelmarcolinomam/sitemambrand — push na `main` = deploy automático na Vercel
 - **Painel admin:** `/admin` — login com `contato@mamgestao.com`
@@ -142,4 +142,4 @@ Pendências:
 1. Configurar as env vars do Supabase na Vercel (ver seção "Banco de dados") antes do próximo deploy
 2. Subir as imagens/vídeos reais da Black Herva pelo painel
 3. Cadastrar os próximos cases do portfólio pelo painel (mesmo template, sem código)
-4. Conectar domínio mambranding.com.br (por último)
+4. ~~Conectar domínio~~ ✅ **FEITO (2026-07-16)** — mambrand.com.br no ar (ver Endereços)
