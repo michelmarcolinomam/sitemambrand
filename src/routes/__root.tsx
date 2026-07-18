@@ -13,7 +13,7 @@ import { type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { Toaster } from "@/components/ui/sonner";
 import { SITE_URL, SITE_NAME, OG_IMAGE, canonical, structuredDataJson } from "@/lib/seo";
-import { GTAG_SRC, GTAG_BOOTSTRAP } from "@/lib/tracking";
+import { GTAG_SRC, GTAG_BOOTSTRAP, META_PIXEL_BOOTSTRAP } from "@/lib/tracking";
 
 function NotFoundComponent() {
   return (
@@ -142,6 +142,10 @@ function RootShell({ children }: { children: ReactNode }) {
         {/* Google tag (GA4 + Google Ads) */}
         <script async src={GTAG_SRC} />
         <script dangerouslySetInnerHTML={{ __html: GTAG_BOOTSTRAP }} />
+        {/* Meta Pixel (Facebook/Instagram) */}
+        {META_PIXEL_BOOTSTRAP && (
+          <script dangerouslySetInnerHTML={{ __html: META_PIXEL_BOOTSTRAP }} />
+        )}
       </head>
       <body>
         {children}

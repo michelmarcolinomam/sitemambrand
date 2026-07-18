@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 // Fonte única: o HTML aprovado em design/aprovados é servido aqui, no domínio da marca.
 import diagnosticoHtml from "../../design/aprovados/diagnostico-ciclo-de-marca.html?raw";
 
-export const Route = createFileRoute("/diagnostico")({
+export const Route = createFileRoute("/diagnostico-lead")({
   server: {
     handlers: {
       GET: () =>

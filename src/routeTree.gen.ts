@@ -14,7 +14,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as RebrandingRouteImport } from './routes/rebranding'
 import { Route as EstudioRouteImport } from './routes/estudio'
 import { Route as DiarioRouteImport } from './routes/diario'
-import { Route as DiagnosticoRouteImport } from './routes/diagnostico'
+import { Route as DiagnosticoLeadRouteImport } from './routes/diagnostico-lead'
 import { Route as CicloDeMarcaRouteImport } from './routes/ciclo-de-marca'
 import { Route as BrandingRouteImport } from './routes/branding'
 import { Route as AdminRouteRouteImport } from './routes/admin/route'
@@ -53,9 +53,9 @@ const DiarioRoute = DiarioRouteImport.update({
   path: '/diario',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DiagnosticoRoute = DiagnosticoRouteImport.update({
-  id: '/diagnostico',
-  path: '/diagnostico',
+const DiagnosticoLeadRoute = DiagnosticoLeadRouteImport.update({
+  id: '/diagnostico-lead',
+  path: '/diagnostico-lead',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CicloDeMarcaRoute = CicloDeMarcaRouteImport.update({
@@ -124,7 +124,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteRouteWithChildren
   '/branding': typeof BrandingRoute
   '/ciclo-de-marca': typeof CicloDeMarcaRoute
-  '/diagnostico': typeof DiagnosticoRoute
+  '/diagnostico-lead': typeof DiagnosticoLeadRoute
   '/diario': typeof DiarioRoute
   '/estudio': typeof EstudioRoute
   '/rebranding': typeof RebrandingRoute
@@ -143,7 +143,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/branding': typeof BrandingRoute
   '/ciclo-de-marca': typeof CicloDeMarcaRoute
-  '/diagnostico': typeof DiagnosticoRoute
+  '/diagnostico-lead': typeof DiagnosticoLeadRoute
   '/diario': typeof DiarioRoute
   '/estudio': typeof EstudioRoute
   '/rebranding': typeof RebrandingRoute
@@ -164,7 +164,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteRouteWithChildren
   '/branding': typeof BrandingRoute
   '/ciclo-de-marca': typeof CicloDeMarcaRoute
-  '/diagnostico': typeof DiagnosticoRoute
+  '/diagnostico-lead': typeof DiagnosticoLeadRoute
   '/diario': typeof DiarioRoute
   '/estudio': typeof EstudioRoute
   '/rebranding': typeof RebrandingRoute
@@ -186,7 +186,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/branding'
     | '/ciclo-de-marca'
-    | '/diagnostico'
+    | '/diagnostico-lead'
     | '/diario'
     | '/estudio'
     | '/rebranding'
@@ -205,7 +205,7 @@ export interface FileRouteTypes {
     | '/'
     | '/branding'
     | '/ciclo-de-marca'
-    | '/diagnostico'
+    | '/diagnostico-lead'
     | '/diario'
     | '/estudio'
     | '/rebranding'
@@ -225,7 +225,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/branding'
     | '/ciclo-de-marca'
-    | '/diagnostico'
+    | '/diagnostico-lead'
     | '/diario'
     | '/estudio'
     | '/rebranding'
@@ -246,7 +246,7 @@ export interface RootRouteChildren {
   AdminRouteRoute: typeof AdminRouteRouteWithChildren
   BrandingRoute: typeof BrandingRoute
   CicloDeMarcaRoute: typeof CicloDeMarcaRoute
-  DiagnosticoRoute: typeof DiagnosticoRoute
+  DiagnosticoLeadRoute: typeof DiagnosticoLeadRoute
   DiarioRoute: typeof DiarioRoute
   EstudioRoute: typeof EstudioRoute
   RebrandingRoute: typeof RebrandingRoute
@@ -294,11 +294,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DiarioRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/diagnostico': {
-      id: '/diagnostico'
-      path: '/diagnostico'
-      fullPath: '/diagnostico'
-      preLoaderRoute: typeof DiagnosticoRouteImport
+    '/diagnostico-lead': {
+      id: '/diagnostico-lead'
+      path: '/diagnostico-lead'
+      fullPath: '/diagnostico-lead'
+      preLoaderRoute: typeof DiagnosticoLeadRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/ciclo-de-marca': {
@@ -413,7 +413,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRouteRoute: AdminRouteRouteWithChildren,
   BrandingRoute: BrandingRoute,
   CicloDeMarcaRoute: CicloDeMarcaRoute,
-  DiagnosticoRoute: DiagnosticoRoute,
+  DiagnosticoLeadRoute: DiagnosticoLeadRoute,
   DiarioRoute: DiarioRoute,
   EstudioRoute: EstudioRoute,
   RebrandingRoute: RebrandingRoute,
