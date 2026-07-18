@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diagnóstico — Ciclo de Marca · MAM</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<meta name="description" content="Diagnóstico de Ciclo de Marca da MAM: em 42 perguntas e 7 dimensões, descubra a fase real da sua marca e o que ela precisa para avançar.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://mambrand.com.br/diagnostico">
+<link rel="icon" href="/mam-logo.svg" type="image/svg+xml">
+<!-- Open Graph (compartilhamento em WhatsApp/redes) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MAM Brand">
+<meta property="og:title" content="Em que ponto do ciclo está a sua marca? — Diagnóstico MAM">
+<meta property="og:description" content="Um diagnóstico rápido e estratégico em 7 dimensões. Descubra a fase da sua marca no ciclo — e o que ela precisa para avançar.">
+<meta property="og:url" content="https://mambrand.com.br/diagnostico">
+<meta property="og:image" content="https://mambrand.com.br/og-cover.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<!-- GA4 + Google Ads (mesma conta do site mambrand.com.br) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-BSFQ9JTVPQ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-BSFQ9JTVPQ');
+  // gtag('config', 'AW-XXXXXXXXX'); // ativar quando a conversão do Google Ads for importada
+</script>
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg2: #f9f9f7;
+    --bg3: #f4f4f0;
+    --green: #c8e6b0;
+    --green-dark: #7ab356;
+    --green-light: #f0f7ea;
+    --black: #0d0d0d;
+    --gray: #6b6b6b;
+    --gray-light: #d0d0cc;
+    --border: #e4e4de;
+    --critical: #c0392b;
+    --vulnerable: #d4680a;
+    --stable: #c49a00;
+    --healthy: #3a8f4a;
+    --text: #0d0d0d;
+    --text-muted: #6b6b6b;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+  /* TELA INICIAL */
+  #screen-start { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px 24px; position: relative; overflow: hidden; }
+  #screen-start::before { content:''; position:absolute; width:700px; height:700px; background:radial-gradient(circle, rgba(200,230,176,0.35) 0%, transparent 65%); top:-200px; right:-200px; pointer-events:none; }
+  #screen-start::after { content:''; position:absolute; width:400px; height:400px; background:radial-gradient(circle, rgba(200,230,176,0.2) 0%, transparent 65%); bottom:-100px; left:-100px; pointer-events:none; }
+  .start-logo { margin-bottom: 40px; }
+  .start-logo svg { height: 34px; width: auto; }
+  .start-badge { background: var(--green-light); border: 1px solid var(--green); color: var(--green-dark); font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; padding: 7px 20px; border-radius: 100px; margin-bottom: 28px; }
+  .start-title { font-family: 'Fraunces', serif; font-size: clamp(36px, 5.5vw, 68px); font-weight: 900; text-align: center; line-height: 1.05; max-width: 760px; margin-bottom: 20px; color: var(--black); letter-spacing: -2px; }
+  .start-title em { font-style: italic; font-family: 'Fraunces', serif; font-weight: 600; color: var(--green-dark); letter-spacing: -1px; }
+  .start-subtitle { font-size: 16px; color: var(--text-muted); text-align: center; max-width: 520px; line-height: 1.75; margin-bottom: 40px; font-weight: 400; }
+  .start-facts { display:flex; gap:32px; margin-bottom:44px; flex-wrap:wrap; justify-content:center; }
+  .start-fact { text-align:center; }
+  .start-fact-num { font-size:30px; font-weight:900; color:var(--black); letter-spacing:-1px; line-height:1; }
+  .start-fact-label { font-size:11px; color:var(--text-muted); font-weight:600; letter-spacing:0.5px; margin-top:6px; text-transform:uppercase; }
+  .btn-primary { background: var(--black); color: #fff; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 0.5px; padding: 18px 52px; border: none; border-radius: 100px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 8px 32px rgba(13,13,13,0.15); }
+  .btn-primary:hover { background: var(--green-dark); transform: translateY(-2px); box-shadow: 0 16px 48px rgba(122,179,86,0.3); }
+  .btn-primary:disabled { opacity: 0.3; cursor: not-allowed; transform: none; box-shadow: none; }
+
+  /* FORMULÁRIO */
+  #screen-form { min-height: 100vh; display: none; align-items: center; justify-content: center; padding: 60px 24px; position: relative; overflow: hidden; }
+  #screen-form::before { content:''; position:absolute; width:600px; height:600px; background:radial-gradient(circle, rgba(200,230,176,0.25) 0%, transparent 65%); top:-150px; right:-150px; pointer-events:none; }
+  .form-wrap { background: var(--bg); border: 1.5px solid var(--border); border-radius: 24px; padding: 48px; max-width: 520px; width: 100%; position: relative; box-shadow: 0 24px 80px rgba(0,0,0,0.06); }
+  .form-logo { margin-bottom: 24px; }
+  .form-logo svg { height: 26px; width: auto; }
+  .form-badge { display:inline-block; background:var(--green-light); border:1px solid var(--green); color:var(--green-dark); font-size:10px; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; padding:5px 14px; border-radius:100px; margin-bottom:20px; }
+  .form-title { font-family: 'Fraunces', serif; font-size: 28px; font-weight: 600; letter-spacing: -0.8px; line-height: 1.15; color: var(--black); margin-bottom: 10px; }
+  .form-subtitle { font-size: 13px; color: var(--text-muted); line-height: 1.7; font-weight: 400; margin-bottom: 32px; }
+  .form-fields { display: flex; flex-direction: column; gap: 18px; margin-bottom: 24px; }
+  .form-group { display: flex; flex-direction: column; gap: 7px; }
+  .form-label { font-size: 12px; font-weight: 700; color: var(--black); letter-spacing: 0.2px; }
+  .form-required { color: var(--critical); }
+  .form-input { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 400; color: var(--black); background: var(--bg2); border: 1.5px solid var(--border); border-radius: 10px; padding: 13px 16px; outline: none; transition: border-color 0.2s, box-shadow 0.2s; width: 100%; }
+  .form-input::placeholder { color: var(--gray-light); }
+  .form-input:focus { border-color: var(--green-dark); box-shadow: 0 0 0 3px rgba(122,179,86,0.1); background: var(--bg); }
+  .form-input.input-error { border-color: var(--critical); box-shadow: 0 0 0 3px rgba(192,57,43,0.08); }
+  .form-privacy { font-size: 11px; color: var(--gray-light); font-weight: 500; text-align: center; margin-bottom: 20px; line-height: 1.5; }
+  .form-back { display:block; margin:16px auto 0; background:transparent; border:none; color:var(--text-muted); font-family:'Inter',sans-serif; font-size:12px; font-weight:600; cursor:pointer; text-decoration:underline; text-underline-offset:3px; }
+
+  /* QUESTIONÁRIO */
+  #screen-quiz { display: none; min-height: 100vh; }
+  .quiz-header { position: fixed; top: 0; left: 0; right: 0; background: rgba(255,255,255,0.97); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); padding: 14px 40px; z-index: 100; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+  .quiz-logo svg { height: 28px; width: auto; }
+  .progress-wrap { flex: 1; max-width: 480px; }
+  .progress-info { display: flex; justify-content: space-between; font-size: 11px; font-weight: 600; color: var(--text-muted); margin-bottom: 7px; letter-spacing: 0.3px; }
+  .progress-bar { height: 3px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--black); border-radius: 3px; transition: width 0.5s ease; }
+  .quiz-body { padding: 110px 24px 80px; max-width: 740px; margin: 0 auto; }
+  .block-header { margin-bottom: 40px; padding-bottom: 28px; border-bottom: 1px solid var(--border); }
+  .block-number { font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--green-dark); margin-bottom: 10px; }
+  .block-title { font-family: 'Fraunces', serif; font-size: 28px; font-weight: 600; margin-bottom: 10px; letter-spacing: -0.5px; color: var(--black); }
+  .block-desc { font-size: 14px; color: var(--text-muted); line-height: 1.7; font-weight: 400; max-width: 540px; }
+  .question-card { background: var(--bg); border: 1.5px solid var(--border); border-radius: 16px; padding: 28px; margin-bottom: 16px; transition: border-color 0.3s, box-shadow 0.3s; }
+  .question-card.answered { border-color: var(--green-dark); box-shadow: 0 4px 20px rgba(122,179,86,0.08); }
+  .question-tag { display:inline-block; font-size:9px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--green-dark); background:var(--green-light); padding:3px 9px; border-radius:100px; margin-bottom:12px; }
+  .question-text { font-size: 15px; font-weight: 600; line-height: 1.6; margin-bottom: 20px; color: var(--black); }
+  .options { display: flex; flex-direction: column; gap: 8px; }
+  .option { display: flex; align-items: flex-start; gap: 12px; padding: 13px 16px; border: 1.5px solid var(--border); border-radius: 10px; cursor: pointer; transition: all 0.2s ease; background: var(--bg); }
+  .option:hover { border-color: var(--green-dark); background: var(--green-light); }
+  .option.selected { border-color: var(--green-dark); background: var(--green-light); }
+  .option-dot { width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--border); flex-shrink: 0; margin-top: 2px; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
+  .option.selected .option-dot { border-color: var(--green-dark); background: var(--green-dark); }
+  .option.selected .option-dot::after { content:''; width:6px; height:6px; border-radius:50%; background:#fff; }
+  .option-text { font-size: 13px; color: var(--text-muted); line-height: 1.55; font-weight: 400; transition: color 0.2s; }
+  .option.selected .option-text { color: var(--black); font-weight: 500; }
+  .quiz-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 36px; gap: 16px; }
+  .btn-secondary { background: transparent; border: 1.5px solid var(--border); color: var(--text-muted); font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; padding: 13px 28px; border-radius: 100px; cursor: pointer; transition: all 0.2s; }
+  .btn-secondary:hover { border-color: var(--black); color: var(--black); }
+  .block-progress { font-size: 12px; font-weight: 600; color: var(--text-muted); }
+  .block-progress span { color: var(--green-dark); }
+
+  /* RELATÓRIO */
+  #screen-report { display: none; padding: 0; }
+  .report-top { background: var(--bg); border-bottom: 1px solid var(--border); padding: 20px 48px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; position: sticky; top: 0; z-index: 50; }
+  .report-top svg { height: 30px; width: auto; }
+  .report-meta { text-align: right; }
+  .report-meta-company { font-size: 13px; font-weight: 700; color: var(--black); }
+  .report-meta-info { font-size: 11px; color: var(--text-muted); margin-top: 2px; font-weight: 500; }
+  .report-wrap { max-width: 960px; margin: 0 auto; padding: 56px 24px 80px; }
+  .report-header { text-align: center; margin-bottom: 48px; }
+  .report-badge { display: inline-block; background: var(--green-light); border: 1px solid var(--green); color: var(--green-dark); font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; padding: 7px 20px; border-radius: 100px; margin-bottom: 24px; }
+  .report-title { font-family: 'Fraunces', serif; font-size: clamp(28px, 4.5vw, 46px); font-weight: 600; line-height: 1.1; margin-bottom: 14px; letter-spacing: -1.5px; color: var(--black); }
+  .report-subtitle { font-size: 15px; color: var(--text-muted); line-height: 1.75; max-width: 520px; margin: 0 auto; font-weight: 400; }
+
+  /* FASE — bloco hero do ciclo */
+  .phase-card { border-radius: 24px; padding: 52px 48px; margin-bottom: 28px; text-align: center; position: relative; overflow: hidden; background: var(--black); color: #fff; }
+  .phase-card::before { content:''; position:absolute; width:500px; height:500px; background:radial-gradient(circle, rgba(200,230,176,0.12) 0%, transparent 65%); top:-150px; right:-100px; pointer-events:none; }
+  .phase-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.45); margin-bottom: 16px; }
+  .phase-cycle { display:flex; justify-content:center; gap:8px; margin-bottom:26px; flex-wrap:wrap; position:relative; }
+  .phase-step { font-size:11px; font-weight:700; letter-spacing:0.5px; padding:7px 16px; border-radius:100px; color:rgba(255,255,255,0.3); border:1px solid rgba(255,255,255,0.1); transition:all 0.3s; }
+  .phase-step.active { color:var(--black); background:var(--green); border-color:var(--green); box-shadow:0 8px 24px rgba(200,230,176,0.25); }
+  .phase-name { font-family: 'Fraunces', serif; font-size: clamp(40px, 7vw, 76px); font-weight: 600; letter-spacing: -3px; line-height: 1; margin-bottom: 26px; color: var(--green); }
+  .gauge-section { display: flex; align-items: center; justify-content: center; gap: 48px; margin-bottom: 28px; flex-wrap: wrap; }
+  .gauge-wrap { position: relative; width: 200px; height: 110px; }
+  .gauge-wrap canvas { width: 200px !important; height: 110px !important; }
+  .gauge-center { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); text-align: center; }
+  .gauge-value { font-size: 32px; font-weight: 900; color: #fff; letter-spacing: -1px; line-height: 1; }
+  .gauge-label { font-size: 10px; font-weight: 600; letter-spacing: 1px; color: rgba(255,255,255,0.45); margin-top: 2px; }
+  .phase-stats { display: flex; flex-direction: column; gap: 16px; text-align: left; }
+  .phase-stat { display: flex; align-items: center; gap: 12px; }
+  .phase-stat-value { font-size: 28px; font-weight: 900; color: var(--green); letter-spacing: -1px; min-width: 64px; }
+  .phase-stat-label { font-size: 12px; color: rgba(255,255,255,0.5); font-weight: 500; line-height: 1.4; }
+  .phase-desc { font-size: 14px; line-height: 1.85; color: rgba(255,255,255,0.62); max-width: 620px; margin: 0 auto; font-weight: 400; }
+
+  .alert-strip { background: #fffbf0; border: 1px solid #f0d88a; border-left: 3px solid #c49a00; border-radius: 12px; padding: 18px 24px; margin-bottom: 28px; font-size: 13px; line-height: 1.7; color: var(--text-muted); font-weight: 400; }
+  .alert-strip strong { color: #8a6d00; }
+
+  .section { background: var(--bg); border: 1.5px solid var(--border); border-radius: 20px; padding: 36px; margin-bottom: 24px; }
+  .section-title { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 600; margin-bottom: 6px; letter-spacing: -0.5px; color: var(--black); }
+  .section-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 28px; line-height: 1.6; font-weight: 400; }
+  .chart-wrap { max-width: 620px; margin: 0 auto; }
+  .legend { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 24px; justify-content: center; }
+  .legend-item { display: flex; align-items: center; gap: 7px; font-size: 11px; color: var(--text-muted); font-weight: 500; }
+  .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+  .blocks-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 16px; margin-bottom: 24px; }
+  .block-card { background: var(--bg); border: 1.5px solid var(--border); border-radius: 18px; padding: 26px; transition: transform 0.25s, box-shadow 0.25s; }
+  .block-card:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.08); }
+  .bc-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 16px; }
+  .bc-num { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gray-light); margin-bottom: 4px; }
+  .bc-name { font-size: 13px; font-weight: 700; line-height: 1.4; color: var(--black); }
+  .bc-pct { font-size: 34px; font-weight: 900; line-height: 1; flex-shrink: 0; letter-spacing: -1px; }
+  .bc-bar-wrap { height: 4px; background: var(--border); border-radius: 4px; overflow: hidden; margin-bottom: 14px; }
+  .bc-bar { height: 100%; border-radius: 4px; }
+  .bc-status { display: inline-flex; align-items: center; gap: 6px; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 4px 10px; border-radius: 100px; margin-bottom: 12px; }
+  .bc-status-dot { width: 5px; height: 5px; border-radius: 50%; }
+  .bc-insight { font-size: 13px; color: var(--text-muted); line-height: 1.65; font-weight: 400; }
+  .s-critical .bc-pct { color: var(--critical); } .s-critical .bc-bar { background: var(--critical); } .s-critical .bc-status { background: #fdf0ee; color: var(--critical); } .s-critical .bc-status-dot { background: var(--critical); } .s-critical { border-color: rgba(192,57,43,0.2); }
+  .s-vulnerable .bc-pct { color: var(--vulnerable); } .s-vulnerable .bc-bar { background: var(--vulnerable); } .s-vulnerable .bc-status { background: #fef3ea; color: var(--vulnerable); } .s-vulnerable .bc-status-dot { background: var(--vulnerable); } .s-vulnerable { border-color: rgba(212,104,10,0.2); }
+  .s-stable .bc-pct { color: var(--stable); } .s-stable .bc-bar { background: var(--stable); } .s-stable .bc-status { background: #fdf8e1; color: var(--stable); } .s-stable .bc-status-dot { background: var(--stable); }
+  .s-healthy .bc-pct { color: var(--healthy); } .s-healthy .bc-bar { background: var(--healthy); } .s-healthy .bc-status { background: var(--green-light); color: var(--healthy); } .s-healthy .bc-status-dot { background: var(--healthy); } .s-healthy { border-color: rgba(58,143,74,0.25); }
+  .s-intro { border-color: rgba(124,106,171,0.3); }
+
+  /* Distribuição de fases no hero */
+  .phase-distribution { display:flex; justify-content:center; align-items:flex-end; gap:24px; margin-bottom:28px; height:120px; }
+  .pd-item { display:flex; flex-direction:column; align-items:center; gap:6px; height:100%; justify-content:flex-end; }
+  .pd-bar-wrap { width:36px; height:70px; display:flex; align-items:flex-end; }
+  .pd-bar { width:100%; border-radius:6px 6px 0 0; transition:height 0.6s ease; min-height:6px; }
+  .pd-pct { font-size:15px; font-weight:900; color:#fff; letter-spacing:-0.5px; }
+  .pd-label { font-size:10px; font-weight:600; color:rgba(255,255,255,0.5); letter-spacing:0.3px; }
+  .pd-dominant .pd-pct { color:var(--green); font-size:18px; }
+  .pd-dominant .pd-label { color:rgba(255,255,255,0.8); }
+
+  /* Leitura em camadas */
+  .layers-strip { background:var(--bg2); border:1.5px solid var(--border); border-left:3px solid var(--green-dark); border-radius:14px; padding:22px 26px; margin-bottom:28px; }
+  .layers-title { font-size:13px; font-weight:800; color:var(--black); margin-bottom:8px; letter-spacing:-0.2px; }
+  .layers-text { font-size:13px; color:var(--text-muted); line-height:1.75; font-weight:400; }
+  .layers-text strong { color:var(--black); font-weight:700; }
+
+  /* Badge de fase no card de dimensão */
+  .bc-phase-badge { display:inline-block; font-size:11px; font-weight:800; letter-spacing:0.5px; padding:5px 14px; border-radius:100px; margin-bottom:14px; }
+  .bc-votes { display:flex; flex-wrap:wrap; gap:5px; margin-bottom:14px; }
+  .bc-vote-chip { font-size:9px; font-weight:700; letter-spacing:0.3px; padding:3px 8px; border-radius:100px; text-transform:uppercase; }
+
+  .diag-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 24px; }
+  .diag-col-label { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1.5px solid var(--border); }
+  .diag-col-label.s { color: var(--healthy); border-color: rgba(58,143,74,0.2); }
+  .diag-col-label.v { color: var(--critical); border-color: rgba(192,57,43,0.2); }
+  .diag-item { display: flex; gap: 10px; margin-bottom: 14px; font-size: 13px; color: var(--text-muted); line-height: 1.6; font-weight: 400; }
+  .diag-item strong { color: var(--black); font-weight: 700; }
+  .diag-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; margin-top: 7px; }
+  .diag-dot.s { background: var(--healthy); } .diag-dot.v { background: var(--critical); }
+
+  /* PRESCRIÇÃO — o que a fase exige */
+  .rx-intro { background:var(--green-light); border:1px solid var(--green); border-radius:14px; padding:22px 24px; margin-top:24px; }
+
+  /* Seção de fechamento — E agora? */
+  .closing-section { background:var(--black); border-radius:24px; padding:48px; margin-bottom:24px; position:relative; overflow:hidden; }
+  .closing-section::before { content:''; position:absolute; width:500px; height:500px; background:radial-gradient(circle, rgba(200,230,176,0.12) 0%, transparent 65%); top:-150px; right:-120px; pointer-events:none; }
+  .closing-eyebrow { font-size:11px; font-weight:700; letter-spacing:4px; text-transform:uppercase; color:var(--green); margin-bottom:18px; position:relative; }
+  .closing-headline { font-family:'Fraunces',serif; font-size:clamp(26px,4vw,38px); font-weight:600; line-height:1.15; letter-spacing:-1px; color:#fff; margin-bottom:22px; position:relative; max-width:680px; }
+  .closing-body { font-size:15px; line-height:1.85; color:rgba(255,255,255,0.7); font-weight:400; position:relative; max-width:680px; margin-bottom:28px; }
+  .closing-body strong { color:#fff; font-weight:700; }
+  .closing-orchestra { display:flex; gap:16px; align-items:flex-start; background:rgba(200,230,176,0.08); border:1px solid rgba(200,230,176,0.18); border-radius:16px; padding:22px 24px; position:relative; }
+  .closing-orchestra-icon { font-size:22px; color:var(--green); flex-shrink:0; line-height:1.2; }
+  .closing-orchestra-text { font-size:13.5px; line-height:1.75; color:rgba(255,255,255,0.62); font-weight:400; }
+  .closing-orchestra-text strong { color:var(--green); font-weight:700; }
+  .rx-intro-title { font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--green-dark); margin-bottom:10px; }
+  .rx-intro-text { font-size:13px; color:var(--text-muted); line-height:1.8; font-weight:400; }
+  .rx-intro-text strong { color:var(--black); font-weight:700; }
+  .rx-list { display:flex; flex-direction:column; gap:14px; margin-top:24px; }
+  .rx-card { display:flex; gap:18px; background:var(--bg2); border:1.5px solid var(--border); border-radius:16px; padding:24px; align-items:flex-start; }
+  .rx-icon { width:42px; height:42px; border-radius:12px; background:var(--green); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:20px; }
+  .rx-body-title { font-size:14px; font-weight:800; color:var(--black); margin-bottom:6px; letter-spacing:-0.2px; }
+  .rx-product-tag { display:inline-block; font-size:9px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:var(--green-dark); background:var(--green-light); border:1px solid var(--green); padding:4px 11px; border-radius:100px; margin-bottom:10px; }
+  .rx-body-text { font-size:13px; color:var(--text-muted); line-height:1.7; font-weight:400; }
+
+  /* VÍDEO */
+  .video-section { background: var(--black); border-radius: 24px; padding: 48px; text-align: center; margin-top: 24px; position: relative; overflow: hidden; }
+  .video-section::before { content:''; position:absolute; width:400px; height:400px; background:radial-gradient(circle, rgba(200,230,176,0.1) 0%, transparent 65%); top:-100px; right:-80px; pointer-events:none; }
+  .video-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--green-dark); margin-bottom: 16px; position:relative; }
+  .video-title { font-family: 'Fraunces', serif; font-size: clamp(22px, 3.5vw, 32px); font-weight: 600; line-height: 1.2; margin-bottom: 14px; color: #fff; letter-spacing: -1px; position: relative; }
+  .video-desc { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.8; max-width: 500px; margin: 0 auto 32px; font-weight: 400; position: relative; }
+  .video-player { position:relative; max-width:680px; margin:0 auto 8px; border-radius:16px; overflow:hidden; aspect-ratio:16/9; background:#000; border:1px solid rgba(255,255,255,0.08); }
+  .video-player iframe { width:100%; height:100%; border:0; }
+  .video-fallback-link { display:inline-block; margin-top:14px; font-size:12px; font-weight:600; color:rgba(255,255,255,0.4); text-decoration:underline; text-underline-offset:3px; transition:color 0.2s; position:relative; }
+  .video-fallback-link:hover { color:var(--green); }
+  .video-placeholder { position:relative; max-width:680px; margin:0 auto; border-radius:16px; overflow:hidden; aspect-ratio:16/9; background:linear-gradient(135deg, #1a1a1a, #2a2a2a); border:1px dashed rgba(255,255,255,0.2); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; cursor:pointer; transition:all 0.3s; }
+  .video-placeholder:hover { border-color:var(--green); }
+  .video-play-btn { width:70px; height:70px; border-radius:50%; background:var(--green); display:flex; align-items:center; justify-content:center; transition:all 0.3s; }
+  .video-placeholder:hover .video-play-btn { transform:scale(1.08); }
+  .video-play-icon { width:0; height:0; border-top:13px solid transparent; border-bottom:13px solid transparent; border-left:22px solid var(--black); margin-left:5px; }
+  .video-placeholder-label { font-size:12px; color:rgba(255,255,255,0.4); font-weight:600; letter-spacing:0.5px; }
+
+  /* CTA WhatsApp */
+  .cta-section { background:var(--bg2); border:1.5px solid var(--border); border-radius:24px; padding:44px 40px; text-align:center; margin-top:24px; }
+  .cta-eyebrow { font-size:10px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--green-dark); margin-bottom:14px; }
+  .cta-title { font-family:'Fraunces',serif; font-size:clamp(20px,3vw,28px); font-weight:600; line-height:1.2; margin-bottom:14px; color:var(--black); letter-spacing:-0.8px; }
+  .cta-desc { font-size:14px; color:var(--text-muted); line-height:1.8; max-width:480px; margin:0 auto 28px; font-weight:400; }
+  .btn-cta { display:inline-block; background:#25D366; color:#fff; font-family:'Inter',sans-serif; font-size:14px; font-weight:800; padding:18px 44px; border:none; border-radius:100px; cursor:pointer; transition:all 0.3s; letter-spacing:0.3px; }
+  .btn-cta:hover { background:#1da851; transform:translateY(-2px); box-shadow:0 16px 48px rgba(37,211,102,0.25); }
+  .btn-restart { display:block; margin:28px auto 0; background:transparent; border:none; color:var(--text-muted); font-family:'Inter',sans-serif; font-size:12px; font-weight:600; cursor:pointer; text-decoration:underline; text-underline-offset:3px; }
+
+  @media (max-width: 600px) {
+    .diag-grid { grid-template-columns: 1fr; }
+    .blocks-grid { grid-template-columns: 1fr; }
+    .quiz-header { padding: 12px 16px; }
+    .quiz-body { padding: 90px 16px 60px; }
+    .report-top { padding: 16px 20px; }
+    .report-wrap { padding: 40px 16px 60px; }
+    .phase-card { padding: 36px 24px; }
+    .section { padding: 24px 20px; }
+    .video-section { padding: 32px 24px; }
+    .form-wrap { padding: 32px 24px; }
+  }
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<svg style="display:none">
+  <symbol id="mam-logo" viewBox="0 0 743.9 150">
+    <polygon points="690.5 17.9 657.7 106.2 651.9 121.8 646.1 106.2 613.3 17.9 581.2 17.9 581.2 132.1 599.9 132.1 599.9 35.3 635.9 132.1 667.9 132.1 703.9 35.3 703.9 132.1 722.6 132.1 722.6 17.9 690.5 17.9"/>
+    <path d="M473,17.9l-45.4,114.2h20l19.6-49.3,6.3,15.9h43.3l13.3,33.4h20l-45.4-114.2h-31.6ZM467.1,82.7l21.6-54.4,21.6,54.4h-43.2Z"/>
+    <polygon points="364.2 17.9 325.6 121.8 287 17.9 254.9 17.9 254.9 132.1 273.7 132.1 273.7 35.3 309.7 132.1 341.6 132.1 377.6 35.3 377.6 132.1 396.3 132.1 396.3 17.9 364.2 17.9"/>
+    <path d="M92,61.9L46.9,18h-25.7v114.1h25.7l31.6-30.9v-26.2l6.9,6.7h0s51.6,50.3,51.6,50.3h25.7V18h-25.7l-45.1,43.9ZM40,112.6V37.4l38.5,37.6-38.5,37.6ZM144,112.6l-38.5-37.6,38.5-37.6v75.2Z"/>
+  </symbol>
+</svg>
+
+<!-- TELA INICIAL -->
+<div id="screen-start">
+  <div class="start-logo"><svg viewBox="0 0 743.9 150" fill="#0d0d0d"><use href="#mam-logo"/></svg></div>
+  <div class="start-badge">Diagnóstico de Ciclo de Marca</div>
+  <h1 class="start-title">Em que ponto do ciclo<br>está a <em>sua marca?</em></h1>
+  <p class="start-subtitle">Um diagnóstico rápido e estratégico em 7 dimensões. Em poucos minutos, você descobre a fase real da sua marca no ciclo — e o que ela precisa para avançar.</p>
+  <div class="start-facts">
+    <div class="start-fact"><div class="start-fact-num">42</div><div class="start-fact-label">Perguntas</div></div>
+    <div class="start-fact"><div class="start-fact-num">7</div><div class="start-fact-label">Dimensões</div></div>
+    <div class="start-fact"><div class="start-fact-num">~8min</div><div class="start-fact-label">Para concluir</div></div>
+  </div>
+  <button class="btn-primary" onclick="goToForm()">Iniciar meu diagnóstico</button>
+</div>
+
+<!-- FORMULÁRIO -->
+<div id="screen-form">
+  <div class="form-wrap">
+    <div class="form-logo"><svg viewBox="0 0 743.9 150" fill="#0d0d0d"><use href="#mam-logo"/></svg></div>
+    <div class="form-badge">Quase lá</div>
+    <h2 class="form-title">Para onde enviamos<br>a sua análise?</h2>
+    <p class="form-subtitle">Usamos seus dados apenas para personalizar o seu relatório e, se você quiser, dar continuidade à conversa. Nada de spam.</p>
+    <div class="form-fields">
+      <div class="form-group"><label class="form-label">Nome <span class="form-required">*</span></label><input class="form-input" type="text" id="field-name" placeholder="Como prefere ser chamado?" oninput="checkForm()"></div>
+      <div class="form-group"><label class="form-label">Empresa <span class="form-required">*</span></label><input class="form-input" type="text" id="field-company" placeholder="O nome da sua marca" oninput="checkForm()"></div>
+      <div class="form-group"><label class="form-label">E-mail <span class="form-required">*</span></label><input class="form-input" type="email" id="field-email" placeholder="seu@email.com.br" oninput="checkForm()"></div>
+      <div class="form-group"><label class="form-label">WhatsApp <span class="form-required">*</span></label><input class="form-input" type="tel" id="field-phone" placeholder="(00) 00000-0000" oninput="formatPhone(this); checkForm()"></div>
+    </div>
+    <div class="form-privacy">🔒 Seus dados são confidenciais e não serão compartilhados com terceiros.</div>
+    <button class="btn-primary" id="btn-form-submit" onclick="startQuiz()" disabled style="width:100%">Começar o diagnóstico →</button>
+    <button class="form-back" onclick="backToStart()">← Voltar</button>
+  </div>
+</div>
+
+<!-- QUESTIONÁRIO -->
+<div id="screen-quiz">
+  <div class="quiz-header">
+    <div class="quiz-logo"><svg viewBox="0 0 743.9 150" fill="#0d0d0d"><use href="#mam-logo"/></svg></div>
+    <div class="progress-wrap">
+      <div class="progress-info"><span id="progress-label">Bloco 1 de 7</span><span id="progress-pct">0%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+    </div>
+  </div>
+  <div class="quiz-body" id="quiz-body"></div>
+</div>
+
+<!-- RELATÓRIO -->
+<div id="screen-report">
+  <div class="report-top">
+    <svg viewBox="0 0 743.9 150" fill="#0d0d0d"><use href="#mam-logo"/></svg>
+    <div class="report-meta">
+      <div class="report-meta-company" id="report-company-name">Análise de Ciclo de Marca</div>
+      <div class="report-meta-info" id="report-meta-info">42 perguntas · 7 dimensões</div>
+    </div>
+  </div>
+  <div class="report-wrap">
+    <div class="report-header">
+      <div class="report-badge">Análise concluída</div>
+      <h1 class="report-title">A sua marca<br>no Ciclo de Marca</h1>
+      <p class="report-subtitle">Esta é a leitura estratégica da sua marca a partir das 7 dimensões — onde ela está no ciclo, o que a sustenta e o que precisa acontecer para avançar.</p>
+    </div>
+    <div id="report-content"></div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════
+// CONFIG — VÍDEOS POR FASE (YouTube não listado)
+// Quando gravar, troque null pelo ID do vídeo (ex: 'dQw4w9WgXcQ')
+// ══════════════════════════════════════
+const VIDEOS = {
+  'Introdução': '5DyyFWh0Pp8',
+  'Crescimento': '32UITVwvI6M',
+  'Platô': 'fMidn737kG0',
+  'Declínio': 'w-UESZKeUKM'
+};
+
+// ══════════════════════════════════════
+// CONFIG — RASTREAMENTO, WHATSAPP E ENVIO DO LEAD
+// ══════════════════════════════════════
+const WHATSAPP_NUMBER = '5544988085474'; // número oficial MAM — recebe o contato do lead
+
+// Grava o lead no banco (Supabase, via API do site) → aparece no /admin com a origem.
+// Caminho relativo: funciona servido no próprio domínio (mambrand.com.br/diagnostico).
+const LEAD_API = '/api/public/diagnostic-lead';
+
+// Backup opcional por e-mail (Formspree). Deixe '' para desativar.
+const LEAD_ENDPOINT = 'https://formspree.io/f/xrevrwjk';
+
+// ── Atribuição: captura gclid/UTM da URL e mantém pela sessão ──
+const attribution = (function(){
+  try {
+    const KEY = 'mam_diag_attr';
+    const saved = JSON.parse(sessionStorage.getItem(KEY) || '{}');
+    const p = new URLSearchParams(location.search);
+    const pick = (k) => (p.get(k) || saved[k] || '');
+    const attr = {
+      gclid: pick('gclid'),
+      utm_source: pick('utm_source'),
+      utm_medium: pick('utm_medium'),
+      utm_campaign: pick('utm_campaign'),
+      utm_term: pick('utm_term'),
+      utm_content: pick('utm_content'),
+    };
+    sessionStorage.setItem(KEY, JSON.stringify(attr));
+    return attr;
+  } catch(e){ return {}; }
+})();
+
+// Pixel de remarketing do Meta (Facebook/Instagram). Cole o ID quando for usar; vazio = desativado.
+// (O remarketing do GOOGLE já é automático assim que o AW- do Ads for preenchido no <head>.)
+const META_PIXEL_ID = '';
+(function loadMetaPixel(){
+  if(!META_PIXEL_ID) return;
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', META_PIXEL_ID);
+  fbq('track', 'PageView');
+})();
+
+// ══════════════════════════════════════
+// PERGUNTAS — 7 dimensões × 6 = 42 perguntas
+// Cada opção tem: t (texto) e f (fase: I=Introdução, C=Crescimento, P=Platô, D=Declínio)
+// ══════════════════════════════════════
+const BLOCKS = [
+  { id:1, name:"Percepção e Reputação de Mercado", desc:"Como sua marca é vista, lembrada e valorizada pelo mercado.", questions:[
+    {tag:"Situação", text:"Quando você se apresenta a um potencial cliente pela primeira vez, o que mais acontece?", options:[
+      {t:"Ele nunca ouviu falar de mim — explico tudo do zero", f:"I"},
+      {t:"Já me conheceu melhor no passado, hoje sinto que me lembram menos", f:"D"},
+      {t:"Conhece superficialmente, sem clareza do meu diferencial", f:"C"},
+      {t:"Já me conhece e chega com boa impressão prévia", f:"C"},
+      {t:"Chega praticamente decidido — confia na marca antes de falar comigo", f:"P"}]},
+    {tag:"Situação", text:"Como a maioria dos seus novos clientes chega até você?", options:[
+      {t:"Só por prospecção ativa minha — eu vou atrás", f:"I"},
+      {t:"Vinham por indicação, mas esse fluxo esfriou ultimamente", f:"D"},
+      {t:"Por indicação de clientes satisfeitos", f:"C"},
+      {t:"Me encontram organicamente — redes, Google, eventos", f:"C"},
+      {t:"A marca me antecede — chegam querendo especificamente meu trabalho", f:"P"}]},
+    {tag:"Frequência", text:"Com que frequência sua marca é mencionada espontaneamente no mercado?", options:[
+      {t:"Nunca ou quase nunca", f:"I"},
+      {t:"Já foi mais comentada do que é hoje", f:"D"},
+      {t:"Às vezes, de forma irregular", f:"C"},
+      {t:"Com frequência — apareço em conversas do setor", f:"P"},
+      {t:"Constantemente — sou referência citada naturalmente", f:"P"}]},
+    {tag:"Concordância", text:"Você é reconhecido como referência ou autoridade no seu segmento?", options:[
+      {t:"Ainda não — estou só começando a construir isso", f:"I"},
+      {t:"Já tive mais autoridade percebida do que tenho hoje", f:"D"},
+      {t:"Em alguns círculos sim, na maioria ainda não", f:"C"},
+      {t:"Sou visto como referência em boa parte do mercado", f:"P"},
+      {t:"Sou uma autoridade consolidada no setor", f:"P"}]},
+    {tag:"Concordância", text:"O mercado percebe seu diferencial sem você precisar explicar?", options:[
+      {t:"Não há diferenciação clara percebida ainda", f:"I"},
+      {t:"Meu diferencial já foi mais nítido, hoje se diluiu", f:"D"},
+      {t:"Alguns percebem, outros não", f:"C"},
+      {t:"A maioria percebe meu diferencial sem explicação", f:"C"},
+      {t:"Meu diferencial é evidente e reconhecido pelo mercado", f:"P"}]},
+    {tag:"Concordância", text:"Se você parasse de investir em marketing hoje, a marca se sustentaria por um ano?", options:[
+      {t:"Não — desapareceria rápido, dependo 100% do esforço atual", f:"I"},
+      {t:"Perderia relevância rápido — já sinto a marca esfriando", f:"D"},
+      {t:"Talvez por um tempo curto, sem muita convicção", f:"C"},
+      {t:"Sim — a marca tem força própria por um bom período", f:"P"},
+      {t:"Com folga — construí um ativo de marca com vida independente", f:"P"}]}
+  ]},
+  { id:2, name:"Inteligência Competitiva", desc:"O quanto sua marca conhece, monitora e responde ao ambiente competitivo.", questions:[
+    {tag:"Situação", text:"Quanto você conhece dos seus principais concorrentes?", options:[
+      {t:"Não tenho clareza nem de quem são meus concorrentes diretos", f:"I"},
+      {t:"Conheço, mas parei de acompanhar e sinto que me ultrapassaram", f:"D"},
+      {t:"Conheço alguns bem, mas sem visão completa do mercado", f:"C"},
+      {t:"Conheço bem os principais — forças, fraquezas e estratégias", f:"C"},
+      {t:"Tenho visão profunda e atualizada de todo o cenário competitivo", f:"P"}]},
+    {tag:"Concordância", text:"Você consegue articular seu diferencial de forma que o cliente perceba valor real?", options:[
+      {t:"Não tenho um diferencial claro definido", f:"I"},
+      {t:"Tinha um diferencial forte, mas ele perdeu força no mercado", f:"D"},
+      {t:"Tenho, mas nem sempre ressoa com o cliente", f:"C"},
+      {t:"Meu diferencial é claro e percebido pela maioria", f:"C"},
+      {t:"É reconhecido e valorizado de forma consistente pelo mercado", f:"P"}]},
+    {tag:"Frequência", text:"Com que frequência você perde clientes ou negociações para concorrentes?", options:[
+      {t:"Com muita frequência — e isso vem piorando", f:"D"},
+      {t:"Acontece bastante — ainda estou aprendendo a me posicionar", f:"I"},
+      {t:"Às vezes, mas não de forma alarmante", f:"C"},
+      {t:"Raramente — retenho bem", f:"P"},
+      {t:"Quase nunca — quando o cliente chega, a concorrência não é obstáculo", f:"P"}]},
+    {tag:"Situação", text:"Como você se posiciona frente às tendências do setor?", options:[
+      {t:"Descubro quando já viraram realidade consolidada", f:"I"},
+      {t:"Já fui mais atualizado, hoje sinto que fiquei pra trás", f:"D"},
+      {t:"Acompanho, mas custo a transformar em ação", f:"C"},
+      {t:"Monitoro e incorporo com agilidade", f:"C"},
+      {t:"Antecipo tendências — costumo estar à frente", f:"P"}]},
+    {tag:"Concordância", text:"Sua marca tem elementos difíceis de copiar — método, comunidade, ativos exclusivos?", options:[
+      {t:"Não — qualquer concorrente faz o que eu faço", f:"I"},
+      {t:"Tinha vantagens que hoje os concorrentes já alcançaram", f:"D"},
+      {t:"Tenho alguns elementos, mas ainda frágeis ou replicáveis", f:"C"},
+      {t:"Tenho barreiras competitivas relevantes já construídas", f:"P"},
+      {t:"Tenho ativos únicos que criam vantagem duradoura", f:"P"}]},
+    {tag:"Concordância", text:"Você sabe por que clientes escolhem concorrentes e usa isso pra evoluir?", options:[
+      {t:"Não tenho essa clareza e nunca busquei entender", f:"I"},
+      {t:"Já entendi melhor meu mercado do que entendo a perda atual", f:"D"},
+      {t:"Tenho suposições, mas sem dados ou conversas reais", f:"C"},
+      {t:"Conheço os motivos e já ajustei minha proposta por isso", f:"C"},
+      {t:"Isso é parte estruturada da minha inteligência competitiva", f:"P"}]}
+  ]},
+  { id:3, name:"Performance Comercial e Financeira", desc:"A saúde real do negócio através dos seus resultados comerciais e financeiros.", questions:[
+    {tag:"Situação", text:"O que acontece nas suas negociações comerciais?", options:[
+      {t:"Quase sempre preciso dar desconto, senão perco o negócio", f:"D"},
+      {t:"A concorrência puxa meu preço pra baixo e eu cedo com frequência", f:"D"},
+      {t:"Estou começando agora — ainda testo preço a cada negociação", f:"I"},
+      {t:"Meu preço é aceito na maioria das vezes, sem muita resistência", f:"C"},
+      {t:"O cliente compra pelo valor — preço raramente é o ponto da conversa", f:"P"}]},
+    {tag:"Situação", text:"Trajetória do seu faturamento nos últimos 12 meses?", options:[
+      {t:"Caindo de forma consistente e preocupante", f:"D"},
+      {t:"Estagnado — fatura sempre na mesma faixa", f:"P"},
+      {t:"Ainda muito recente pra ter série, mas começando a entrar receita", f:"I"},
+      {t:"Crescendo de forma consistente, dentro do planejado", f:"C"},
+      {t:"Crescendo forte, superando o que eu esperava", f:"C"}]},
+    {tag:"Situação", text:"Previsibilidade financeira do negócio?", options:[
+      {t:"Nenhuma — cada mês é uma surpresa, mal sei o que vem", f:"I"},
+      {t:"Pouca — oscilações grandes que travam qualquer planejamento", f:"I"},
+      {t:"A receita vinha, mas começou a ficar mais incerta ultimamente", f:"D"},
+      {t:"Parcial — tenho contratos fixos, mas dependo de novas vendas", f:"C"},
+      {t:"Alta — receita recorrente robusta que me deixa planejar com segurança", f:"P"}]},
+    {tag:"Frequência", text:"Como o ticket médio evoluiu nos últimos 2 anos?", options:[
+      {t:"Caiu — preciso cobrar menos pra segurar os clientes", f:"D"},
+      {t:"Estagnado — não consigo subir sem perder gente", f:"P"},
+      {t:"Ainda estou definindo meu preço — é cedo pra falar em evolução", f:"I"},
+      {t:"Cresceu de forma consistente, consigo reajustar sem atrito", f:"C"},
+      {t:"Cresceu muito — clientes compram mais e aceitam preços maiores", f:"C"}]},
+    {tag:"Concordância", text:"A força da marca facilita a sua venda?", options:[
+      {t:"A marca já ajudou mais a vender do que ajuda hoje", f:"D"},
+      {t:"Não tem impacto perceptível — vendo no esforço, não na marca", f:"I"},
+      {t:"Às vezes ajuda, mas ainda sem consistência", f:"C"},
+      {t:"Claramente facilita e acelera o fechamento", f:"C"},
+      {t:"É um dos principais ativos da venda — a marca vende por mim", f:"P"}]},
+    {tag:"Situação", text:"Sua saúde financeira permite investir em crescimento?", options:[
+      {t:"Não — estamos no limite, sem fôlego pra nada", f:"D"},
+      {t:"Muito pouco — qualquer investimento exige sacrifício na operação", f:"I"},
+      {t:"Parcialmente — invisto em algumas frentes, com restrições", f:"C"},
+      {t:"Sim — tenho capacidade de investimento consistente", f:"C"},
+      {t:"Sim, com folga — sustento investimentos estratégicos sem apertar", f:"P"}]}
+  ]},
+  { id:4, name:"Identidade, Branding e Posicionamento", desc:"O quanto a marca sabe quem ela é e traduz isso em tudo que comunica e entrega.", questions:[
+    {tag:"Situação", text:"Se tivesse 30 segundos pra explicar por que sua marca existe (além do lucro)?", options:[
+      {t:"Não consigo — nunca estruturei isso", f:"I"},
+      {t:"Já tive um propósito claro, mas ele se perdeu pelo caminho", f:"D"},
+      {t:"Tenho uma ideia, mas muda conforme o contexto", f:"C"},
+      {t:"Tenho clareza e comunico com consistência", f:"C"},
+      {t:"É cristalino, internalizado pela equipe, presente em tudo", f:"P"}]},
+    {tag:"Situação", text:"Como o posicionamento atual da sua marca foi construído?", options:[
+      {t:"Nunca foi definido — foi se formando ao acaso", f:"I"},
+      {t:"Foi definido um dia, mas hoje está datado e desalinhado", f:"D"},
+      {t:"Houve alguma reflexão, mas ainda é vago", f:"C"},
+      {t:"Foi definido de forma deliberada e construído com consistência", f:"C"},
+      {t:"Fruto de processo estratégico profundo — guia todas as decisões", f:"P"}]},
+    {tag:"Situação", text:"O que a marca promete na comunicação corresponde ao que o cliente vive na entrega?", options:[
+      {t:"Há uma lacuna grande — prometo mais do que entrego", f:"D"},
+      {t:"Estou ajustando isso agora — ainda há descompasso de início", f:"I"},
+      {t:"Em geral há coerência, com falhas pontuais", f:"C"},
+      {t:"A entrega está alinhada à promessa quase sempre", f:"C"},
+      {t:"A entrega supera a promessa de forma consistente", f:"P"}]},
+    {tag:"Concordância", text:"Sua marca se diferencia de forma clara na percepção real do cliente?", options:[
+      {t:"Somos vistos como mais um no mercado", f:"I"},
+      {t:"Já fomos diferentes — hoje a percepção se nivelou à concorrência", f:"D"},
+      {t:"Há alguma diferenciação percebida, ainda fraca", f:"C"},
+      {t:"A diferenciação é percebida e valorizada pela maioria", f:"C"},
+      {t:"Somos reconhecidos como uma opção genuinamente superior", f:"P"}]},
+    {tag:"Concordância", text:"A marca se manifesta de forma coerente em todos os pontos de contato?", options:[
+      {t:"Há grande inconsistência entre os canais", f:"I"},
+      {t:"Já foi mais coesa — hoje cada canal fala uma língua", f:"D"},
+      {t:"Consistência em alguns canais, irregular no conjunto", f:"C"},
+      {t:"Coerente na maioria dos pontos de contato", f:"P"},
+      {t:"Consistente e reconhecível em todos os contextos", f:"P"}]},
+    {tag:"Situação", text:"Qual seu papel como guardião da identidade da marca?", options:[
+      {t:"Não me vejo nesse papel — a marca se constrói sozinha", f:"I"},
+      {t:"Já cuidei mais de perto — hoje deixei a marca à deriva", f:"D"},
+      {t:"Me preocupo, mas de forma reativa", f:"C"},
+      {t:"Sou ativo — tomo decisões que protegem a marca", f:"C"},
+      {t:"Sou guardião consciente — toda decisão passa pelo filtro da marca", f:"P"}]}
+  ]},
+  { id:5, name:"Experiência e Relacionamento com o Cliente", desc:"A qualidade real do vínculo entre a marca e seus clientes.", questions:[
+    {tag:"Situação", text:"Como está a retenção dos seus clientes ao longo do tempo?", options:[
+      {t:"Muito baixa — a maioria compra uma vez e não volta", f:"I"},
+      {t:"Caiu — clientes que ficavam começaram a sair", f:"D"},
+      {t:"Moderada — parte retorna sem padrão claro", f:"C"},
+      {t:"Alta — a maioria continua comprando", f:"P"},
+      {t:"Muito alta — base fiel que cresce em valor", f:"P"}]},
+    {tag:"Frequência", text:"Com que frequência clientes indicam sua marca sem você pedir?", options:[
+      {t:"Nunca ou quase nunca", f:"I"},
+      {t:"Indicavam mais antes — hoje as indicações minguaram", f:"D"},
+      {t:"Às vezes, sem volume relevante", f:"C"},
+      {t:"Com frequência — é fonte real de novos clientes", f:"C"},
+      {t:"Sempre — clientes viraram promotores ativos", f:"P"}]},
+    {tag:"Situação", text:"Quando um cliente reclama, qual a resposta típica da marca?", options:[
+      {t:"Lenta e defensiva — justifico em vez de resolver", f:"D"},
+      {t:"Ainda estou estruturando meu atendimento — é improvisado", f:"I"},
+      {t:"Resolvo, mas de forma padronizada, sem encantar", f:"C"},
+      {t:"Ágil e empática — gero satisfação mesmo na crise", f:"C"},
+      {t:"Transformo problema em fidelização — surpreendo", f:"P"}]},
+    {tag:"Concordância", text:"Você conhece profundamente seu cliente ideal — dores, desejos, o que o prende?", options:[
+      {t:"Conhecimento muito superficial", f:"I"},
+      {t:"Já conheci bem meu cliente, mas ele mudou e eu não acompanhei", f:"D"},
+      {t:"Conheço o básico, sem profundidade real", f:"C"},
+      {t:"Conheço bem e uso isso nas decisões", f:"C"},
+      {t:"Conhecimento profundo e atualizado que guia a estratégia", f:"P"}]},
+    {tag:"Situação", text:"Existe comunidade ou senso de pertencimento em torno da marca?", options:[
+      {t:"Não — cada cliente tem relação isolada com a marca", f:"I"},
+      {t:"Já houve mais engajamento em volta da marca do que hoje", f:"D"},
+      {t:"Existe um embrião de comunidade, pouco desenvolvido", f:"C"},
+      {t:"Comunidade ativa em formação que fortalece o vínculo", f:"C"},
+      {t:"Comunidade sólida — clientes se conectam entre si", f:"P"}]},
+    {tag:"Situação", text:"Se os clientes avaliassem sua marca de 0 a 10, qual o resultado provável?", options:[
+      {t:"Maioria entre 0 e 6 — insatisfeitos ou indiferentes", f:"D"},
+      {t:"Ainda estou conquistando os primeiros — sem histórico", f:"I"},
+      {t:"Em torno de 7 e 8 — satisfeitos mas não encantados", f:"C"},
+      {t:"Entre 8 e 9 — propensos a indicar", f:"C"},
+      {t:"Entre 9 e 10 — encantados e promotores ativos", f:"P"}]}
+  ]},
+  { id:6, name:"Pessoas, Cultura e Clima Organizacional", desc:"A capacidade da marca de atrair, desenvolver e reter pessoas — e construir uma cultura que a sustente.", questions:[
+    {tag:"Situação", text:"Quando você abre uma vaga, como são os candidatos que aparecem?", options:[
+      {t:"Pouquíssimos e de perfil aquém — a marca não atrai", f:"I"},
+      {t:"Já atraí gente melhor — hoje os bons não se interessam tanto", f:"D"},
+      {t:"Quantidade razoável, qualidade ainda irregular", f:"C"},
+      {t:"Boa quantidade de candidatos qualificados", f:"C"},
+      {t:"Os melhores do mercado querem trabalhar comigo", f:"P"}]},
+    {tag:"Situação", text:"Como está a retenção dos seus melhores profissionais?", options:[
+      {t:"Muito baixa — perco talentos com frequência", f:"D"},
+      {t:"Equipe ainda em formação — é cedo pra falar em retenção", f:"I"},
+      {t:"Moderada — perco bons com mais frequência do que gostaria", f:"C"},
+      {t:"Alta — meus melhores ficam e crescem comigo", f:"P"},
+      {t:"Muito alta — equipe estável e comprometida", f:"P"}]},
+    {tag:"Concordância", text:"Sua equipe vive o propósito e os valores da marca no dia a dia?", options:[
+      {t:"Trabalha sem clareza ou conexão com o propósito", f:"I"},
+      {t:"Já houve mais conexão — hoje a equipe parece desengajada", f:"D"},
+      {t:"Há consciência, mas ainda superficial", f:"C"},
+      {t:"A equipe tem clareza e isso orienta comportamentos", f:"C"},
+      {t:"O propósito é vivo — orienta, motiva e une as pessoas", f:"P"}]},
+    {tag:"Concordância", text:"O que a marca promete por fora é vivido por dentro?", options:[
+      {t:"Grande contradição entre discurso externo e cultura interna", f:"D"},
+      {t:"Estou começando a estruturar a cultura agora", f:"I"},
+      {t:"Algum alinhamento, com contradições a resolver", f:"C"},
+      {t:"Consistência entre marca externa e cultura na maioria dos aspectos", f:"C"},
+      {t:"A cultura interna é a expressão mais autêntica da marca", f:"P"}]},
+    {tag:"Concordância", text:"A liderança (você incluído) é exemplo vivo da cultura que prega?", options:[
+      {t:"Contradição clara entre o que pedimos e o que praticamos", f:"I"},
+      {t:"Já fomos mais coerentes — a liderança se desgastou", f:"D"},
+      {t:"Em alguns aspectos somos exemplo, em outros não", f:"C"},
+      {t:"A liderança é consistente e serve de referência", f:"C"},
+      {t:"A liderança é o exemplo mais vivo da cultura", f:"P"}]},
+    {tag:"Situação", text:"Se precisasse dobrar de tamanho em 12 meses, a cultura sustentaria?", options:[
+      {t:"Não — o crescimento quebraria a cultura", f:"I"},
+      {t:"Hoje já sinto a cultura se diluindo — dobrar pioraria", f:"D"},
+      {t:"Talvez — temos estrutura ainda frágil", f:"C"},
+      {t:"Provavelmente sim — com ajustes pontuais", f:"C"},
+      {t:"Sim, com confiança — cultura e processos robustos pra escalar", f:"P"}]}
+  ]},
+  { id:7, name:"Visão e Maturidade Empreendedora", desc:"O nível de clareza, maturidade e protagonismo do empreendedor como principal arquiteto da marca.", questions:[
+    {tag:"Situação", text:"Qual seu papel atual dentro do negócio?", options:[
+      {t:"No operacional — apago incêndios e mal penso estrategicamente", f:"I"},
+      {t:"Voltei pro operacional pra segurar pontas que começaram a cair", f:"D"},
+      {t:"Divido entre operacional e estratégico — operacional ainda domina", f:"C"},
+      {t:"Atuo predominantemente no estratégico — a operação anda sem mim", f:"C"},
+      {t:"Sou arquiteto da marca — visão e longo prazo, operação se sustenta", f:"P"}]},
+    {tag:"Comportamento", text:"Quando o negócio gera mais dinheiro, qual seu comportamento?", options:[
+      {t:"Elevo meu padrão de vida na hora — carro, status, viagens", f:"D"},
+      {t:"Reinvisto quase tudo — ainda estou plantando o negócio", f:"I"},
+      {t:"Divido entre consumo e reinvestimento, sem estratégia clara", f:"C"},
+      {t:"Priorizo reinvestir na marca, com retirada controlada", f:"C"},
+      {t:"Tenho estratégia clara de alocação — reinvisto com intenção", f:"P"}]},
+    {tag:"Situação", text:"Como é sua visão para a marca nos próximos 5 anos?", options:[
+      {t:"Não tenho visão clara — vivo o dia a dia", f:"I"},
+      {t:"Tinha uma visão, mas perdi o rumo recentemente", f:"D"},
+      {t:"Visão em construção, sem estratégia clara ainda", f:"C"},
+      {t:"Visão clara que já orienta as decisões de hoje", f:"C"},
+      {t:"Visão nítida, compartilhada com a equipe e em execução deliberada", f:"P"}]},
+    {tag:"Situação", text:"O que acontece com o negócio se você sumir por 30 dias?", options:[
+      {t:"Para — nada funciona sem minha presença", f:"I"},
+      {t:"Entra em colapso parcial — surgem crises que só eu resolvo", f:"D"},
+      {t:"Funciona com dificuldade, com perda de qualidade", f:"C"},
+      {t:"Funciona bem, com pequenos ajustes à distância", f:"C"},
+      {t:"Funciona perfeitamente — a marca opera com autonomia total", f:"P"}]},
+    {tag:"Concordância", text:"Você separa sua identidade pessoal da identidade da marca?", options:[
+      {t:"Eu e a marca somos a mesma coisa — não separo", f:"I"},
+      {t:"Minhas questões pessoais começaram a contaminar a marca", f:"D"},
+      {t:"Separo em alguns momentos, ainda com sobreposição", f:"C"},
+      {t:"Tenho clareza dessa separação e ela guia minhas decisões", f:"C"},
+      {t:"A marca tem vida própria e eu sirvo a ela, não o contrário", f:"P"}]},
+    {tag:"Situação", text:"O que você prega pra equipe é o que você pratica?", options:[
+      {t:"Contradição clara — peço uma coisa e faço outra", f:"I"},
+      {t:"Já fui mais coerente — hoje minha credibilidade se desgastou", f:"D"},
+      {t:"Em geral consistente, com alguns gaps a trabalhar", f:"C"},
+      {t:"Consistente na maioria das vezes — a equipe me vê como exemplo", f:"C"},
+      {t:"Vivo o que prego — isso dá autoridade moral à liderança", f:"P"}]}
+  ]}
+];
+
+const PHASE_NAMES = { I:'Introdução', C:'Crescimento', P:'Platô', D:'Declínio' };
+const PHASE_ORDER = ['Introdução','Crescimento','Platô','Declínio'];
+
+// Textos por dimensão × fase — agressivos e específicos
+const DIM_TEXT = {
+  0:{ // Percepção e Reputação
+    'Introdução':"Sua marca ainda é uma desconhecida — e tudo bem, porque ninguém nasce referência. Mas seja honesto: hoje, quando você não está na sala, sua marca não existe. Cada cliente novo é uma explicação do zero, cada venda depende do seu esforço bruto. Este é o momento de plantar o que vai te fazer ser lembrado sem precisar estar presente.",
+    'Crescimento':"Sua marca começou a ecoar — as pessoas já te conhecem, já te indicam, já te procuram. Mas reconhecimento em crescimento é frágil: cresce rápido e some rápido se você não der consistência. O mercado está formando uma opinião sobre você agora. A pergunta é: você está dirigindo essa percepção, ou deixando ela acontecer ao acaso?",
+    'Platô':"Sua marca é reconhecida e respeitada — você conquistou um lugar na cabeça do mercado. Mas cuidado com o conforto: autoridade que não se renova vira paisagem. Hoje você é lembrado pelo que construiu ontem. A questão é se a sua marca ainda está dizendo algo novo, ou apenas colhendo o que plantou e esperando que dure pra sempre.",
+    'Declínio':"Acenda o alerta: sua marca já foi mais lembrada do que é hoje. As menções esfriaram, a autoridade que você tinha se diluiu, e o mercado começou a te tratar como mais um. Isso não acontece de uma vez — é uma erosão silenciosa que você só percebe quando o telefone para de tocar. A reputação que demorou anos pra construir está vazando, e cada mês de inércia acelera a queda."
+  },
+  1:{ // Inteligência Competitiva
+    'Introdução':"Você ainda está aprendendo o tabuleiro — e jogar sem conhecer as peças é perigoso. Hoje você não tem clareza de quem são seus concorrentes nem do que te diferencia de verdade. Sem isso, você compete no escuro, reagindo a movimentos que nem viu chegar. Definir seu território agora é o que separa quem vira referência de quem vira commodity.",
+    'Crescimento':"Você já enxerga o jogo e começou a se posicionar — sabe quem são seus concorrentes e tem um diferencial em construção. Mas crescimento atrai atenção: quanto mais você sobe, mais gente olha pra você. As barreiras que você construir agora vão decidir se sua vantagem dura ou se some no primeiro concorrente que te copiar.",
+    'Platô':"Você domina o seu mercado — conhece os concorrentes, tem um diferencial sólido e barreiras que te protegem. Mas mercados não param. Enquanto você desfruta da posição conquistada, alguém está estudando exatamente como te derrubar. Liderança consolidada é alvo. A pergunta é se você continua inovando ou se está apenas defendendo um castelo que já começou a ser cercado.",
+    'Declínio':"Você já liderou esse jogo — mas parou de acompanhar e o mercado te ultrapassou. As vantagens que te diferenciavam foram alcançadas, os concorrentes que você ignorou cresceram, e tendências que você não viu viraram a nova regra. Estar em declínio competitivo é perigoso porque o mercado não espera: cada trimestre parado é espaço que alguém ocupa no seu lugar."
+  },
+  2:{ // Performance Comercial e Financeira
+    'Introdução':"Seu negócio ainda está engatinhando financeiramente — receita instável, preço em teste, cada mês uma surpresa. É esperado pra quem começa, mas é também o momento mais perigoso: sem previsibilidade, qualquer tropeço vira crise. A marca ainda não trabalha por você, então tudo depende de esforço. Construir base agora é o que vai te tirar do sufoco do fluxo de caixa.",
+    'Crescimento':"Os números estão respondendo — faturamento subindo, ticket crescendo, a marca começando a ajudar a vender. Você encontrou tração. Mas crescimento desorganizado quebra empresa: vender mais sem estrutura é correr pra um abismo. Este é o momento de transformar o impulso em máquina, antes que o crescimento vire um problema maior que a estagnação.",
+    'Platô':"Sua performance é sólida — margens saudáveis, recorrência, a marca vendendo por você. Você chegou aonde muitos sonham chegar. E é exatamente aqui que mora o risco: lucro confortável anestesia. Enquanto os números sustentam, é fácil parar de inovar. Mas faturamento estável em mercado que se move é uma ilusão de segurança que pode cobrar caro lá na frente.",
+    'Declínio':"Os números não mentem, e os seus estão pedindo socorro. Desconto pra fechar, faturamento oscilando pra baixo, ticket encolhendo — cada negociação virou uma queda de braço pelo preço. Isso não é problema de vendas: é uma marca que parou de gerar valor percebido e, sem valor, sobra só preço pra brigar. Se nada mudar, a margem continua sangrando até não sobrar negócio pra defender."
+  },
+  3:{ // Identidade, Branding e Posicionamento
+    'Introdução':"Sua marca ainda não sabe quem é — e se você não sabe, o mercado também não vai saber. Hoje o posicionamento se forma ao acaso, a identidade muda conforme o dia, e a comunicação não tem fio condutor. Esta é a fundação de tudo: marca sem identidade clara é casa sem alicerce. O que você definir agora vai sustentar — ou comprometer — cada passo seguinte.",
+    'Crescimento':"Sua identidade está tomando forma — você tem um posicionamento em construção e começa a se diferenciar. Mas crescimento testa a consistência: quanto mais pontos de contato, mais fácil a marca se dispersar. O risco aqui é crescer e se diluir no caminho. Consolidar quem você é agora, enquanto ainda é maleável, é o que cria uma marca coerente em vez de uma colcha de retalhos.",
+    'Platô':"Sua marca tem identidade forte e posicionamento claro — você sabe quem é e o mercado também. Conquista rara. Mas identidade consolidada tem um inimigo: a rigidez. O que te trouxe até aqui pode não ser o que te leva adiante. A pergunta é se a sua marca ainda é relevante pro mundo de hoje, ou se está perfeitamente posicionada para um mercado que já mudou.",
+    'Declínio':"Sua marca já teve uma identidade forte — mas hoje ela está datada, desalinhada do que você virou, ou diluída a ponto de virar ruído. O que um dia te diferenciou agora soa genérico. Marca em declínio de identidade confunde o mercado: ele não sabe mais o que você representa, e marca que não significa nada não é escolhida. Isso não se conserta com retoque — pede reconstrução."
+  },
+  4:{ // Experiência e Relacionamento
+    'Introdução':"Seu relacionamento com o cliente ainda é transacional — ele compra, recebe e some. Natural pra quem começa, mas perigoso se virar hábito: sem retenção, você vive correndo atrás de cliente novo, gastando mais pra crescer menos. O vínculo que você criar agora é o que transforma comprador em fã. E fã é o ativo mais barato e mais poderoso que uma marca pode ter.",
+    'Crescimento':"Seus clientes estão começando a ficar — voltam, indicam, criam vínculo. A experiência está virando um motor de crescimento. Mas escala é o teste da experiência: o que encanta com 10 clientes pode desmoronar com 100. O desafio agora é sistematizar o cuidado, pra que a experiência que conquistou não se perca exatamente quando mais gente está chegando.",
+    'Platô':"Você construiu relacionamentos sólidos — clientes fiéis, que indicam e defendem a marca. Um ativo que vale ouro. Mas lealdade não é eterna: o cliente que te ama hoje está sendo cortejado por todo mundo. Relacionamento em platô é confortável e arriscado ao mesmo tempo — porque é fácil parar de surpreender quem já está dentro. E cliente que para de ser surpreendido começa a ouvir a concorrência.",
+    'Declínio':"Algo se quebrou na sua relação com o cliente — eles estão indo embora, as indicações secaram, e quem ficava começou a sair. Cada cliente perdido é caro de repor, e a fila de saída costuma ser silenciosa até virar uma debandada. Quando a experiência entra em declínio, o problema raramente é o produto: é o vínculo que esfriou. E reconquistar confiança perdida custa muito mais do que tê-la mantido."
+  },
+  5:{ // Pessoas, Cultura e Clima
+    'Introdução':"Sua cultura ainda está se formando — a equipe é pequena, os processos improvisados, e a marca mal existe internamente. É o começo, mas é também o DNA sendo escrito: o que você plantar agora na cultura vai ecoar por anos. Marca forte por fora começa com cultura forte por dentro. Negligenciar isso no início é construir uma casa bonita sobre uma fundação que não aguenta peso.",
+    'Crescimento':"Sua cultura está pegando — a equipe começa a viver o propósito, você atrai gente boa. Mas crescer é o maior teste de cultura: cada contratação dilui ou fortalece o que você construiu. Crescimento rápido sem cuidado cultural quebra times. O desafio é escalar pessoas sem perder a alma — porque o dia em que a cultura quebra, a marca quebra junto, só que por dentro, onde você demora a ver.",
+    'Platô':"Você tem uma cultura sólida e uma equipe comprometida — gente que veste a camisa e entrega com consistência. Patrimônio raro. Mas cultura estável pode virar cultura estagnada: times confortáveis param de crescer, e o que era engajamento vira rotina. A pergunta é se a sua equipe ainda está sendo desafiada a evoluir, ou se está apenas confortável o suficiente pra não sair — e acomodada demais pra inovar.",
+    'Declínio':"Sua cultura está sangrando — você perde talentos, o engajamento caiu, e o clima que já foi bom azedou. Pior: a contradição entre o que a marca promete fora e o que se vive dentro ficou visível, e isso contamina tudo. Cultura em declínio é o tipo de problema que o cliente sente sem saber explicar, porque equipe desmotivada entrega marca desmotivada. E talento bom não avisa que vai embora — ele só vai."
+  },
+  6:{ // Visão e Maturidade Empreendedora
+    'Introdução':"Você ainda é o negócio — faz tudo, decide tudo, segura tudo. É a realidade de quem começa, mas é também a armadilha mais comum: enquanto você for o gargalo de cada decisão, a marca não cresce além do seu próprio fôlego. Amadurecer como líder agora, saindo do operacional e construindo visão, é o que separa um negócio que escala de um autoemprego disfarçado de empresa.",
+    'Crescimento':"Você está amadurecendo como líder — começa a sair do operacional, a pensar estratégia, a enxergar longe. Mas crescimento expõe os limites do fundador: a empresa só cresce até onde a sua maturidade permite. O risco aqui é a empresa crescer mais rápido que você. Desenvolver a sua visão e soltar o controle no ritmo certo é o que vai permitir que a marca voe sem você ter que carregá-la nas costas.",
+    'Platô':"Você é um líder maduro — tem visão, delega, atua no estratégico enquanto a operação anda. Chegou a um nível que poucos alcançam. Mas maturidade tem um teste final: o ego do sucesso. É fácil, no topo, confundir o que é bom pra marca com o que é bom pra você. A pergunta é se você ainda serve a marca, ou se começou a esperar que ela sirva à sua vaidade — porque é aí que líderes maduros começam a estagnar.",
+    'Declínio':"Algo regrediu na sua liderança — você voltou pro operacional pra segurar pontas que caíram, ou deixou questões pessoais contaminarem decisões da marca. Quando o líder declina, a marca declina junto, porque ela nunca sobe acima da maturidade de quem a comanda. Este é o ponto mais difícil de admitir e o mais importante: às vezes o maior obstáculo da marca é o próprio dono. Reconhecer isso é o primeiro passo pra reverter."
+  }
+};
+
+// ══════════════════════════════════════
+// ESTADO
+// ══════════════════════════════════════
+let currentBlock = 0;
+let answers = {}; // chave `${bi}_${qi}` => índice REAL da opção (no array original)
+let optionOrder = {}; // chave `${bi}_${qi}` => array de índices embaralhados
+let totalQuestions = BLOCKS.reduce((s,b)=>s+b.questions.length,0);
+let userData = {};
+let leadId = null; // uuid do lead (gerado ao preencher o form; completa a mesma linha no fim)
+
+function newUuid(){
+  if(window.crypto && crypto.randomUUID) return crypto.randomUUID();
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,c=>{
+    const r=Math.random()*16|0; return (c==='x'?r:(r&0x3|0x8)).toString(16);
+  });
+}
+
+// Grava/atualiza o lead no banco (aparece no /admin). `extra` traz fase+dimensões no fim.
+function saveLeadToDb(extra){
+  if(!LEAD_API || !leadId) return;
+  const body = Object.assign({
+    id: leadId,
+    name: userData.name||'',
+    company: userData.company||'',
+    email: userData.email||'',
+    whatsapp: userData.phone||'',
+    gclid: attribution.gclid||'',
+    utm_source: attribution.utm_source||'',
+    utm_medium: attribution.utm_medium||'',
+    utm_campaign: attribution.utm_campaign||'',
+    utm_term: attribution.utm_term||'',
+    utm_content: attribution.utm_content||'',
+    referrer: document.referrer||'',
+    landing_url: location.href||''
+  }, extra||{});
+  return fetch(LEAD_API, {
+    method:'POST', headers:{ 'Content-Type':'application/json' },
+    body: JSON.stringify(body)
+  }).catch(err=>console.log('Falha ao gravar lead no banco:', err));
+}
+
+// Embaralha a ordem de exibição das opções de cada pergunta (uma vez por sessão)
+function shuffleOptions(){
+  optionOrder={};
+  BLOCKS.forEach((b,bi)=>b.questions.forEach((q,qi)=>{
+    const order=q.options.map((_,i)=>i);
+    for(let i=order.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [order[i],order[j]]=[order[j],order[i]]; }
+    optionOrder[`${bi}_${qi}`]=order;
+  }));
+}
+
+// ══════════════════════════════════════
+// FLUXO INICIAL
+// ══════════════════════════════════════
+function goToForm() {
+  document.getElementById('screen-start').style.display='none';
+  document.getElementById('screen-form').style.display='flex';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function backToStart() {
+  document.getElementById('screen-form').style.display='none';
+  document.getElementById('screen-start').style.display='flex';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function checkForm() {
+  const n=document.getElementById('field-name').value.trim();
+  const c=document.getElementById('field-company').value.trim();
+  const e=document.getElementById('field-email').value.trim();
+  const p=document.getElementById('field-phone').value.replace(/\D/g,''); // só dígitos
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e); // email de verdade
+  const phoneOk = p.length>=10 && p.length<=11; // DDD + 8 ou 9 dígitos
+  const nameOk = n.length>=2;
+  const companyOk = c.length>=1;
+  const valid = nameOk && companyOk && emailOk && phoneOk;
+  document.getElementById('btn-form-submit').disabled = !valid;
+  // feedback visual de erro só depois que o usuário digitou algo
+  const ef=document.getElementById('field-email');
+  ef.classList.toggle('input-error', e.length>3 && !emailOk);
+  const pf=document.getElementById('field-phone');
+  pf.classList.toggle('input-error', p.length>=3 && !phoneOk);
+}
+function formatPhone(input) {
+  let v=input.value.replace(/\D/g,'');
+  if(v.length<=2) v=v;
+  else if(v.length<=7) v=`(${v.slice(0,2)}) ${v.slice(2)}`;
+  else v=`(${v.slice(0,2)}) ${v.slice(2,7)}-${v.slice(7,11)}`;
+  input.value=v;
+}
+function startQuiz() {
+  // Trava de segurança: revalida antes de iniciar, mesmo se o botão for burlado
+  const n=document.getElementById('field-name').value.trim();
+  const c=document.getElementById('field-company').value.trim();
+  const e=document.getElementById('field-email').value.trim();
+  const pDigits=document.getElementById('field-phone').value.replace(/\D/g,'');
+  const emailOk=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e);
+  const phoneOk=pDigits.length>=10 && pDigits.length<=11;
+  if(!(n.length>=2 && c && emailOk && phoneOk)){
+    checkForm();
+    alert('Por favor, preencha todos os campos corretamente para continuar. Precisamos do seu e-mail e WhatsApp válidos para enviar a sua análise.');
+    return;
+  }
+  userData={
+    name:document.getElementById('field-name').value.trim(),
+    company:document.getElementById('field-company').value.trim(),
+    email:document.getElementById('field-email').value.trim(),
+    phone:document.getElementById('field-phone').value.trim()
+  };
+  // Grava o lead JÁ no preenchimento (anti-abandono): se largar o quiz, o contato não se perde.
+  leadId = newUuid();
+  saveLeadToDb({});
+  try { if(typeof gtag==='function') gtag('event','lead_form',{ event_category:'diagnostico' }); } catch(e){}
+  document.getElementById('report-company-name').textContent=userData.company;
+  document.getElementById('screen-form').style.display='none';
+  document.getElementById('screen-quiz').style.display='block';
+  shuffleOptions();
+  currentBlock=0; renderBlock(0);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ══════════════════════════════════════
+// QUESTIONÁRIO
+// ══════════════════════════════════════
+function renderBlock(bi, scrollTop=true) {
+  const b=BLOCKS[bi]; const qs=b.questions;
+  const answered=qs.filter((_,qi)=>answers[`${bi}_${qi}`]!==undefined).length;
+  const totalAns=Object.keys(answers).length;
+  const pct=Math.round((totalAns/totalQuestions)*100);
+  document.getElementById('progress-label').textContent=`Bloco ${bi+1} de 7`;
+  document.getElementById('progress-pct').textContent=`${pct}%`;
+  document.getElementById('progress-fill').style.width=`${pct}%`;
+
+  let html=`<div class="block-header">
+    <div class="block-number">Bloco ${bi+1} de 7</div>
+    <div class="block-title">${b.name}</div>
+    <div class="block-desc">${b.desc}</div>
+  </div>`;
+
+  qs.forEach((q,qi)=>{
+    const key=`${bi}_${qi}`; const sel=answers[key]; const isAns=sel!==undefined;
+    const order=optionOrder[key] || q.options.map((_,i)=>i);
+    html+=`<div class="question-card ${isAns?'answered':''}" id="qcard_${qi}">
+      <div class="question-tag">${q.tag}</div>
+      <div class="question-text">${q.text}</div>
+      <div class="options">`;
+    order.forEach(realIdx=>{
+      const opt=q.options[realIdx];
+      const isSel=sel===realIdx;
+      html+=`<div class="option ${isSel?'selected':''}" onclick="selectAnswer(${bi},${qi},${realIdx})">
+        <div class="option-dot"></div>
+        <div class="option-text">${opt.t}</div>
+      </div>`;
+    });
+    html+=`</div></div>`;
+  });
+
+  html+=`<div class="quiz-nav">
+    ${bi>0?`<button class="btn-secondary" onclick="prevBlock()">← Anterior</button>`:`<div></div>`}
+    <div class="block-progress"><span>${answered}</span>/${qs.length} respondidas</div>
+    <button class="btn-primary" onclick="nextBlock()">${bi<BLOCKS.length-1?'Próximo bloco →':'Ver minha análise'}</button>
+  </div>`;
+
+  document.getElementById('quiz-body').innerHTML=html;
+  if(scrollTop) window.scrollTo({top:0,behavior:'smooth'});
+}
+function selectAnswer(bi,qi,optIdx) {
+  answers[`${bi}_${qi}`]=optIdx;
+  renderBlock(bi, false);
+  setTimeout(()=>{
+    const next=document.getElementById(`qcard_${qi+1}`);
+    if(next){ const r=next.getBoundingClientRect(); const off=window.scrollY+r.top-(window.innerHeight/2)+(r.height/2); window.scrollTo({top:Math.max(0,off),behavior:'smooth'}); }
+  },60);
+}
+function nextBlock() {
+  const qs=BLOCKS[currentBlock].questions;
+  if(!qs.every((_,qi)=>answers[`${currentBlock}_${qi}`]!==undefined)){ alert('Responda todas as perguntas deste bloco antes de continuar.'); return; }
+  if(currentBlock<BLOCKS.length-1){ currentBlock++; renderBlock(currentBlock,true); } else generateReport();
+}
+function prevBlock(){ if(currentBlock>0){currentBlock--;renderBlock(currentBlock);} }
+
+// ══════════════════════════════════════
+// ENGINE DE VOTAÇÃO DE FASE
+// ══════════════════════════════════════
+// Conta votos de fase em um conjunto de respostas
+function tallyPhases(indices){ // indices: lista de [bi,qi]
+  const count={I:0,C:0,P:0,D:0};
+  indices.forEach(([bi,qi])=>{
+    const optIdx=answers[`${bi}_${qi}`];
+    if(optIdx===undefined) return;
+    const fase=BLOCKS[bi].questions[qi].options[optIdx].f;
+    count[fase]++;
+  });
+  return count;
+}
+// Fase dominante de um count (desempate pela ordem do ciclo, priorizando o estágio mais avançado/saudável quando há empate? — usamos ordem fixa)
+function dominantPhase(count){
+  // ordem de desempate: Declínio > Introdução > Platô > Crescimento? Não.
+  // Desempate: a fase com mais votos; empate resolvido pela ordem PHASE_ORDER (Introdução first)
+  let best=null, bestN=-1;
+  PHASE_ORDER.forEach(name=>{
+    const key=Object.keys(PHASE_NAMES).find(k=>PHASE_NAMES[k]===name);
+    if(count[key]>bestN){ bestN=count[key]; best=name; }
+  });
+  return best;
+}
+// Fase de uma dimensão (bloco)
+function blockPhase(bi){
+  const idx=BLOCKS[bi].questions.map((_,qi)=>[bi,qi]);
+  return { count:tallyPhases(idx), phase:dominantPhase(tallyPhases(idx)) };
+}
+// Nota percentual de uma dimensão — pesos por fase (Declínio baixo, Platô alto)
+const PHASE_WEIGHT={ D:1.5, I:2, C:4, P:5 }; // de 5
+function blockScore(bi){
+  const qs=BLOCKS[bi].questions;
+  let sum=0;
+  qs.forEach((q,qi)=>{
+    const optIdx=answers[`${bi}_${qi}`];
+    if(optIdx===undefined) return;
+    sum += PHASE_WEIGHT[q.options[optIdx].f];
+  });
+  return Math.round((sum/(qs.length*5))*100);
+}
+// cor por fase
+function phaseColor(phase){
+  return ({'Introdução':'#7c6aab','Crescimento':'#3a8f4a','Platô':'#c49a00','Declínio':'#c0392b'})[phase];
+}
+function phaseStatusClass(phase){
+  return ({'Introdução':'s-intro','Crescimento':'s-healthy','Platô':'s-stable','Declínio':'s-critical'})[phase];
+}
+function phaseDimReading(phase){
+  return ({
+    'Introdução':'Esta dimensão está em formação — é o início. Não é fraqueza, é fase: o trabalho aqui é construir base.',
+    'Crescimento':'Esta dimensão está ganhando tração. Há movimento positivo — o foco é sustentar e acelerar.',
+    'Platô':'Esta dimensão está consolidada, mas estável. Cuidado: o que sustenta hoje pode acomodar amanhã.',
+    'Declínio':'Esta dimensão está perdendo força. Há sinais de erosão que exigem atenção e intervenção.'
+  })[phase];
+}
+function getPhaseDesc(name){
+  const m={
+    'Introdução':'A sua marca está na zona de Introdução — a posição do ciclo em que a maioria das empresas brasileiras quebra, segundo os dados do Sebrae. Não é motivo para desespero: é motivo para atenção máxima. Esta é a fase que exige mais cuidado, mais presença e mais carinho com a marca, porque cada decisão aqui pesa o dobro. É agora que se constrói a fundação que vai decidir se a sua marca sobrevive aos primeiros anos — ou se engrossa a estatística.',
+    'Crescimento':'A sua marca está em ascensão — e essa é uma das zonas mais perigosas do ciclo. É aqui que o empreendedor se empolga, vê o dinheiro entrar e relaxa: gasta onde não devia, esquece de reinvestir e confunde faturamento com marca construída. O lucro vira o inimigo silencioso do branding. A verdade que poucos enxergam a tempo é esta: faturar bem não é o mesmo que ter marca — e quem deixa de investir na marca durante o crescimento planta a própria estagnação.',
+    'Platô':'Esta é a zona de maior perigo da sua marca. O Platô é traiçoeiro porque parece o destino: você acha que chegou aonde deveria chegar, desliga os motores e entra em modo de manutenção. Mas o mercado não para — e, quando você se dá conta, a marca já escorregou para o declínio. Estabilidade sem movimento, num mundo que se move, não é segurança: é declínio em câmera lenta, acontecendo enquanto você comemora.',
+    'Declínio':'A sua marca está em Declínio — e aqui não há espaço para meias-medidas. Esta é a zona que exige o esforço dobrado, a atenção redobrada e o amor mais profundo pela marca. Os indicadores estão caindo, a relevância está escapando, e cada mês de inércia acelera a queda. Mas declínio não é o fim: é o momento da virada, para quem tem coragem de agir com a intensidade que essa fase exige. A marca ainda pode renascer — mas só se você decidir lutar por ela agora.'
+  };
+  return m[name]||'';
+}
+
+// ══════════════════════════════════════
+// ENGINE DE PRESCRIÇÃO — ferida → remédio (rótulo MAM)
+// Aciona quando a dimensão está em Introdução ou Declínio (precisa de intervenção)
+// ══════════════════════════════════════
+function getRx(blockIdx, dimPhase){
+  // identidade/percepção: Branding se Introdução, Rebranding se Declínio
+  const brandingBlock = {icon:"◈", product:"Branding", title:"Sua marca precisa de Branding",
+    text:"O mercado ainda não tem clareza sobre quem é a sua marca — e marca que não é entendida não é escolhida. Aqui não dá pra pular etapa: é preciso erguer a fundação. <strong>Branding</strong> é o projeto que constrói esse alicerce — propósito, posicionamento, identidade visual, narrativa e tom de voz — pra que a sua marca seja reconhecida e desejada sem precisar de explicação. Sem essa base, todo investimento em vendas e conteúdo escapa pelos dedos."};
+  const rebrandingBlock = {icon:"◈", product:"Rebranding", title:"Sua marca precisa de um Rebranding",
+    text:"A sua marca já existe e já é conhecida — mas a percepção dela parou de jogar a seu favor. Ela travou, se desalinhou do que você é hoje, ou virou ruído no mercado. Isso não se resolve com mais do mesmo: exige <strong>Rebranding</strong> — revisitar posicionamento, identidade e narrativa pra reacender a relevância e fazer a marca voltar a significar algo. Adiar isso é deixar a marca envelhecer enquanto o mercado segue em frente."};
+  const consultingBlock = {icon:"✦", product:"Consulting", title:"Sua equipe precisa de Consulting",
+    text:"A estratégia pode até existir, mas não está sendo executada com fio condutor dentro da empresa. O diagnóstico mostra que a sua equipe de marketing trabalha sem um norte claro — e marca não se sustenta quando quem a opera no dia a dia não sabe qual estratégia implantar. <strong>Consulting</strong> é o direcionamento que dá à sua equipe interna a clareza e o método pra executar a marca de forma consistente, transformando intenção em ação real."};
+  const cicloBlock = {icon:"▲", product:"Ciclo de Marca", title:"Sua marca precisa trabalhar pelo negócio",
+    text:"Os sinais mostram uma marca que ainda não vende por você: pressão de preço, baixa previsibilidade e venda dependente de esforço bruto. Isso não é problema de comercial — é sintoma de uma marca que ainda não foi posicionada pra gerar valor percebido. O <strong>planejamento estratégico do Ciclo de Marca</strong> ataca exatamente isso: posiciona a marca pra reduzir objeções, sustentar preço e encurtar o ciclo de venda."};
+  const liderBlock = {icon:"◉", product:"Ciclo de Marca", title:"A marca depende demais de você",
+    text:"O diagnóstico revela um ponto que trava o crescimento: a marca ainda gira em torno da sua presença, ou decisões são movidas por fatores pessoais em vez de estratégicos. Enquanto isso não muda, a marca não escala — fica refém de você. O <strong>Ciclo de Marca</strong> existe pra tirar a marca da sua sombra: estruturar a visão de longo prazo e dar autonomia pra que ela cresça como ativo independente, com você no lugar de arquiteto."};
+
+  const isIntro = (dimPhase==='Introdução');
+  const map = {
+    0: isIntro ? brandingBlock : rebrandingBlock,
+    1: cicloBlock,
+    2: cicloBlock,
+    3: isIntro ? brandingBlock : rebrandingBlock,
+    4: consultingBlock,
+    5: consultingBlock,
+    6: liderBlock
+  };
+  return map[blockIdx];
+}
+
+// ══════════════════════════════════════
+// ENVIO DO LEAD POR E-MAIL
+// ══════════════════════════════════════
+let leadSent = false;
+function sendLead(phase, ranking, dimResults){
+  if(leadSent) return;            // evita envio duplicado
+  leadSent = true;
+
+  const dimensions = dimResults.map(d=>({ name:d.name, phase:d.phase, score:d.score }));
+
+  // 1) Completa a linha do lead no banco (a mesma gravada no preenchimento) com fase + dimensões.
+  //    Se por algum motivo não houver id (ex.: form pulado), grava agora do zero.
+  if(!leadId) leadId = newUuid();
+  saveLeadToDb({ phase: phase, dimensions: dimensions });
+
+  // 2) Backup por e-mail (Formspree), se configurado
+  if(LEAD_ENDPOINT){
+    const dimResumo = dimResults.map(d=>`${d.name}: ${d.phase} (${d.score}%)`).join('\n');
+    const rankResumo = ranking.map(r=>`${r.name}: ${r.pct}%`).join(' · ');
+    const origem = attribution.gclid ? 'Google Ads (gclid)' : (attribution.utm_source || document.referrer || 'direto');
+    fetch(LEAD_ENDPOINT, {
+      method:'POST',
+      headers:{ 'Content-Type':'application/json', 'Accept':'application/json' },
+      body: JSON.stringify({
+        _subject: `Novo lead — Diagnóstico MAM — ${userData.company||'Marca'} — Fase: ${phase}`,
+        Nome: userData.name||'',
+        Empresa: userData.company||'',
+        Email: userData.email||'',
+        WhatsApp: userData.phone||'',
+        Fase_do_Diagnostico: phase,
+        Distribuicao_de_Fases: rankResumo,
+        Resumo_por_Dimensao: dimResumo,
+        Origem: origem,
+        Data: new Date().toLocaleString('pt-BR')
+      })
+    }).catch(err => { console.log('Falha ao enviar lead por e-mail:', err); });
+  }
+
+  // 3) Conversão GA4 (generate_lead) + Pixel do Meta — só no sucesso real do diagnóstico
+  try {
+    if(typeof gtag === 'function'){
+      gtag('event','generate_lead',{ event_category:'diagnostico', event_label:phase });
+    }
+  } catch(e){}
+  try { if(typeof fbq === 'function') fbq('track','Lead',{ content_name:'Diagnostico Ciclo de Marca', content_category:phase }); } catch(e){}
+}
+
+// ══════════════════════════════════════
+// RELATÓRIO
+// ══════════════════════════════════════
+function generateReport(){
+  document.getElementById('screen-quiz').style.display='none';
+  document.getElementById('screen-report').style.display='block';
+  document.getElementById('report-company-name').textContent=userData.company||'Análise de Ciclo de Marca';
+  document.getElementById('report-meta-info').textContent=`42 perguntas · ${new Date().toLocaleDateString('pt-BR',{month:'long',year:'numeric'})}`;
+  window.scrollTo({top:0,behavior:'smooth'});
+
+  // Votação geral
+  const allIdx=[];
+  BLOCKS.forEach((b,bi)=>b.questions.forEach((_,qi)=>allIdx.push([bi,qi])));
+  const globalCount=tallyPhases(allIdx);
+  const phase=dominantPhase(globalCount);
+  const totalVotes=Object.values(globalCount).reduce((a,b)=>a+b,0);
+  // ranking de fases
+  const ranking=PHASE_ORDER.map(name=>{
+    const key=Object.keys(PHASE_NAMES).find(k=>PHASE_NAMES[k]===name);
+    return {name, votes:globalCount[key], pct:Math.round((globalCount[key]/totalVotes)*100)};
+  }).sort((a,b)=>b.votes-a.votes);
+
+  // Fases por dimensão
+  const dimResults=BLOCKS.map((b,i)=>{ const bp=blockPhase(i); return {...b, idx:i, phase:bp.phase, count:bp.count, score:blockScore(i)}; });
+
+  // Enviar o lead por e-mail (com fase e resumo das dimensões)
+  sendLead(phase, ranking, dimResults);
+
+  // feridas: dimensões em Introdução ou Declínio
+  const wounds=dimResults.filter(d=>d.phase==='Introdução'||d.phase==='Declínio');
+  // forças: dimensões em Platô ou Crescimento
+  const strengths=dimResults.filter(d=>d.phase==='Platô'||d.phase==='Crescimento');
+
+  const firstName=userData.name?userData.name.split(' ')[0]:'';
+  let html='';
+
+  if(firstName){
+    html+=`<div style="margin-bottom:28px;padding:20px 24px;background:var(--green-light);border:1px solid var(--green);border-radius:14px;font-size:14px;color:var(--text-muted);line-height:1.6;font-weight:400">
+      Olá, <strong style="color:var(--black)">${firstName}</strong>. Sua análise está pronta. Abaixo, a leitura completa da posição da <strong style="color:var(--black)">${userData.company||'sua marca'}</strong> no Ciclo de Marca — e o que ela precisa para avançar.
+    </div>`;
+  }
+
+  // HERO — FASE
+  html+=`<div class="phase-card">
+    <div class="phase-eyebrow">A sua marca está na fase</div>
+    <div class="phase-cycle">${PHASE_ORDER.map(s=>`<div class="phase-step ${s===phase?'active':''}">${s}</div>`).join('')}</div>
+    <div class="phase-name">${phase}</div>
+    <p class="phase-desc">${getPhaseDesc(phase)}</p>
+  </div>`;
+
+  // LEITURA EM CAMADAS (qualitativa, sem percentuais que relativizam o resultado)
+  html+=`<div class="layers-strip">
+    <div class="layers-title">Um retrato fiel: nem toda dimensão está no mesmo ponto</div>
+    <div class="layers-text">O diagnóstico mostra que a sua marca está em <strong style="color:${phaseColor(phase)}">${phase}</strong> — esse é o resultado que define o seu momento. Mas dentro dela, algumas dimensões puxam para frente e outras seguram. A análise por dimensão abaixo mostra exatamente onde está cada uma, para que o plano de ação trate o que precisa de intervenção sem desperdiçar o que já é forte.</div>
+  </div>`;
+
+  if(phase==='Platô'){
+    html+=`<div class="alert-strip"><strong>⚠️ Atenção ao Platô:</strong> diferente do declínio — que é visível e urgente — o platô é traiçoeiro porque parece confortável. Você acha que está bem porque não está caindo. Mas estabilidade sem crescimento, em mercados que se movem, é declínio em câmera lenta.</div>`;
+  }
+
+  // RADAR DE FASES
+  html+=`<div class="section">
+    <div class="section-title">Mapa de fases por dimensão</div>
+    <div class="section-sub">Cada uma das 7 dimensões tem a sua própria fase no ciclo. É o cruzamento delas que define o momento da marca.</div>
+    <div class="chart-wrap"><canvas id="radarChart"></canvas></div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#7c6aab"></div>Introdução</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#3a8f4a"></div>Crescimento</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#c49a00"></div>Platô</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#c0392b"></div>Declínio</div>
+    </div>
+  </div>`;
+
+  // ANÁLISE POR DIMENSÃO
+  html+=`<div style="margin-bottom:8px"><span style="font-size:20px;font-weight:800;letter-spacing:-0.5px">Análise por dimensão</span></div>
+  <div style="font-size:13px;color:var(--text-muted);margin-bottom:16px;font-weight:400">A nota e a fase de cada uma das 7 dimensões da sua marca</div>
+  <div class="blocks-grid">`;
+  dimResults.forEach(d=>{
+    const col=phaseColor(d.phase);
+    const cls=phaseStatusClass(d.phase);
+    const txt=(DIM_TEXT[d.idx] && DIM_TEXT[d.idx][d.phase]) ? DIM_TEXT[d.idx][d.phase] : phaseDimReading(d.phase);
+    html+=`<div class="block-card ${cls}">
+      <div class="bc-top">
+        <div><div class="bc-num">Dimensão 0${d.idx+1}</div><div class="bc-name">${d.name}</div></div>
+        <div class="bc-pct" style="color:${col}">${d.score}%</div>
+      </div>
+      <div class="bc-bar-wrap"><div class="bc-bar" style="width:${d.score}%;background:${col}"></div></div>
+      <div class="bc-phase-badge" style="color:${col};background:${col}1a;border:1px solid ${col}40">Fase: ${d.phase}</div>
+      <div class="bc-insight">${txt}</div>
+    </div>`;
+  });
+  html+=`</div>`;
+
+  // DIAGNÓSTICO INTEGRADO — forças e feridas
+  html+=`<div class="section">
+    <div class="section-title">Diagnóstico integrado</div>
+    <div class="section-sub">O que puxa a sua marca para frente — e o que a segura</div>
+    <div class="diag-grid">
+      <div><div class="diag-col-label s">✦ O que sustenta a marca</div>
+        ${strengths.length? strengths.map(d=>`<div class="diag-item"><div class="diag-dot s"></div><div><strong>${d.name}</strong> — em ${d.phase}. ${d.phase==='Platô'?'Consolidada: use como alavanca, mas vigie a acomodação.':'Em tração: uma força ativa para puxar as demais.'}</div></div>`).join('') : '<div class="diag-item" style="color:var(--text-muted)">Nenhuma dimensão está em fase de sustentação no momento — todas precisam de atenção.</div>'}
+      </div>
+      <div><div class="diag-col-label v">✦ O que precisa de intervenção</div>
+        ${wounds.length? wounds.map(d=>`<div class="diag-item"><div class="diag-dot v"></div><div><strong>${d.name}</strong> — em ${d.phase}. ${d.phase==='Introdução'?'Em formação: precisa de construção de base.':'Em erosão: precisa de intervenção antes que piore.'}</div></div>`).join('') : '<div class="diag-item" style="color:var(--text-muted)">Nenhuma dimensão está em zona de intervenção — sua marca está bem distribuída.</div>'}
+      </div>
+    </div>
+  </div>`;
+
+  // E AGORA? — fechamento convicto ancorado na fase principal
+  // costura as dimensões fracas no texto e nomeia o projeto MAM
+  const SHORT_DIM=['reputação','inteligência competitiva','performance comercial','posicionamento','relacionamento com o cliente','cultura e equipe','maturidade do líder'];
+  const woundShort = wounds.map(d=>SHORT_DIM[d.idx]);
+  function listNames(arr){
+    if(arr.length===0) return '';
+    if(arr.length===1) return arr[0];
+    if(arr.length===2) return arr[0]+' e '+arr[1];
+    // limita a 3 para não virar ladainha
+    const top=arr.slice(0,3);
+    return top.slice(0,-1).join(', ')+' e '+top[top.length-1];
+  }
+  const weakList = listNames(woundShort);
+  const hasPeople = wounds.some(d=>d.idx===4||d.idx===5); // experiência ou cultura
+
+  // projeto principal por fase
+  const closing = {
+    'Declínio':{
+      project:'um projeto de Rebranding',
+      headline:'A sua marca precisa de um Rebranding.',
+      body:`As respostas são claras: a sua marca perdeu força e o mercado já sente. Esse não é o momento de pequenos ajustes — é o momento de reposicionar. ${weakList?`O diagnóstico aponta que <strong>${weakList}</strong> são os pontos que mais estão puxando a sua marca para baixo.`:''} Um <strong>Rebranding</strong> revisita identidade, posicionamento e narrativa para reacender a relevância e fazer a sua marca voltar a significar algo no mercado.`
+    },
+    'Introdução':{
+      project:'um projeto de Branding',
+      headline:'A sua marca precisa de Branding.',
+      body:`As respostas mostram uma marca em construção — e marca que ainda não tem fundação não tem como crescer. ${weakList?`O diagnóstico aponta que <strong>${weakList}</strong> são as bases que ainda precisam ser erguidas.`:''} Um <strong>Branding</strong> constrói esse alicerce: propósito, posicionamento, identidade e narrativa, para que a sua marca seja reconhecida e desejada desde o início — e não dependa do seu esforço para existir.`
+    },
+    'Crescimento':{
+      project:'um planejamento estratégico de Ciclo de Marca',
+      headline:'A sua marca precisa estruturar o crescimento.',
+      body:`As respostas mostram uma marca em tração — você está crescendo, e esse é o momento mais decisivo. Crescer sem estrutura quebra empresa. ${weakList?`O diagnóstico aponta que <strong>${weakList}</strong> são os pontos que precisam de atenção para o crescimento não virar um castelo de areia.`:''} O <strong>Ciclo de Marca</strong> organiza esse crescimento em um plano estratégico, para que a marca escale sem perder a essência.`
+    },
+    'Platô':{
+      project:'um reposicionamento via Ciclo de Marca',
+      headline:'A sua marca precisa sair da zona de conforto.',
+      body:`As respostas revelam o sintoma mais perigoso do ciclo: estabilidade sem avanço. A sua marca parou de crescer, mesmo parecendo bem. ${weakList?`O diagnóstico aponta que <strong>${weakList}</strong> são os pontos onde a estagnação mais se instalou.`:''} É hora de reposicionar antes que o platô vire declínio — e o <strong>Ciclo de Marca</strong> lê exatamente onde está o freio e monta o plano para destravá-lo.`
+    }
+  };
+  const cl = closing[phase];
+  const peopleNote = hasPeople ? ` Como o diagnóstico também aponta fragilidade na sua equipe e na execução interna, o <strong>Consulting</strong> entra para dar à sua equipe de marketing o direcionamento necessário para implantar essa estratégia no dia a dia.` : '';
+
+  html+=`<div class="closing-section">
+    <div class="closing-eyebrow">E agora?</div>
+    <div class="closing-headline">${cl.headline}</div>
+    <div class="closing-body">${cl.body}${peopleNote}</div>
+    <div class="closing-orchestra">
+      <div class="closing-orchestra-icon">⬡</div>
+      <div class="closing-orchestra-text">Seja qual for o ponto de partida, é o <strong>Ciclo de Marca</strong> que lê a sua posição exata no ciclo e monta o planejamento estratégico — posicionamento, conteúdo, tom de voz e linguagem — para colocar ${cl.project} em movimento e levar a sua marca ao próximo estágio.</div>
+    </div>
+  </div>`;
+
+
+  // VÍDEO
+  const videoId=VIDEOS[phase];
+  html+=`<div class="video-section">
+    <div class="video-eyebrow">Uma mensagem para você</div>
+    <div class="video-title">Entenda o seu resultado<br>em poucos minutos</div>
+    <div class="video-desc">Gravei um vídeo explicando exatamente o que significa estar na fase <strong style="color:var(--green)">${phase}</strong> — e quais são os caminhos reais para a sua marca a partir daqui.</div>`;
+  if(videoId){
+    html+=`<div class="video-player"><iframe src="https://www.youtube-nocookie.com/embed/${videoId}?rel=0&modestbranding=1" title="Vídeo da fase ${phase}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+      <a href="https://youtu.be/${videoId}" target="_blank" rel="noopener" class="video-fallback-link">O vídeo não carregou? Assista no YouTube →</a>`;
+  } else {
+    html+=`<div class="video-placeholder" onclick="alert('O vídeo da fase ${phase} será adicionado aqui assim que você gravar e me passar o link do YouTube.')">
+      <div class="video-play-btn"><div class="video-play-icon"></div></div>
+      <div class="video-placeholder-label">Vídeo da fase ${phase} · em breve</div>
+    </div>`;
+  }
+  html+=`</div>`;
+
+  // CTA
+  html+=`<div class="cta-section">
+    <div class="cta-eyebrow">O próximo passo</div>
+    <div class="cta-title">Vamos transformar esta análise<br>em um plano de ação?</div>
+    <div class="cta-desc">O diagnóstico revelou o mapa. Em uma conversa, a gente traduz esse mapa em um caminho concreto para levar a ${userData.company||'sua marca'} ao próximo estágio do ciclo.</div>
+    <button class="btn-cta" onclick="openWhatsApp('${phase}')">Conversar no WhatsApp →</button>
+    <button class="btn-restart" onclick="restartQuiz()">Refazer o diagnóstico</button>
+  </div>`;
+
+  document.getElementById('report-content').innerHTML=html;
+
+  // RADAR
+  setTimeout(()=>{
+    const rc=document.getElementById('radarChart');
+    if(rc){
+      // valor numérico por fase para o radar: I=25, C=60, P=85, D=40 (posição no arco)
+      const phaseVal={'Introdução':30,'Crescimento':65,'Platô':90,'Declínio':45};
+      const data=dimResults.map(d=>phaseVal[d.phase]);
+      const pc=dimResults.map(d=>phaseColor(d.phase));
+      new Chart(rc,{type:'radar',data:{labels:BLOCKS.map(b=>b.name.split(' e ')[0].split(',')[0].substring(0,20)),datasets:[
+        {label:'Fase',data,backgroundColor:'rgba(200,230,176,0.15)',borderColor:'rgba(122,179,86,0.7)',borderWidth:2,pointBackgroundColor:pc,pointBorderColor:'#fff',pointBorderWidth:2,pointRadius:7,pointHoverRadius:10}
+      ]},options:{responsive:true,plugins:{legend:{display:false},tooltip:{backgroundColor:'#fff',borderColor:'#e4e4de',borderWidth:1,titleColor:'#0d0d0d',bodyColor:'#6b6b6b',padding:12,callbacks:{label:ctx=>` ${dimResults[ctx.dataIndex].phase}`}}},scales:{r:{min:0,max:100,ticks:{display:false,stepSize:25},grid:{color:'rgba(0,0,0,0.06)'},angleLines:{color:'rgba(0,0,0,0.06)'},pointLabels:{color:'#6b6b6b',font:{size:11,family:'Inter',weight:'600'}}}}}});
+    }
+  },200);
+}
+
+function openWhatsApp(phase){
+  const name=userData.name||''; const company=userData.company||'';
+  const msg=`Olá! Me chamo *${name}* e acabei de concluir o Diagnóstico de Ciclo de Marca da MAM.${company?` Represento a *${company}*.`:''} Meu resultado apontou a fase *${phase}*. Gostaria de conversar sobre os próximos passos. 🚀`;
+  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`,'_blank');
+}
+function restartQuiz(){
+  answers={};currentBlock=0;userData={};
+  document.getElementById('screen-report').style.display='none';
+  document.getElementById('screen-start').style.display='flex';
+  ['field-name','field-company','field-email','field-phone'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('btn-form-submit').disabled=true;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

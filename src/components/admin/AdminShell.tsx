@@ -13,6 +13,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
     { to: "/admin", label: "Cases", exact: true },
     { to: "/admin/projetos", label: "Carrossel", exact: false },
     { to: "/admin/contatos", label: "Contatos", exact: false },
+    { to: "/admin/diagnostico", label: "Diagnóstico", exact: false },
   ];
 
   const isActive = (to: string, exact: boolean) =>

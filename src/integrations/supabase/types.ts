@@ -95,6 +95,63 @@ export type Database = {
         }
         Relationships: []
       }
+      diagnostic_leads: {
+        Row: {
+          company: string | null
+          created_at: string
+          dimensions: Json | null
+          email: string
+          gclid: string | null
+          id: string
+          landing_url: string | null
+          name: string
+          phase: string | null
+          referrer: string | null
+          utm_campaign: string | null
+          utm_content: string | null
+          utm_medium: string | null
+          utm_source: string | null
+          utm_term: string | null
+          whatsapp: string | null
+        }
+        Insert: {
+          company?: string | null
+          created_at?: string
+          dimensions?: Json | null
+          email: string
+          gclid?: string | null
+          id?: string
+          landing_url?: string | null
+          name: string
+          phase?: string | null
+          referrer?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+          whatsapp?: string | null
+        }
+        Update: {
+          company?: string | null
+          created_at?: string
+          dimensions?: Json | null
+          email?: string
+          gclid?: string | null
+          id?: string
+          landing_url?: string | null
+          name?: string
+          phase?: string | null
+          referrer?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+          whatsapp?: string | null
+        }
+        Relationships: []
+      }
       portfolio_projects: {
         Row: {
           category: string
@@ -134,6 +191,26 @@ export type Database = {
     }
     Functions: {
       is_admin: { Args: never; Returns: boolean }
+      save_diagnostic_lead: {
+        Args: {
+          p_id: string
+          p_name: string
+          p_company?: string | null
+          p_email?: string | null
+          p_whatsapp?: string | null
+          p_phase?: string | null
+          p_dimensions?: Json | null
+          p_gclid?: string | null
+          p_utm_source?: string | null
+          p_utm_medium?: string | null
+          p_utm_campaign?: string | null
+          p_utm_term?: string | null
+          p_utm_content?: string | null
+          p_referrer?: string | null
+          p_landing_url?: string | null
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never

@@ -14,6 +14,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as RebrandingRouteImport } from './routes/rebranding'
 import { Route as EstudioRouteImport } from './routes/estudio'
 import { Route as DiarioRouteImport } from './routes/diario'
+import { Route as DiagnosticoRouteImport } from './routes/diagnostico'
 import { Route as CicloDeMarcaRouteImport } from './routes/ciclo-de-marca'
 import { Route as BrandingRouteImport } from './routes/branding'
 import { Route as AdminRouteRouteImport } from './routes/admin/route'
@@ -21,7 +22,9 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as CasesSlugRouteImport } from './routes/cases.$slug'
 import { Route as AdminProjetosRouteImport } from './routes/admin/projetos'
+import { Route as AdminDiagnosticoRouteImport } from './routes/admin/diagnostico'
 import { Route as AdminContatosRouteImport } from './routes/admin/contatos'
+import { Route as ApiPublicDiagnosticLeadRouteImport } from './routes/api/public/diagnostic-lead'
 import { Route as ApiPublicContactRouteImport } from './routes/api/public/contact'
 import { Route as AdminCasesIdRouteImport } from './routes/admin/cases.$id'
 
@@ -48,6 +51,11 @@ const EstudioRoute = EstudioRouteImport.update({
 const DiarioRoute = DiarioRouteImport.update({
   id: '/diario',
   path: '/diario',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DiagnosticoRoute = DiagnosticoRouteImport.update({
+  id: '/diagnostico',
+  path: '/diagnostico',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CicloDeMarcaRoute = CicloDeMarcaRouteImport.update({
@@ -85,10 +93,20 @@ const AdminProjetosRoute = AdminProjetosRouteImport.update({
   path: '/projetos',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const AdminDiagnosticoRoute = AdminDiagnosticoRouteImport.update({
+  id: '/diagnostico',
+  path: '/diagnostico',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 const AdminContatosRoute = AdminContatosRouteImport.update({
   id: '/contatos',
   path: '/contatos',
   getParentRoute: () => AdminRouteRoute,
+} as any)
+const ApiPublicDiagnosticLeadRoute = ApiPublicDiagnosticLeadRouteImport.update({
+  id: '/api/public/diagnostic-lead',
+  path: '/api/public/diagnostic-lead',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPublicContactRoute = ApiPublicContactRouteImport.update({
   id: '/api/public/contact',
@@ -106,33 +124,39 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteRouteWithChildren
   '/branding': typeof BrandingRoute
   '/ciclo-de-marca': typeof CicloDeMarcaRoute
+  '/diagnostico': typeof DiagnosticoRoute
   '/diario': typeof DiarioRoute
   '/estudio': typeof EstudioRoute
   '/rebranding': typeof RebrandingRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre': typeof SobreRoute
   '/admin/contatos': typeof AdminContatosRoute
+  '/admin/diagnostico': typeof AdminDiagnosticoRoute
   '/admin/projetos': typeof AdminProjetosRoute
   '/cases/$slug': typeof CasesSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/cases/$id': typeof AdminCasesIdRoute
   '/api/public/contact': typeof ApiPublicContactRoute
+  '/api/public/diagnostic-lead': typeof ApiPublicDiagnosticLeadRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/branding': typeof BrandingRoute
   '/ciclo-de-marca': typeof CicloDeMarcaRoute
+  '/diagnostico': typeof DiagnosticoRoute
   '/diario': typeof DiarioRoute
   '/estudio': typeof EstudioRoute
   '/rebranding': typeof RebrandingRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre': typeof SobreRoute
   '/admin/contatos': typeof AdminContatosRoute
+  '/admin/diagnostico': typeof AdminDiagnosticoRoute
   '/admin/projetos': typeof AdminProjetosRoute
   '/cases/$slug': typeof CasesSlugRoute
   '/admin': typeof AdminIndexRoute
   '/admin/cases/$id': typeof AdminCasesIdRoute
   '/api/public/contact': typeof ApiPublicContactRoute
+  '/api/public/diagnostic-lead': typeof ApiPublicDiagnosticLeadRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -140,17 +164,20 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteRouteWithChildren
   '/branding': typeof BrandingRoute
   '/ciclo-de-marca': typeof CicloDeMarcaRoute
+  '/diagnostico': typeof DiagnosticoRoute
   '/diario': typeof DiarioRoute
   '/estudio': typeof EstudioRoute
   '/rebranding': typeof RebrandingRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre': typeof SobreRoute
   '/admin/contatos': typeof AdminContatosRoute
+  '/admin/diagnostico': typeof AdminDiagnosticoRoute
   '/admin/projetos': typeof AdminProjetosRoute
   '/cases/$slug': typeof CasesSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/cases/$id': typeof AdminCasesIdRoute
   '/api/public/contact': typeof ApiPublicContactRoute
+  '/api/public/diagnostic-lead': typeof ApiPublicDiagnosticLeadRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -159,50 +186,59 @@ export interface FileRouteTypes {
     | '/admin'
     | '/branding'
     | '/ciclo-de-marca'
+    | '/diagnostico'
     | '/diario'
     | '/estudio'
     | '/rebranding'
     | '/sitemap.xml'
     | '/sobre'
     | '/admin/contatos'
+    | '/admin/diagnostico'
     | '/admin/projetos'
     | '/cases/$slug'
     | '/admin/'
     | '/admin/cases/$id'
     | '/api/public/contact'
+    | '/api/public/diagnostic-lead'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/branding'
     | '/ciclo-de-marca'
+    | '/diagnostico'
     | '/diario'
     | '/estudio'
     | '/rebranding'
     | '/sitemap.xml'
     | '/sobre'
     | '/admin/contatos'
+    | '/admin/diagnostico'
     | '/admin/projetos'
     | '/cases/$slug'
     | '/admin'
     | '/admin/cases/$id'
     | '/api/public/contact'
+    | '/api/public/diagnostic-lead'
   id:
     | '__root__'
     | '/'
     | '/admin'
     | '/branding'
     | '/ciclo-de-marca'
+    | '/diagnostico'
     | '/diario'
     | '/estudio'
     | '/rebranding'
     | '/sitemap.xml'
     | '/sobre'
     | '/admin/contatos'
+    | '/admin/diagnostico'
     | '/admin/projetos'
     | '/cases/$slug'
     | '/admin/'
     | '/admin/cases/$id'
     | '/api/public/contact'
+    | '/api/public/diagnostic-lead'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -210,6 +246,7 @@ export interface RootRouteChildren {
   AdminRouteRoute: typeof AdminRouteRouteWithChildren
   BrandingRoute: typeof BrandingRoute
   CicloDeMarcaRoute: typeof CicloDeMarcaRoute
+  DiagnosticoRoute: typeof DiagnosticoRoute
   DiarioRoute: typeof DiarioRoute
   EstudioRoute: typeof EstudioRoute
   RebrandingRoute: typeof RebrandingRoute
@@ -217,6 +254,7 @@ export interface RootRouteChildren {
   SobreRoute: typeof SobreRoute
   CasesSlugRoute: typeof CasesSlugRoute
   ApiPublicContactRoute: typeof ApiPublicContactRoute
+  ApiPublicDiagnosticLeadRoute: typeof ApiPublicDiagnosticLeadRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -254,6 +292,13 @@ declare module '@tanstack/react-router' {
       path: '/diario'
       fullPath: '/diario'
       preLoaderRoute: typeof DiarioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/diagnostico': {
+      id: '/diagnostico'
+      path: '/diagnostico'
+      fullPath: '/diagnostico'
+      preLoaderRoute: typeof DiagnosticoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/ciclo-de-marca': {
@@ -305,12 +350,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminProjetosRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/admin/diagnostico': {
+      id: '/admin/diagnostico'
+      path: '/diagnostico'
+      fullPath: '/admin/diagnostico'
+      preLoaderRoute: typeof AdminDiagnosticoRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/admin/contatos': {
       id: '/admin/contatos'
       path: '/contatos'
       fullPath: '/admin/contatos'
       preLoaderRoute: typeof AdminContatosRouteImport
       parentRoute: typeof AdminRouteRoute
+    }
+    '/api/public/diagnostic-lead': {
+      id: '/api/public/diagnostic-lead'
+      path: '/api/public/diagnostic-lead'
+      fullPath: '/api/public/diagnostic-lead'
+      preLoaderRoute: typeof ApiPublicDiagnosticLeadRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/api/public/contact': {
       id: '/api/public/contact'
@@ -331,6 +390,7 @@ declare module '@tanstack/react-router' {
 
 interface AdminRouteRouteChildren {
   AdminContatosRoute: typeof AdminContatosRoute
+  AdminDiagnosticoRoute: typeof AdminDiagnosticoRoute
   AdminProjetosRoute: typeof AdminProjetosRoute
   AdminIndexRoute: typeof AdminIndexRoute
   AdminCasesIdRoute: typeof AdminCasesIdRoute
@@ -338,6 +398,7 @@ interface AdminRouteRouteChildren {
 
 const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminContatosRoute: AdminContatosRoute,
+  AdminDiagnosticoRoute: AdminDiagnosticoRoute,
   AdminProjetosRoute: AdminProjetosRoute,
   AdminIndexRoute: AdminIndexRoute,
   AdminCasesIdRoute: AdminCasesIdRoute,
@@ -352,6 +413,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRouteRoute: AdminRouteRouteWithChildren,
   BrandingRoute: BrandingRoute,
   CicloDeMarcaRoute: CicloDeMarcaRoute,
+  DiagnosticoRoute: DiagnosticoRoute,
   DiarioRoute: DiarioRoute,
   EstudioRoute: EstudioRoute,
   RebrandingRoute: RebrandingRoute,
@@ -359,6 +421,7 @@ const rootRouteChildren: RootRouteChildren = {
   SobreRoute: SobreRoute,
   CasesSlugRoute: CasesSlugRoute,
   ApiPublicContactRoute: ApiPublicContactRoute,
+  ApiPublicDiagnosticLeadRoute: ApiPublicDiagnosticLeadRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
