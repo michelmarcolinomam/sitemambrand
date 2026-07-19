@@ -384,7 +384,51 @@
   .lp-footer { border-top:1px solid var(--border); padding:36px 0; text-align:center; }
   .lp-footer p { font-size:12.5px; color:var(--gray); line-height:1.7; }
   .lp-center { text-align:center; display:flex; flex-direction:column; align-items:center; }
-  @media(max-width:640px){ .lp-section{padding:64px 0;} .lp-auth-stats{gap:32px;} }
+
+  /* HERO VIDEO */
+  .lp-hero-video { width:100%; max-width:600px; margin:34px auto 4px; }
+  .lp-video-frame { position:relative; width:100%; aspect-ratio:16/9; border-radius:20px; overflow:hidden; background:var(--black); border:1px solid var(--border); box-shadow:0 24px 70px rgba(13,13,13,0.22); }
+  .lp-video-frame iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
+  .lp-video-ph { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; cursor:pointer; background:radial-gradient(circle at 50% 40%, #1c1c1c 0%, #0d0d0d 70%); }
+  .lp-video-ph::after { content:''; position:absolute; width:340px; height:340px; background:radial-gradient(circle, rgba(200,230,176,0.16) 0%, transparent 65%); pointer-events:none; }
+  .lp-play { width:74px; height:74px; border-radius:50%; background:var(--green); display:flex; align-items:center; justify-content:center; position:relative; z-index:1; box-shadow:0 10px 30px rgba(200,230,176,0.35); transition:transform .3s; }
+  .lp-video-ph:hover .lp-play { transform:scale(1.08); }
+  .lp-play svg { width:26px; height:26px; margin-left:4px; }
+  .lp-video-cap { color:rgba(255,255,255,0.85); font-size:14px; font-weight:600; position:relative; z-index:1; text-align:center; max-width:360px; line-height:1.5; }
+  .lp-video-note { font-size:11px; color:var(--gray); font-weight:500; margin-top:10px; font-style:italic; }
+
+  /* CURVA DO CICLO */
+  .lp-curve-wrap { margin-top:52px; }
+  .lp-curve { width:100%; height:auto; overflow:visible; }
+  .lp-curve-path { fill:none; stroke:var(--black); stroke-width:3; stroke-linecap:round; stroke-dasharray:1600; stroke-dashoffset:1600; transition:stroke-dashoffset 2.2s ease; }
+  .lp-curve.drawn .lp-curve-path { stroke-dashoffset:0; }
+  .lp-curve-area { opacity:0; transition:opacity 1.4s ease .6s; }
+  .lp-curve.drawn .lp-curve-area { opacity:1; }
+  .lp-curve-dot { opacity:0; transform-box:fill-box; transform-origin:center; transition:opacity .4s ease; }
+  .lp-curve.drawn .lp-curve-dot { opacity:1; }
+  .lp-curve.drawn .lp-curve-dot.pulse { animation:lpPulse 2.4s ease-in-out infinite; }
+  @keyframes lpPulse { 0%,100%{ r:7; } 50%{ r:10; } }
+  .lp-curve-label { font-family:'Inter',sans-serif; font-size:15px; font-weight:800; fill:var(--black); opacity:0; transition:opacity .5s ease .8s; }
+  .lp-curve.drawn .lp-curve-label { opacity:1; }
+  .lp-curve-sub { font-size:11px; font-weight:600; fill:var(--gray); }
+  .lp-axis { stroke:var(--border); stroke-width:1.5; }
+  .lp-axis-label { font-size:11px; font-weight:700; fill:var(--gray); text-transform:uppercase; letter-spacing:1px; }
+
+  /* RADAR */
+  .lp-radar { background:var(--black); color:#fff; position:relative; overflow:hidden; }
+  .lp-radar::before { content:''; position:absolute; width:700px; height:700px; background:radial-gradient(circle, rgba(200,230,176,0.13) 0%, transparent 65%); top:-200px; right:-200px; pointer-events:none; }
+  .lp-radar .lp-kicker { color:rgba(255,255,255,0.45); }
+  .lp-radar h2 { color:#fff; }
+  .lp-radar h2 em { color:var(--green); }
+  .lp-radar-grid { display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center; margin-top:44px; position:relative; z-index:1; }
+  .lp-radar-canvas { position:relative; width:100%; max-width:460px; margin:0 auto; }
+  .lp-radar-list { display:flex; flex-direction:column; gap:14px; }
+  .lp-radar-row { display:flex; align-items:center; justify-content:space-between; gap:16px; padding-bottom:12px; border-bottom:1px solid rgba(255,255,255,0.1); }
+  .lp-radar-row span { font-size:14px; color:rgba(255,255,255,0.82); font-weight:500; }
+  .lp-radar-score { font-family:'Fraunces',serif; font-size:20px; font-weight:600; color:var(--green); }
+  .lp-radar-note { font-size:13px; color:rgba(255,255,255,0.5); margin-top:22px; font-style:italic; }
+  @media(max-width:760px){ .lp-radar-grid{ grid-template-columns:1fr; gap:32px; } }
+  @media(max-width:640px){ .lp-section{padding:64px 0;} .lp-auth-stats{gap:32px;} .lp-curve-label{ font-size:12px; } }
 </style>
 
 <div id="screen-start">
@@ -396,6 +440,15 @@
       <div class="lp-badge">Diagnóstico de Ciclo de Marca · Gratuito</div>
       <h1>Sua marca fatura.<br>Mas ela <em>cresce</em> — ou só sobrevive?</h1>
       <p class="lp-hero-sub">Existe uma diferença brutal entre <strong>faturar</strong> e <strong>ter marca</strong> — e é ela que decide se você vai escalar ou estagnar. Em 8 minutos, descubra exatamente em que fase do ciclo a sua marca está travada — e o que ela precisa para avançar.</p>
+      <div class="lp-hero-video">
+        <div class="lp-video-frame" id="hero-video">
+          <div class="lp-video-ph" onclick="goToForm()">
+            <div class="lp-play"><svg viewBox="0 0 24 24" fill="#0d0d0d"><path d="M8 5v14l11-7z"/></svg></div>
+            <div class="lp-video-cap">Em 60 segundos: por que a sua marca pode estar travada — e o que o diagnóstico revela</div>
+          </div>
+        </div>
+        <div class="lp-video-note">▶ vídeo de apresentação — grave e me mande o link, eu encaixo aqui</div>
+      </div>
       <button class="lp-cta big" onclick="goToForm()">Descobrir a fase da minha marca →</button>
       <div class="lp-microtrust">Grátis · 42 perguntas · 7 dimensões · ~8 min · resultado na hora · sem cartão</div>
       <div class="lp-facts">
@@ -440,6 +493,35 @@
       <div class="lp-kicker">O Ciclo de Marca</div>
       <h2 class="lp-h2">Toda marca está em uma <em>de 4 fases</em> — sabendo ou não</h2>
       <p class="lp-lead">A maioria investe como se estivesse numa fase que não é a sua. É por isso que o dinheiro entra e não vira marca. O diagnóstico lê a sua posição exata no ciclo — o primeiro passo pra parar de improvisar.</p>
+
+      <div class="lp-curve-wrap">
+        <svg class="lp-curve" id="lp-curve" viewBox="0 0 1000 400" role="img" aria-label="Curva do Ciclo de Marca: introdução, crescimento, platô e declínio">
+          <defs>
+            <linearGradient id="curveArea" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#c8e6b0" stop-opacity="0.45"/>
+              <stop offset="100%" stop-color="#c8e6b0" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <text class="lp-axis-label" x="60" y="30" transform="rotate(0)">Força da marca ↑</text>
+          <line class="lp-axis" x1="60" y1="345" x2="950" y2="345"/>
+          <text class="lp-axis-label" x="900" y="392" text-anchor="end">Tempo →</text>
+          <path class="lp-curve-area" fill="url(#curveArea)" d="M 60 335 C 110 330,130 322,150 310 C 250 258,300 215,390 175 C 480 135,560 118,640 110 C 730 101,790 160,860 250 C 895 292,925 305,950 312 L 950 345 L 60 345 Z"/>
+          <path class="lp-curve-path" d="M 60 335 C 110 330,130 322,150 310 C 250 258,300 215,390 175 C 480 135,560 118,640 110 C 730 101,790 160,860 250 C 895 292,925 305,950 312"/>
+          <circle class="lp-curve-dot" cx="150" cy="310" r="7" fill="#7c6aab"/>
+          <circle class="lp-curve-dot" cx="390" cy="175" r="7" fill="#3a8f4a"/>
+          <circle class="lp-curve-dot pulse" cx="640" cy="110" r="7" fill="#c49a00"/>
+          <circle class="lp-curve-dot" cx="860" cy="250" r="7" fill="#c0392b"/>
+          <text class="lp-curve-label" x="150" y="372" text-anchor="middle">Introdução</text>
+          <text class="lp-curve-sub" x="150" y="390" text-anchor="middle">onde tudo começa</text>
+          <text class="lp-curve-label" x="390" y="372" text-anchor="middle">Crescimento</text>
+          <text class="lp-curve-sub" x="390" y="390" text-anchor="middle">a zona perigosa</text>
+          <text class="lp-curve-label" x="640" y="372" text-anchor="middle">Platô</text>
+          <text class="lp-curve-sub" x="640" y="390" text-anchor="middle">o conforto que engana</text>
+          <text class="lp-curve-label" x="860" y="372" text-anchor="middle">Declínio</text>
+          <text class="lp-curve-sub" x="860" y="390" text-anchor="middle">a hora de reagir</text>
+        </svg>
+      </div>
+
       <div class="lp-phases">
         <div class="lp-phase"><div class="lp-phase-dot" style="background:#7c6aab"></div><h4>Introdução</h4><p>Ninguém te conhece ainda. Cada venda depende do seu esforço. Hora de plantar o que faz lembrar de você.</p></div>
         <div class="lp-phase"><div class="lp-phase-dot" style="background:#3a8f4a"></div><h4>Crescimento</h4><p>Em ascensão — e a zona mais perigosa. É aqui que se confunde faturamento com marca e se planta a estagnação.</p></div>
@@ -463,6 +545,28 @@
         <div class="lp-deliver-item"><span class="ck">✓</span><h4>Na hora, no seu e-mail</h4><p>Sem esperar, sem reunião pra receber. Você responde e o relatório aparece na sequência.</p></div>
       </div>
       <button class="lp-cta" onclick="goToForm()">Fazer meu diagnóstico agora →</button>
+    </div>
+  </section>
+
+  <!-- RADAR — prévia do relatório -->
+  <section class="lp-section lp-radar">
+    <div class="lp-wrap">
+      <div class="lp-kicker">Uma prévia do seu relatório</div>
+      <h2 class="lp-h2">As suas <em>7 dimensões</em>, lidas uma a uma</h2>
+      <div class="lp-radar-grid">
+        <div class="lp-radar-canvas"><canvas id="lp-radar-chart" width="460" height="460"></canvas></div>
+        <div class="lp-radar-list">
+          <div class="lp-radar-row"><span>Percepção e Reputação</span><span class="lp-radar-score">62%</span></div>
+          <div class="lp-radar-row"><span>Inteligência Competitiva</span><span class="lp-radar-score">75%</span></div>
+          <div class="lp-radar-row"><span>Performance Comercial</span><span class="lp-radar-score">75%</span></div>
+          <div class="lp-radar-row"><span>Identidade e Posicionamento</span><span class="lp-radar-score">77%</span></div>
+          <div class="lp-radar-row"><span>Experiência do Cliente</span><span class="lp-radar-score">67%</span></div>
+          <div class="lp-radar-row"><span>Pessoas e Cultura</span><span class="lp-radar-score">72%</span></div>
+          <div class="lp-radar-row"><span>Visão e Maturidade</span><span class="lp-radar-score">57%</span></div>
+          <div class="lp-radar-note">* exemplo ilustrativo — o seu resultado sai das suas 42 respostas.</div>
+        </div>
+      </div>
+      <div style="margin-top:40px" class="lp-center"><button class="lp-cta" onclick="goToForm()">Ver o meu resultado →</button></div>
     </div>
   </section>
 
@@ -1502,6 +1606,51 @@ function restartQuiz(){
   document.getElementById('btn-form-submit').disabled=true;
   window.scrollTo({top:0,behavior:'smooth'});
 }
+</script>
+<script>
+/* ===== LANDING PAGE — vídeo do hero, curva animada e radar ===== */
+// Cole o ID do vídeo do YouTube quando gravar (ex.: 'dQw4w9WgXcQ'). Vazio = mostra o placeholder.
+const HERO_VIDEO_ID = '';
+(function(){
+  // Vídeo do hero
+  if (HERO_VIDEO_ID) {
+    var hv = document.getElementById('hero-video');
+    if (hv) hv.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/'+HERO_VIDEO_ID+'?rel=0&modestbranding=1" title="Apresentação MAM Brand" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+    var note = document.querySelector('.lp-video-note'); if(note) note.style.display='none';
+  }
+  // Radar (Chart.js) — inicia quando entra na tela
+  var radarDone = false;
+  function initRadar(){
+    if (radarDone || typeof Chart === 'undefined') return;
+    var el = document.getElementById('lp-radar-chart'); if(!el) return;
+    radarDone = true;
+    new Chart(el.getContext('2d'), {
+      type:'radar',
+      data:{ labels:['Percepção','Competitividade','Comercial','Identidade','Experiência','Cultura','Visão'],
+        datasets:[{ data:[62,75,75,77,67,72,57], fill:true, backgroundColor:'rgba(200,230,176,0.22)', borderColor:'#c8e6b0', borderWidth:2, pointBackgroundColor:'#c8e6b0', pointBorderColor:'#c8e6b0', pointRadius:4 }] },
+      options:{ responsive:true, maintainAspectRatio:true,
+        plugins:{ legend:{display:false}, tooltip:{enabled:false} },
+        scales:{ r:{ min:0, max:100, angleLines:{ color:'rgba(255,255,255,0.12)' }, grid:{ color:'rgba(255,255,255,0.12)' }, pointLabels:{ color:'rgba(255,255,255,0.82)', font:{ size:12, weight:'600' } }, ticks:{ display:false, stepSize:25 } } },
+        animation:{ duration:1400 } }
+    });
+  }
+  var curve = document.getElementById('lp-curve');
+  var radarSec = document.querySelector('.lp-radar');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(!e.isIntersecting) return;
+        if(e.target===curve){ curve.classList.add('drawn'); io.unobserve(curve); }
+        if(e.target===radarSec){ initRadar(); io.unobserve(radarSec); }
+      });
+    }, { threshold:0.2 });
+    if(curve) io.observe(curve);
+    if(radarSec) io.observe(radarSec);
+  } else {
+    if(curve) curve.classList.add('drawn');
+    initRadar();
+  }
+})();
 </script>
 </body>
 </html>
