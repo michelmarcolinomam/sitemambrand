@@ -319,6 +319,27 @@
   .lp-fact-num { font-size:30px; font-weight:900; color:var(--black); letter-spacing:-1px; line-height:1; }
   .lp-fact-label { font-size:11px; color:var(--text-muted); font-weight:700; letter-spacing:0.5px; margin-top:7px; text-transform:uppercase; }
 
+  /* HERO SPLIT (texto+CTA+dados à esquerda, vídeo vertical à direita) */
+  .lp-hero-split { max-width:1120px; display:grid; grid-template-columns:1.05fr 0.95fr; gap:56px; align-items:center; text-align:left; }
+  .lp-hero-left { display:flex; flex-direction:column; align-items:flex-start; }
+  .lp-hero-split .lp-logo { margin-bottom:26px; }
+  .lp-hero-split h1 { font-size:clamp(30px,3.6vw,50px); line-height:1.06; letter-spacing:-1.5px; text-align:left; max-width:none; }
+  .lp-hero-split .lp-hero-sub { font-size:16.5px; text-align:left; margin:20px 0 30px; max-width:520px; }
+  .lp-hero-split .lp-microtrust { margin-top:14px; }
+  .lp-hero-split .lp-facts { justify-content:flex-start; gap:30px; margin-top:34px; }
+  .lp-hero-right { display:flex; justify-content:center; }
+  .lp-hero-split .lp-hero-video { margin:0; max-width:330px; width:100%; }
+  .lp-video-frame.portrait { aspect-ratio:9/16; border-radius:24px; }
+  .lp-hero-split .lp-video-cap { font-size:15px; max-width:240px; padding:0 12px; }
+  @media(max-width:860px){
+    .lp-hero-split { grid-template-columns:1fr; gap:34px; text-align:center; }
+    .lp-hero-left { align-items:center; }
+    .lp-hero-split h1 { text-align:center; font-size:clamp(30px,7vw,44px); }
+    .lp-hero-split .lp-hero-sub { text-align:center; margin-left:auto; margin-right:auto; }
+    .lp-hero-split .lp-facts { justify-content:center; }
+    .lp-hero-split .lp-hero-video { margin:0 auto; max-width:300px; }
+  }
+
   /* PAIN */
   .lp-pain { background:var(--bg2); }
   .lp-checklist { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:14px; margin:44px 0 40px; }
@@ -435,27 +456,31 @@
 
   <!-- HERO -->
   <section class="lp-hero">
-    <div class="lp-wrap lp-hero-inner">
-      <div class="lp-logo"><svg viewBox="0 0 743.9 150" fill="#0d0d0d"><use href="#mam-logo"/></svg></div>
-      <div class="lp-badge">Diagnóstico de Ciclo de Marca · Gratuito</div>
-      <h1>Sua marca fatura.<br>Mas ela <em>cresce</em> — ou só sobrevive?</h1>
-      <p class="lp-hero-sub">Existe uma diferença brutal entre <strong>faturar</strong> e <strong>ter marca</strong> — e é ela que decide se você vai escalar ou estagnar. Em 8 minutos, descubra exatamente em que fase do ciclo a sua marca está travada — e o que ela precisa para avançar.</p>
-      <div class="lp-hero-video">
-        <div class="lp-video-frame" id="hero-video">
-          <div class="lp-video-ph" onclick="goToForm()">
-            <div class="lp-play"><svg viewBox="0 0 24 24" fill="#0d0d0d"><path d="M8 5v14l11-7z"/></svg></div>
-            <div class="lp-video-cap">Em 60 segundos: por que a sua marca pode estar travada — e o que o diagnóstico revela</div>
-          </div>
+    <div class="lp-wrap lp-hero-inner lp-hero-split">
+      <div class="lp-hero-left">
+        <div class="lp-logo"><svg viewBox="0 0 743.9 150" fill="#0d0d0d"><use href="#mam-logo"/></svg></div>
+        <div class="lp-badge">Diagnóstico de Ciclo de Marca · Gratuito</div>
+        <h1>Sua marca fatura. Mas ela <em>cresce</em> — ou só sobrevive?</h1>
+        <p class="lp-hero-sub">Existe uma diferença brutal entre <strong>faturar</strong> e <strong>ter marca</strong> — e é ela que decide se você vai escalar ou estagnar. Em 8 minutos, descubra em que fase do ciclo a sua marca está travada — e o que ela precisa para avançar.</p>
+        <button class="lp-cta big" onclick="goToForm()">Descobrir a fase da minha marca →</button>
+        <div class="lp-microtrust">Grátis · ~8 min · resultado na hora · sem cartão</div>
+        <div class="lp-facts">
+          <div class="lp-fact"><div class="lp-fact-num">42</div><div class="lp-fact-label">Perguntas</div></div>
+          <div class="lp-fact"><div class="lp-fact-num">7</div><div class="lp-fact-label">Dimensões</div></div>
+          <div class="lp-fact"><div class="lp-fact-num">4</div><div class="lp-fact-label">Fases do ciclo</div></div>
+          <div class="lp-fact"><div class="lp-fact-num">~8min</div><div class="lp-fact-label">Do início ao plano</div></div>
         </div>
-        <div class="lp-video-note">▶ vídeo de apresentação — grave e me mande o link, eu encaixo aqui</div>
       </div>
-      <button class="lp-cta big" onclick="goToForm()">Descobrir a fase da minha marca →</button>
-      <div class="lp-microtrust">Grátis · 42 perguntas · 7 dimensões · ~8 min · resultado na hora · sem cartão</div>
-      <div class="lp-facts">
-        <div class="lp-fact"><div class="lp-fact-num">42</div><div class="lp-fact-label">Perguntas</div></div>
-        <div class="lp-fact"><div class="lp-fact-num">7</div><div class="lp-fact-label">Dimensões</div></div>
-        <div class="lp-fact"><div class="lp-fact-num">4</div><div class="lp-fact-label">Fases do ciclo</div></div>
-        <div class="lp-fact"><div class="lp-fact-num">~8min</div><div class="lp-fact-label">Do início ao plano</div></div>
+      <div class="lp-hero-right">
+        <div class="lp-hero-video">
+          <div class="lp-video-frame portrait" id="hero-video">
+            <div class="lp-video-ph" onclick="goToForm()">
+              <div class="lp-play"><svg viewBox="0 0 24 24" fill="#0d0d0d"><path d="M8 5v14l11-7z"/></svg></div>
+              <div class="lp-video-cap">Em 60 segundos: por que a sua marca pode estar travada — e o que o diagnóstico revela</div>
+            </div>
+          </div>
+          <div class="lp-video-note">▶ vídeo de apresentação — grave e me mande o link, eu encaixo aqui</div>
+        </div>
       </div>
     </div>
   </section>
