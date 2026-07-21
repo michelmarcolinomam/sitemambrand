@@ -69,6 +69,9 @@ export type Database = {
         Row: {
           company: string | null
           created_at: string
+          crm_notes: string | null
+          crm_status: string
+          crm_updated_at: string | null
           email: string
           id: string
           message: string
@@ -78,6 +81,9 @@ export type Database = {
         Insert: {
           company?: string | null
           created_at?: string
+          crm_notes?: string | null
+          crm_status?: string
+          crm_updated_at?: string | null
           email: string
           id?: string
           message: string
@@ -87,6 +93,9 @@ export type Database = {
         Update: {
           company?: string | null
           created_at?: string
+          crm_notes?: string | null
+          crm_status?: string
+          crm_updated_at?: string | null
           email?: string
           id?: string
           message?: string
@@ -99,6 +108,9 @@ export type Database = {
         Row: {
           company: string | null
           created_at: string
+          crm_notes: string | null
+          crm_status: string
+          crm_updated_at: string | null
           dimensions: Json | null
           email: string
           gclid: string | null
@@ -117,6 +129,9 @@ export type Database = {
         Insert: {
           company?: string | null
           created_at?: string
+          crm_notes?: string | null
+          crm_status?: string
+          crm_updated_at?: string | null
           dimensions?: Json | null
           email: string
           gclid?: string | null
@@ -135,6 +150,9 @@ export type Database = {
         Update: {
           company?: string | null
           created_at?: string
+          crm_notes?: string | null
+          crm_status?: string
+          crm_updated_at?: string | null
           dimensions?: Json | null
           email?: string
           gclid?: string | null

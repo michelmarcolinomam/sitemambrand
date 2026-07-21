@@ -23,6 +23,7 @@ import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as CasesSlugRouteImport } from './routes/cases.$slug'
 import { Route as AdminProjetosRouteImport } from './routes/admin/projetos'
 import { Route as AdminDiagnosticoRouteImport } from './routes/admin/diagnostico'
+import { Route as AdminCrmRouteImport } from './routes/admin/crm'
 import { Route as AdminContatosRouteImport } from './routes/admin/contatos'
 import { Route as ApiPublicDiagnosticLeadRouteImport } from './routes/api/public/diagnostic-lead'
 import { Route as ApiPublicContactRouteImport } from './routes/api/public/contact'
@@ -98,6 +99,11 @@ const AdminDiagnosticoRoute = AdminDiagnosticoRouteImport.update({
   path: '/diagnostico',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const AdminCrmRoute = AdminCrmRouteImport.update({
+  id: '/crm',
+  path: '/crm',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 const AdminContatosRoute = AdminContatosRouteImport.update({
   id: '/contatos',
   path: '/contatos',
@@ -131,6 +137,7 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre': typeof SobreRoute
   '/admin/contatos': typeof AdminContatosRoute
+  '/admin/crm': typeof AdminCrmRoute
   '/admin/diagnostico': typeof AdminDiagnosticoRoute
   '/admin/projetos': typeof AdminProjetosRoute
   '/cases/$slug': typeof CasesSlugRoute
@@ -150,6 +157,7 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre': typeof SobreRoute
   '/admin/contatos': typeof AdminContatosRoute
+  '/admin/crm': typeof AdminCrmRoute
   '/admin/diagnostico': typeof AdminDiagnosticoRoute
   '/admin/projetos': typeof AdminProjetosRoute
   '/cases/$slug': typeof CasesSlugRoute
@@ -171,6 +179,7 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre': typeof SobreRoute
   '/admin/contatos': typeof AdminContatosRoute
+  '/admin/crm': typeof AdminCrmRoute
   '/admin/diagnostico': typeof AdminDiagnosticoRoute
   '/admin/projetos': typeof AdminProjetosRoute
   '/cases/$slug': typeof CasesSlugRoute
@@ -193,6 +202,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/sobre'
     | '/admin/contatos'
+    | '/admin/crm'
     | '/admin/diagnostico'
     | '/admin/projetos'
     | '/cases/$slug'
@@ -212,6 +222,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/sobre'
     | '/admin/contatos'
+    | '/admin/crm'
     | '/admin/diagnostico'
     | '/admin/projetos'
     | '/cases/$slug'
@@ -232,6 +243,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/sobre'
     | '/admin/contatos'
+    | '/admin/crm'
     | '/admin/diagnostico'
     | '/admin/projetos'
     | '/cases/$slug'
@@ -357,6 +369,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminDiagnosticoRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/admin/crm': {
+      id: '/admin/crm'
+      path: '/crm'
+      fullPath: '/admin/crm'
+      preLoaderRoute: typeof AdminCrmRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/admin/contatos': {
       id: '/admin/contatos'
       path: '/contatos'
@@ -390,6 +409,7 @@ declare module '@tanstack/react-router' {
 
 interface AdminRouteRouteChildren {
   AdminContatosRoute: typeof AdminContatosRoute
+  AdminCrmRoute: typeof AdminCrmRoute
   AdminDiagnosticoRoute: typeof AdminDiagnosticoRoute
   AdminProjetosRoute: typeof AdminProjetosRoute
   AdminIndexRoute: typeof AdminIndexRoute
@@ -398,6 +418,7 @@ interface AdminRouteRouteChildren {
 
 const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminContatosRoute: AdminContatosRoute,
+  AdminCrmRoute: AdminCrmRoute,
   AdminDiagnosticoRoute: AdminDiagnosticoRoute,
   AdminProjetosRoute: AdminProjetosRoute,
   AdminIndexRoute: AdminIndexRoute,
