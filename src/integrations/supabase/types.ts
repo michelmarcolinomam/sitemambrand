@@ -69,9 +69,14 @@ export type Database = {
         Row: {
           company: string | null
           created_at: string
+          crm_closed_at: string | null
           crm_notes: string | null
+          crm_presented_at: string | null
+          crm_proposal_at: string | null
+          crm_services: Json
           crm_status: string
           crm_updated_at: string | null
+          crm_value: number | null
           email: string
           id: string
           message: string
@@ -81,9 +86,14 @@ export type Database = {
         Insert: {
           company?: string | null
           created_at?: string
+          crm_closed_at?: string | null
           crm_notes?: string | null
+          crm_presented_at?: string | null
+          crm_proposal_at?: string | null
+          crm_services?: Json
           crm_status?: string
           crm_updated_at?: string | null
+          crm_value?: number | null
           email: string
           id?: string
           message: string
@@ -93,9 +103,14 @@ export type Database = {
         Update: {
           company?: string | null
           created_at?: string
+          crm_closed_at?: string | null
           crm_notes?: string | null
+          crm_presented_at?: string | null
+          crm_proposal_at?: string | null
+          crm_services?: Json
           crm_status?: string
           crm_updated_at?: string | null
+          crm_value?: number | null
           email?: string
           id?: string
           message?: string
@@ -108,9 +123,14 @@ export type Database = {
         Row: {
           company: string | null
           created_at: string
+          crm_closed_at: string | null
           crm_notes: string | null
+          crm_presented_at: string | null
+          crm_proposal_at: string | null
+          crm_services: Json
           crm_status: string
           crm_updated_at: string | null
+          crm_value: number | null
           dimensions: Json | null
           email: string
           gclid: string | null
@@ -129,9 +149,14 @@ export type Database = {
         Insert: {
           company?: string | null
           created_at?: string
+          crm_closed_at?: string | null
           crm_notes?: string | null
+          crm_presented_at?: string | null
+          crm_proposal_at?: string | null
+          crm_services?: Json
           crm_status?: string
           crm_updated_at?: string | null
+          crm_value?: number | null
           dimensions?: Json | null
           email: string
           gclid?: string | null
@@ -150,9 +175,14 @@ export type Database = {
         Update: {
           company?: string | null
           created_at?: string
+          crm_closed_at?: string | null
           crm_notes?: string | null
+          crm_presented_at?: string | null
+          crm_proposal_at?: string | null
+          crm_services?: Json
           crm_status?: string
           crm_updated_at?: string | null
+          crm_value?: number | null
           dimensions?: Json | null
           email?: string
           gclid?: string | null
