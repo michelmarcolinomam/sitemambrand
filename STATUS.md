@@ -6,6 +6,25 @@
 ---
 ## 🚦 HANDOFF — onde estamos (2026-07-17)
 
+### ⭐ PONTO DE RETOMADA (ler isto primeiro — próximo chat)
+**Fase atual: Bloco 2 — Google Ads.** Estado agora:
+- ✅ **Site + SEO 100%** no ar (mambrand.com.br). **GA4 medindo** (G-BSFQ9JTVPQ), `generate_lead` dispara no form. **GA4↔Ads vinculado.**
+- ✅ **Conta Ads 707-107-4993** em **Modo Especialista** (nome na conta = "MAM Publicidade"). Tem **GBP**: MAM Publicidade, Av. Guaiapó 2577, Maringá.
+- ✅ **4 campanhas de Pesquisa PUBLICADAS e PAUSADAS** (R$ 0/dia, nada gasta): **S_Marca_BR3** (R$6/dia, Brasil, →home) · **S_Branding_PR** (R$20, PR, →/branding) · **S_Rebranding_PR** (R$15, PR, →/rebranding) · **S_Diagnostico_PR** (R$15, PR, →/ciclo-de-marca). Padrão: Search-only, Maximizar cliques + teto CPC (marca R$3, resto R$6), IA Max off, keywords frase/exata, RSA 5 títulos+2 descrições, conversão generate_lead herdada.
+
+**🔴 PENDÊNCIAS DO MICHEL (bloqueiam ATIVAR, não montar):**
+1. **CARTÃO** — erro persistente "Nova forma de pagamento exigida / não é possível cobrar". Resolver em **Faturamento → Formas de pagamento** (cartão que passe). Sem isso nenhuma campanha veicula. Nº 1.
+2. **Crédito R$ 880** — apareceu "não disponível"; conferir em Faturamento → Promoções / suporte Google.
+3. **Verificação do anunciante** (documentos) — escolher razão social (PF Michel × CNPJ MAM) e enviar docs.
+4. **`generate_lead` como evento-chave** no GA4 — trava de processamento 24–48h do Google; quando aparecer em Admin→Eventos→"Eventos recentes", é 1 clique na estrela; depois importar no Ads e preencher `ADS_ID` (AW-) em `src/lib/tracking.ts`.
+- ⚠️ O Google dispara **reauth de identidade** (login/2FA) a cada ação sensível no Ads — só o Michel conclui.
+
+**➡️ PRÓXIMO GRANDE BLOCO = LANDING PAGES (Fase 2).** As demais campanhas (logo/identidade, sites, rótulo/embalagem, consultoria de mkt, audiovisual, verticais, + SP/SC) **NÃO foram criadas** de propósito — precisam de **LPs de conversão dedicadas** antes (senão clique cai na página errada). **Começar pela LP Diagnóstico/Ciclo de Marca** (oferta-âncora). Precisa do Michel: perguntas de qualificação do form + conteúdo/cases (ou eu rascunho). Infra da LP: template de conversão + form c/ qualificação e captura de GCLID + notificação e-mail + WhatsApp tracking.
+
+**Entregáveis (Artifacts):** doc estratégico v1.1 completo → https://claude.ai/code/artifact/a61098e6-7783-494c-952d-d4c35ea519d5 · backlog de execução → https://claude.ai/code/artifact/15203b2d-5278-455a-a05f-8fb5b6f9857a · doc Word v1.1 em `~/Desktop/Projeto_Google_Ads_MAM_Brand_v1.1.docx`. Escopo aprovado: **robusto** (portfólio completo + LPs, geo PR>SP>SC, verba inicial = crédito R$880).
+
+---
+
 **Marca:** é **MAM Brand** (NÃO "Branding"). Site no ar em **https://mambrand.com.br** (domínio próprio + SSL). "branding" só sobrevive como nome do *serviço* (`/branding`).
 
 **Fase concluída → SEO on-page 100% completo e no ar.** Feito nesta sessão:
@@ -18,16 +37,23 @@
 - **Limpeza do domínio:** o domínio tinha histórico de site WordPress/spam (13k+ páginas). Removi os 7 sitemaps velhos do GSC + submeti remoções de prefixo (`/vendor/`, `/wp-content/`, `/serpihan-debu/`). URLs velhas dão 404 → Google desindexa ao longo de semanas.
 
 **Pendências pequenas (não bloqueiam):**
-- [ ] **Marcar `generate_lead` como evento-chave** no GA4 → aparece na lista "Eventos recentes" em até 24h (trava do Google); depois é 1 clique na estrela. Sem isso, o Ads não mede conversão.
 - [ ] Monitorar em GSC → Páginas a queda do spam ao longo das semanas.
 - [ ] Ciclo de Marca ainda tem portfólio placeholder ("Cliente 0X") — o Michel edita.
 
-**➡️ PRÓXIMA FASE (Bloco 2) — Campanha de Google Ads:** o Michel **já criou a conta Google Ads**. A base de medição está pronta (conversão medindo). Falta:
-1. **Vincular GA4 ↔ Google Ads** e **importar `generate_lead`** como conversão no Ads.
-2. Preencher `ADS_ID` (AW-XXXXXXXXX) em `src/lib/tracking.ts` (const já existe, vazia) → gtag passa a alimentar GA4 + Ads.
-3. **Modelar a campanha inteira** (postura de gestor criterioso, medição-primeiro): campanhas por intenção (Branding / Rebranding / Ciclo-Diagnóstico + defesa de marca "MAM Brand"), grupos temáticos, keywords phrase/exact, **negativas** (grátis/curso/emprego/o que é/vaga…), **RSAs** (headlines/descrições), **extensões** (sitelinks p/ as páginas limpas, callouts +13 anos, structured snippets, local+GBP, call), **geo Maringá + região**, orçamento e lances (começar Maximize Clicks/Manual → tCPA após ~15-30 conversões). Mapear **keyword → landing page** (as URLs limpas).
-4. **Montar PAUSADA** — nunca ligar spend sem "pode ativar" do Michel. **Não digitar cartão/billing** (é o Michel).
-- Referência: o Michel forneceu um doc-playbook completo (implementação Korthex: SEO + form Web3Forms + rastreamento) — reaproveitar o framework, trocar valores por cliente.
+**✅ CAMPANHAS MONTADAS E PAUSADAS (2026-07-17).** Conta **707-107-4993** (nome comercial na conta = "MAM Publicidade") migrada para **Modo Especialista** (Brasil · GMT-3 Brasília · BRL). Billing cadastrado, MAS há erro persistente **"Nova forma de pagamento exigida — não é possível efetuar a cobrança"** (o cartão não passa) → **RESOLVER em Faturamento antes de qualquer ativação** (as campanhas nem veiculam enquanto isso). Também: **crédito R$ 880** apareceu como "não disponível" numa tela (conferir/acionar suporte), **verificação do anunciante** pendente (documentos), e o Google dispara reauth de identidade a cada ação sensível (só o Michel conclui — login/2FA). **4 campanhas de Pesquisa publicadas e PAUSADAS** (Total conta R$ 0/dia): **S_Marca_BR3** (R$6/dia, geo Brasil, →home, defesa de marca só frase/exata p/ colisão MAM×museu) · **S_Branding_PR** (R$20/dia, Paraná, →/branding) · **S_Rebranding_PR** (R$15/dia, Paraná, →/rebranding) · **S_Diagnostico_PR** (R$15/dia, Paraná, →/ciclo-de-marca). Todas: Rede de Pesquisa apenas (Display/Parceiros off), Maximizar cliques c/ teto CPC (marca R$3, resto R$6), IA Max off, keywords frase/exata, RSA 5 títulos+2 descrições no tom "estratégia antes de estética / +13 anos / Maringá-PR", conversão generate_lead herdada da conta (meta "Enviar formulários de lead"). **Faltam (Fase 2, precisam das LPs):** campanhas de logo/identidade, sites, rótulo, consultoria-mkt, audiovisual, verticais, + SP/SC. **Pra ATIVAR:** billing OK + verificação do anunciante + generate_lead como evento-chave (trava Google) importado no Ads + "pode ativar" do Michel.
+
+**➡️ FASE ANTERIOR (Bloco 2) — setup Google Ads.** Conta Ads: **707-107-4993** ("Conta do Google Ads", sob o login contato@mamgestao.com). Progresso desta sessão (2026-07-17):
+- ✅ **GA4 ↔ Google Ads VINCULADOS** (feito no lado do GA4: Admin → Vínculos de produtos → Contas vinculadas do Google Ads → Vincular → conta 707-107-4993). Auto-tagging (codificação automática, modo recomendado), publicidade personalizada e acesso do Ads aos recursos GA = **ativos**. "VINCULAÇÃO CRIADA" — pode levar 24h p/ exibir dados.
+- ⏳ **Marcar `generate_lead` como evento-chave** — **BLOQUEADO pela trava do Google**: o evento dispara (confirmado no Tempo Real) mas ainda NÃO caiu em GA4 → Admin → Exibição de dados → Eventos → aba "Eventos recentes" (só aparecem first_visit/page_view/scroll/session_start/user_engagement). Esta propriedade usa a UI antiga de Eventos (sem opção de criar evento-chave por nome) → só dá pra clicar na estrela **depois** que o evento aparecer (24-48h). É 1 clique.
+- ⏳ **Importar a conversão no Ads** — depende do passo acima: o Ads importa conversões a partir dos *eventos-chave* do GA4. Assim que `generate_lead` virar evento-chave, importar no Ads e marcar como "Principal".
+- ⏳ **Preencher `ADS_ID` (AW-XXXXXXXXX)** em `src/lib/tracking.ts` (const existe, vazia) — o AW- sai da configuração da tag/conversão no Ads (fazer junto do passo de importação).
+- ✅ **Modelo completo da campanha PRONTO para revisão** (Artifact): https://claude.ai/code/artifact/f5d80175-2db3-450d-ad01-431122483182 — 2 campanhas (Serviços c/ 3 grupos por intenção Branding→/branding, Rebranding→/rebranding, Diagnóstico/Ciclo→/ciclo-de-marca; + Marca/defesa só frase-exata por causa da colisão "MAM"×Museu de Arte Moderna), ~30 keywords phrase/exact, negativas agrupadas (informacional/emprego/museu/off-target), RSAs por grupo (tom "estratégia antes de estética / +13 anos / Maringá-PR"), extensões (5 sitelinks p/ URLs limpas, 5 callouts, snippet Serviços, call (44)98808-5474, GBP), Search-only, AI Max off, Max cliques c/ teto CPC → tCPA depois. **Decisões pendentes do Michel:** geo (recomendo PR inteiro — branding tem volume baixo), orçamento (R$40 serviços + R$6 marca/dia), teto CPC (R$6), cupom (valor?), GBP (existe?).
+- **Montar no Ads = PAUSADA**, só depois da revisão + medição fechada. **Nunca ligar spend sem "pode ativar"; não digitar cartão/billing** (é o Michel).
+- Referência: playbook "lancamento-cliente" (framework Korthex: SEO + form Web3Forms + rastreamento) — reaproveitado, valores trocados p/ MAM.
+
+**🎯 DECISÃO DE ESCOPO (2026-07-17):** vamos no **robusto** — portfólio COMPLETO de serviços (não só os 4 premium do site: inclui logo/identidade, sites, rotulagem/embalagem, produtos, planejamento, consultoria de mkt, audiovisual), **com landing pages de conversão dedicadas** (o site institucional NÃO é boa LP p/ mídia paga), geo **PR > SP > SC** (evolução do "Maringá+região"), venda high-ticket/consultiva → foco em lead qualificado + conversão offline via GCLID, não CPL isolado. Verba inicial = **crédito de R$ 880** ("gaste 880 ganhe 880", confirmar no pagamento). O Michel trouxe um **doc estratégico v1.0** robusto (em `~/Desktop/Projeto_Google_Ads_MAM_Brand.docx`) — adotado como plano-mãe, com 2 correções: (a) o diagnóstico de medição dele está DESATUALIZADO (dizia "GA4 sem fluxo / vínculo inexistente" — na real GA4 mede, generate_lead dispara e o vínculo foi feito hoje → Fase 1 dele já ~70% pronta); (b) manter `generate_lead` como conversão principal (já medindo), não recriar como envio_formulario/solicitar_diagnostico.
+
+**📋 PLANO DE EXECUÇÃO (backlog completo, Artifact):** https://claude.ai/code/artifact/15203b2d-5278-455a-a05f-8fb5b6f9857a — fases: **0** fechar medição (evento-chave⏳trava, importar conversão, AW-→ADS_ID, modo especialista, cadastro/crédito=Michel) · **1** LANDING PAGES (template de conversão + form c/ qualificação e captura de GCLID + notificação e-mail + WhatsApp tracking + LGPD; LPs Fase 1 = Diagnóstico/Ciclo, Branding, Logo-Identidade, Sites; Fase 2 = Rebranding, Rotulagem, Consultoria-mkt, Audiovisual) · **2** campanhas PR pausadas (S_Marca/S_Branding_PR/S_Logo-IdentidadeVisual_PR/S_Sites_PR/S_Consultoria_PR + negativas + RSAs + extensões) · **3** QA ponta-a-ponta + "pode ativar" + aplicar crédito · **4** SP/SC, verticais, remarketing, PMax, conversões offline. **Modelo tático das campanhas premium (Artifact anterior):** https://claude.ai/code/artifact/f5d80175-2db3-450d-ad01-431122483182 (fatia de go-live PR). **Inputs pendentes do Michel:** confirmar 4 serviços do go-live · perguntas de qualificação do form · conteúdo/prova pras LPs (cases, segmentos, depoimentos) · Google Business Profile existe? · verba/dia. **Nota:** LPs "populares" (criar logo/fazer site) SÓ vão ao ar com a LP dedicada pronta — senão o clique cai em página errada e queima verba (dependência acoplada).
 
 **Como trabalhar:** posso dirigir o Chrome logado do Michel (Vercel/HostGator/GA4/GSC/Ads) — mas **não digito senha nem cartão**, e **campos de DNS o classificador bloqueia** (o Michel digita). Michel não é programador: explicar simples. Sessões paralelas no repo: checkpoint antes de mexer, commitar só arquivos próprios; push=deploy só com aval.
 ---
@@ -163,6 +189,7 @@ Pendências:
 
 ## Padrões estabelecidos
 - **Logo:** SVG oficial (símbolo ⋈ + wordmark), header 24px/28px, footer 28px, `alt="MAM Branding"` — extraído do site no ar
+- **Favicon (2026-07-20):** `public/favicon.svg` — só o símbolo ⋈ isolado do logo oficial, adaptável ao tema (preto em aba clara, branco em escura via `prefers-color-scheme`). Declarado no `<head>` em `src/routes/__root.tsx` (`rel=icon type=image/svg+xml`). Antes o site não servia favicon (`/favicon.ico` 404 → navegador mostrava a logo antiga em cache). No ar em mambrand.com.br. Falta opcional: `.png/.ico` de fallback p/ navegador bem antigo.
 - **Fontes:** Fraunces (display) + Inter (texto) + JetBrains Mono (labels)
 - **Cores:** fundo #fff, texto #0d0d0d, muted #737373, mint #f0f7ea
 - **Animações:** ease `cubic-bezier(.16,1,.3,1)`, reveals de 1s, stagger 90ms, respeitar `prefers-reduced-motion`
