@@ -6,7 +6,6 @@ import {
   MessageCircle,
   StickyNote,
   ChevronDown,
-  X,
   Check,
 } from "lucide-react";
 import { toast } from "sonner";
@@ -86,6 +85,7 @@ type Lead = {
   crm_services: string[];
   crm_value: number | null;
   crm_presented_at: string | null;
+  crm_meeting_at: string | null;
   crm_proposal_at: string | null;
   crm_closed_at: string | null;
 };
@@ -110,6 +110,7 @@ type CrmPatch = {
   crm_services?: string[];
   crm_value?: number | null;
   crm_presented_at?: string | null;
+  crm_meeting_at?: string | null;
   crm_proposal_at?: string | null;
   crm_closed_at?: string | null;
   name?: string;
@@ -126,7 +127,7 @@ function CrmPage() {
   async function load() {
     setLoading(true);
     const crmCols =
-      "crm_status,crm_notes,crm_services,crm_value,crm_presented_at,crm_proposal_at,crm_closed_at";
+      "crm_status,crm_notes,crm_services,crm_value,crm_presented_at,crm_meeting_at,crm_proposal_at,crm_closed_at";
     const [diag, cont] = await Promise.all([
       supabase
         .from("diagnostic_leads")
@@ -171,6 +172,7 @@ function CrmPage() {
         crm_services: svc(d.crm_services),
         crm_value: num(d.crm_value),
         crm_presented_at: d.crm_presented_at,
+        crm_meeting_at: d.crm_meeting_at,
         crm_proposal_at: d.crm_proposal_at,
         crm_closed_at: d.crm_closed_at,
       })),
@@ -195,6 +197,7 @@ function CrmPage() {
         crm_services: svc(c.crm_services),
         crm_value: num(c.crm_value),
         crm_presented_at: c.crm_presented_at,
+        crm_meeting_at: c.crm_meeting_at,
         crm_proposal_at: c.crm_proposal_at,
         crm_closed_at: c.crm_closed_at,
       })),
@@ -384,8 +387,7 @@ function CrmPage() {
             <LeadDetail
               key={selected.id}
               lead={selected}
-              onPatch={(fields) => patch(selected, fields)}
-              onMove={(next) => moveStage(selected, next)}
+              onSave={(fields) => patch(selected, fields)}
             />
           )}
         </SheetContent>
@@ -535,32 +537,70 @@ function BoardCard({
 
 function LeadDetail({
   lead: l,
-  onPatch,
-  onMove,
+  onSave,
 }: {
   lead: Lead;
-  onPatch: (fields: CrmPatch) => void;
-  onMove: (next: StageKey) => void;
+  onSave: (fields: CrmPatch) => Promise<void> | void;
 }) {
   const [name, setName] = useState(l.name);
   const [company, setCompany] = useState(l.company ?? "");
   const [whatsapp, setWhatsapp] = useState(l.whatsapp ?? "");
+  const [stage, setStage] = useState<StageKey>(stageOf(l.crm_status));
+  const [services, setServices] = useState<string[]>(l.crm_services);
   const [valueStr, setValueStr] = useState(
     l.crm_value != null ? String(l.crm_value) : "",
   );
   const [notes, setNotes] = useState(l.crm_notes ?? "");
-  const services = l.crm_services;
+  const [presented, setPresented] = useState<string | null>(l.crm_presented_at);
+  const [meeting, setMeeting] = useState<string | null>(l.crm_meeting_at);
+  const [proposal, setProposal] = useState<string | null>(l.crm_proposal_at);
+  const [saving, setSaving] = useState(false);
 
-  const toggleService = (s: string) => {
-    const next = services.includes(s)
-      ? services.filter((x) => x !== s)
-      : [...services, s];
-    onPatch({ crm_services: next });
+  const toggleService = (s: string) =>
+    setServices((cur) =>
+      cur.includes(s) ? cur.filter((x) => x !== s) : [...cur, s],
+    );
+
+  const parsedValue = (): number | null => {
+    if (!valueStr) return null;
+    const n = Number(valueStr.replace(/\./g, "").replace(",", "."));
+    return isNaN(n) ? null : n;
   };
 
-  const toggleFlag = (field: "crm_presented_at" | "crm_proposal_at") => {
-    onPatch({ [field]: l[field] ? null : new Date().toISOString() });
-  };
+  // Monta só os campos que mudaram — serve pro Salvar e pro aviso de "não salvo".
+  const patch: CrmPatch = {};
+  const nm = name.trim();
+  if (nm && nm !== l.name) patch.name = nm;
+  const co = company.trim() || null;
+  if (co !== (l.company ?? null)) patch.company = co;
+  const wa = whatsapp.trim() || null;
+  if (wa !== (l.whatsapp ?? null)) patch.whatsapp = wa;
+  if (stage !== stageOf(l.crm_status)) {
+    patch.crm_status = stage;
+    patch.crm_closed_at =
+      stage === "fechado" || stage === "perdido"
+        ? (l.crm_closed_at ?? new Date().toISOString())
+        : null;
+  }
+  if (JSON.stringify(services) !== JSON.stringify(l.crm_services))
+    patch.crm_services = services;
+  const val = parsedValue();
+  if (val !== (l.crm_value ?? null)) patch.crm_value = val;
+  const nt = notes.trim() || null;
+  if (nt !== (l.crm_notes ?? null)) patch.crm_notes = nt;
+  if (presented !== l.crm_presented_at) patch.crm_presented_at = presented;
+  if (meeting !== l.crm_meeting_at) patch.crm_meeting_at = meeting;
+  if (proposal !== l.crm_proposal_at) patch.crm_proposal_at = proposal;
+
+  const dirty = Object.keys(patch).length > 0;
+
+  async function save() {
+    if (!dirty || saving) return;
+    setSaving(true);
+    await onSave(patch);
+    setSaving(false);
+    toast.success("Alterações salvas.");
+  }
 
   return (
     <div>
@@ -575,8 +615,8 @@ function LeadDetail({
             Etapa
           </Label>
           <select
-            value={stageOf(l.crm_status)}
-            onChange={(e) => onMove(e.target.value as StageKey)}
+            value={stage}
+            onChange={(e) => setStage(e.target.value as StageKey)}
             className="w-full appearance-none rounded-sm border border-border bg-background py-2 pl-3 pr-8 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ring"
           >
             {STAGES.map((s) => (
@@ -594,13 +634,7 @@ function LeadDetail({
             <Label className="mb-1.5 block text-xs text-muted-foreground">
               Nome
             </Label>
-            <Input
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              onBlur={() =>
-                name.trim() && name !== l.name && onPatch({ name: name.trim() })
-              }
-            />
+            <Input value={name} onChange={(e) => setName(e.target.value)} />
           </div>
           <div>
             <Label className="mb-1.5 block text-xs text-muted-foreground">
@@ -609,10 +643,6 @@ function LeadDetail({
             <Input
               value={company}
               onChange={(e) => setCompany(e.target.value)}
-              onBlur={() =>
-                company !== (l.company ?? "") &&
-                onPatch({ company: company.trim() || null })
-              }
             />
           </div>
           <div>
@@ -622,10 +652,6 @@ function LeadDetail({
             <Input
               value={whatsapp}
               onChange={(e) => setWhatsapp(e.target.value)}
-              onBlur={() =>
-                whatsapp !== (l.whatsapp ?? "") &&
-                onPatch({ whatsapp: whatsapp.trim() || null })
-              }
             />
           </div>
           <div className="flex flex-wrap items-center gap-3 text-sm">
@@ -686,32 +712,29 @@ function LeadDetail({
             inputMode="numeric"
             placeholder="Ex.: 8000"
             value={valueStr}
-            onChange={(e) =>
-              setValueStr(e.target.value.replace(/[^\d.,]/g, ""))
-            }
-            onBlur={() => {
-              const parsed = valueStr
-                ? Number(valueStr.replace(/\./g, "").replace(",", "."))
-                : null;
-              const clean = parsed != null && !isNaN(parsed) ? parsed : null;
-              if (clean !== l.crm_value) onPatch({ crm_value: clean });
-            }}
+            onChange={(e) => setValueStr(e.target.value.replace(/[^\d.,]/g, ""))}
           />
         </div>
 
-        {/* Marcos do fluxo */}
-        <div className="flex flex-col gap-2 rounded-md bg-muted/50 p-3">
-          <FlagRow
+        {/* Marcos do fluxo — cada um com data editável */}
+        <div className="flex flex-col gap-3 rounded-md bg-muted/50 p-3">
+          <div className="text-xs font-medium text-foreground">
+            Marcos do atendimento
+          </div>
+          <Milestone
             label="Apresentação da empresa enviada"
-            on={!!l.crm_presented_at}
-            at={l.crm_presented_at}
-            onToggle={() => toggleFlag("crm_presented_at")}
+            value={presented}
+            onChange={setPresented}
           />
-          <FlagRow
+          <Milestone
+            label="Reunião realizada"
+            value={meeting}
+            onChange={setMeeting}
+          />
+          <Milestone
             label="Proposta enviada"
-            on={!!l.crm_proposal_at}
-            at={l.crm_proposal_at}
-            onToggle={() => toggleFlag("crm_proposal_at")}
+            value={proposal}
+            onChange={setProposal}
           />
         </div>
 
@@ -724,10 +747,6 @@ function LeadDetail({
             rows={4}
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
-            onBlur={() =>
-              notes.trim() !== (l.crm_notes ?? "") &&
-              onPatch({ crm_notes: notes.trim() || null })
-            }
             placeholder="Ex.: reunião marcada dia 25; pediu proposta de rebranding…"
           />
         </div>
@@ -755,45 +774,65 @@ function LeadDetail({
           )}
         </div>
       </div>
+
+      {/* Barra de salvar (fixa no rodapé do painel) */}
+      <div className="sticky bottom-0 z-10 -mx-6 mt-4 flex items-center justify-between gap-3 border-t border-border bg-background px-6 py-3">
+        <span className="text-xs text-muted-foreground">
+          {dirty ? "Alterações não salvas" : "Tudo salvo"}
+        </span>
+        <Button onClick={save} disabled={!dirty || saving}>
+          {saving && <Loader2 className="h-4 w-4 animate-spin" />}
+          Salvar
+        </Button>
+      </div>
     </div>
   );
 }
 
-function FlagRow({
+function Milestone({
   label,
-  on,
-  at,
-  onToggle,
+  value,
+  onChange,
 }: {
   label: string;
-  on: boolean;
-  at: string | null;
-  onToggle: () => void;
+  value: string | null;
+  onChange: (v: string | null) => void;
 }) {
+  const on = !!value;
+  const dateStr = value ? new Date(value).toISOString().slice(0, 10) : "";
   return (
-    <button
-      type="button"
-      onClick={onToggle}
-      className="flex items-center gap-2.5 text-left text-sm"
-    >
-      <span
-        className={`flex h-5 w-5 shrink-0 items-center justify-center rounded border ${
-          on
-            ? "border-foreground bg-foreground text-background"
-            : "border-border"
-        }`}
+    <div className="flex flex-wrap items-center gap-2">
+      <button
+        type="button"
+        onClick={() => onChange(on ? null : new Date().toISOString())}
+        className="flex flex-1 items-center gap-2.5 text-left text-sm"
       >
-        {on ? <Check className="h-3.5 w-3.5" /> : <X className="h-3 w-3 text-transparent" />}
-      </span>
-      <span>
+        <span
+          className={`flex h-5 w-5 shrink-0 items-center justify-center rounded border ${
+            on
+              ? "border-foreground bg-foreground text-background"
+              : "border-border"
+          }`}
+        >
+          {on && <Check className="h-3.5 w-3.5" />}
+        </span>
         {label}
-        {on && at && (
-          <span className="ml-1 text-xs text-muted-foreground">
-            · {new Date(at).toLocaleDateString("pt-BR")}
-          </span>
-        )}
-      </span>
-    </button>
+      </button>
+      {on && (
+        <input
+          type="date"
+          value={dateStr}
+          onChange={(e) =>
+            onChange(
+              e.target.value
+                ? new Date(e.target.value + "T12:00:00").toISOString()
+                : new Date().toISOString(),
+            )
+          }
+          className="rounded-sm border border-border bg-background px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-ring"
+        />
+      )}
+    </div>
   );
 }
 

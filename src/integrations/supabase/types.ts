@@ -70,6 +70,7 @@ export type Database = {
           company: string | null
           created_at: string
           crm_closed_at: string | null
+          crm_meeting_at: string | null
           crm_notes: string | null
           crm_presented_at: string | null
           crm_proposal_at: string | null
@@ -87,6 +88,7 @@ export type Database = {
           company?: string | null
           created_at?: string
           crm_closed_at?: string | null
+          crm_meeting_at?: string | null
           crm_notes?: string | null
           crm_presented_at?: string | null
           crm_proposal_at?: string | null
@@ -104,6 +106,7 @@ export type Database = {
           company?: string | null
           created_at?: string
           crm_closed_at?: string | null
+          crm_meeting_at?: string | null
           crm_notes?: string | null
           crm_presented_at?: string | null
           crm_proposal_at?: string | null
@@ -124,6 +127,7 @@ export type Database = {
           company: string | null
           created_at: string
           crm_closed_at: string | null
+          crm_meeting_at: string | null
           crm_notes: string | null
           crm_presented_at: string | null
           crm_proposal_at: string | null
@@ -150,6 +154,7 @@ export type Database = {
           company?: string | null
           created_at?: string
           crm_closed_at?: string | null
+          crm_meeting_at?: string | null
           crm_notes?: string | null
           crm_presented_at?: string | null
           crm_proposal_at?: string | null
@@ -176,6 +181,7 @@ export type Database = {
           company?: string | null
           created_at?: string
           crm_closed_at?: string | null
+          crm_meeting_at?: string | null
           crm_notes?: string | null
           crm_presented_at?: string | null
           crm_proposal_at?: string | null
