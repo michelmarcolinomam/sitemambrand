@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Share2, Download, Check } from "lucide-react";
+import { Share2, Download, Check, Link2 } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -107,6 +107,7 @@ export function ShareProject({ title, year, category, descriptor, coverUrl, slug
   const [fontsReady, setFontsReady] = useState(false);
   const [canShareFiles, setCanShareFiles] = useState(false);
   const [downloaded, setDownloaded] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   const [canvasEl, setCanvasEl] = useState<HTMLCanvasElement | null>(null);
   const fileRef = useRef<File | null>(null);
@@ -174,10 +175,10 @@ export function ShareProject({ title, year, category, descriptor, coverUrl, slug
     const M = 60;
     const isStory = format === "story";
 
-    // ——— topo: ícone ⋈ + url ———
+    // ——— topo: ícone ⋈ (só no feed — no story não caiu bem) + url ———
     const iconTop = 66;
     const iconH = 52;
-    drawMark(ctx, M, iconTop, iconH, INK);
+    if (!isStory) drawMark(ctx, M, iconTop, iconH, INK);
 
     ctx.fillStyle = MUTED;
     ctx.textAlign = "right";
@@ -294,6 +295,16 @@ export function ShareProject({ title, year, category, descriptor, coverUrl, slug
     }, "image/png");
   }, [canvasEl, fileName]);
 
+  const handleCopyLink = useCallback(async () => {
+    try {
+      await navigator.clipboard.writeText(pageUrl);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      /* clipboard indisponível */
+    }
+  }, [pageUrl]);
+
   const handleShare = useCallback(async () => {
     const file = fileRef.current;
     if (file && navigator.canShare && navigator.canShare({ files: [file] })) {
@@ -405,6 +416,30 @@ export function ShareProject({ title, year, category, descriptor, coverUrl, slug
                 </>
               )}
             </button>
+          </div>
+
+          {/* link do projeto — pro sticker de "Link" do story */}
+          <div className="mt-5 border-t border-border pt-5">
+            <button
+              type="button"
+              onClick={handleCopyLink}
+              className="inline-flex items-center gap-2 text-sm font-medium text-foreground"
+            >
+              {copied ? (
+                <>
+                  <Check className="h-4 w-4" aria-hidden /> Link copiado
+                </>
+              ) : (
+                <>
+                  <Link2 className="h-4 w-4" aria-hidden /> Copiar link do projeto
+                </>
+              )}
+            </button>
+            <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
+              No story, cole este link no sticker de{" "}
+              <span className="font-medium text-foreground">Link</span> — assim quem vê
+              toca e cai direto no projeto.
+            </p>
           </div>
         </div>
       </DialogContent>
