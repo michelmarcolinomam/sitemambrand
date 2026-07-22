@@ -180,39 +180,30 @@ export function ShareProject({ title, year, category, descriptor, coverUrl, slug
         (ctx as unknown as { letterSpacing: string }).letterSpacing = v;
     };
 
-    // ——— layout por formato ———
-    // Story (9:16): imagem ALTA de ponta a ponta no topo + rodapé branco com a
-    //   legenda, tudo na zona segura do Instagram (o rodapé fica reservado à UI).
-    // Feed (4:5): barra no topo (ícone ⋈ + url) + imagem emoldurada + legenda.
-    let captionTop: number;
-    if (isStory) {
-      const imgH = 1300; // imagem alta (~5:6), sem margens laterais
-      if (img) {
-        drawCover(ctx, img, 0, 0, W, imgH);
-      } else {
-        ctx.fillStyle = "#eef2e7";
-        ctx.fillRect(0, 0, W, imgH);
-      }
-      captionTop = imgH + 56;
-    } else {
-      drawMark(ctx, M, 66, iconH, INK);
-      ctx.fillStyle = MUTED;
-      ctx.textAlign = "right";
-      ctx.textBaseline = "middle";
-      ctx.font = "500 24px ui-monospace, 'SF Mono', Menlo, Monaco, monospace";
-      setLS("2.5px");
-      ctx.fillText(SITE, W - M, 66 + iconH / 2);
-      setLS("0px");
+    // ——— moldura editorial (as duas versões, como na 1ª ideia): ícone ⋈ + url
+    //     no topo, imagem emoldurada (com margem lateral) e legenda embaixo.
+    //     No story sobra uma margem no rodapé, que a interface do Instagram cobre. ———
+    const topBarY = isStory ? 176 : 66; // no story desce pra fora da UI do topo do Instagram
+    drawMark(ctx, M, topBarY, iconH, INK);
+    ctx.fillStyle = MUTED;
+    ctx.textAlign = "right";
+    ctx.textBaseline = "middle";
+    ctx.font = "500 24px ui-monospace, 'SF Mono', Menlo, Monaco, monospace";
+    setLS("2.5px");
+    ctx.fillText(SITE, W - M, topBarY + iconH / 2);
+    setLS("0px");
 
-      captionTop = H - 250;
-      const imgTop = 66 + iconH + 46;
-      const imgBottom = captionTop - 40;
-      if (img) {
-        drawCover(ctx, img, M, imgTop, W - 2 * M, imgBottom - imgTop);
-      } else {
-        ctx.fillStyle = "#eef2e7";
-        ctx.fillRect(M, imgTop, W - 2 * M, imgBottom - imgTop);
-      }
+    const captionH = isStory ? 300 : 250;
+    const bottomSafe = isStory ? 210 : 0;
+    const captionTop = H - bottomSafe - captionH;
+
+    const imgTop = topBarY + iconH + 46;
+    const imgBottom = captionTop - 40;
+    if (img) {
+      drawCover(ctx, img, M, imgTop, W - 2 * M, imgBottom - imgTop);
+    } else {
+      ctx.fillStyle = "#eef2e7";
+      ctx.fillRect(M, imgTop, W - 2 * M, imgBottom - imgTop);
     }
 
     // ——— legenda ———
@@ -220,27 +211,16 @@ export function ShareProject({ title, year, category, descriptor, coverUrl, slug
     const titleMax = isStory ? 104 : 92;
     const descSize = 30;
 
-    // kicker (categoria) à esquerda; no story a url vai no canto direito da mesma linha
+    // kicker (categoria)
     let y = captionTop + 4;
-    if (isStory) {
-      ctx.fillStyle = MUTED;
-      ctx.textAlign = "right";
-      ctx.textBaseline = "top";
-      ctx.font = "500 22px ui-monospace, 'SF Mono', Menlo, Monaco, monospace";
-      setLS("2px");
-      ctx.fillText(SITE, W - M, y + 2);
-      setLS("0px");
-    }
     if (kicker) {
       ctx.fillStyle = MUTED;
       ctx.textAlign = "left";
       ctx.textBaseline = "top";
       ctx.font = "500 25px ui-monospace, 'SF Mono', Menlo, Monaco, monospace";
       setLS("2px");
-      // encolhe se não couber; no story reserva espaço p/ a url à direita
-      const kickerMaxW = isStory ? W - 2 * M - 260 : W - 2 * M;
       let ks = kickerSize;
-      while (ks > 16 && ctx.measureText(kicker).width > kickerMaxW) {
+      while (ks > 16 && ctx.measureText(kicker).width > W - 2 * M) {
         ks -= 1;
         ctx.font = `500 ${ks}px ui-monospace, 'SF Mono', Menlo, Monaco, monospace`;
       }
