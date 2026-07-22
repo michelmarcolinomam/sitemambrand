@@ -241,7 +241,7 @@
   .video-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--green-dark); margin-bottom: 16px; position:relative; }
   .video-title { font-family: 'Fraunces', serif; font-size: clamp(22px, 3.5vw, 32px); font-weight: 600; line-height: 1.2; margin-bottom: 14px; color: #fff; letter-spacing: -1px; position: relative; }
   .video-desc { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.8; max-width: 500px; margin: 0 auto 32px; font-weight: 400; position: relative; }
-  .video-player { position:relative; max-width:680px; margin:0 auto 8px; border-radius:16px; overflow:hidden; aspect-ratio:16/9; background:#000; border:1px solid rgba(255,255,255,0.08); }
+  .video-player { position:relative; max-width:320px; margin:0 auto 8px; border-radius:16px; overflow:hidden; aspect-ratio:9/16; background:#000; border:1px solid rgba(255,255,255,0.08); }
   .video-player iframe { width:100%; height:100%; border:0; }
   .video-fallback-link { display:inline-block; margin-top:14px; font-size:12px; font-weight:600; color:rgba(255,255,255,0.4); text-decoration:underline; text-underline-offset:3px; transition:color 0.2s; position:relative; }
   .video-fallback-link:hover { color:var(--green); }
@@ -728,10 +728,10 @@
 // Quando gravar, troque null pelo ID do vídeo (ex: 'dQw4w9WgXcQ')
 // ══════════════════════════════════════
 const VIDEOS = {
-  'Introdução': '5DyyFWh0Pp8',
-  'Crescimento': '32UITVwvI6M',
-  'Platô': 'fMidn737kG0',
-  'Declínio': 'w-UESZKeUKM'
+  'Introdução': '0RGuHgQNYro',
+  'Crescimento': 'mgMtjKf2a_c',
+  'Platô': 'J0F2crrWBX4',
+  'Declínio': 'vFaT5Zy9-4U'
 };
 
 // ══════════════════════════════════════
@@ -1640,7 +1640,7 @@ function restartQuiz(){
 <script>
 /* ===== LANDING PAGE — vídeo do hero, curva animada e radar ===== */
 // Cole o ID do vídeo do YouTube quando gravar (ex.: 'dQw4w9WgXcQ'). Vazio = mostra o placeholder.
-const HERO_VIDEO_ID = '';
+const HERO_VIDEO_ID = 'qltFmeuETNM';
 (function(){
   // Vídeo do hero
   if (HERO_VIDEO_ID) {
