@@ -174,60 +174,78 @@ export function ShareProject({ title, year, category, descriptor, coverUrl, slug
 
     const M = 60;
     const isStory = format === "story";
-
-    // Zona de segurança do Instagram Stories: o topo e o rodapé da tela são
-    // cobertos pela interface do app (perfil, "Aa", legenda, barra de resposta).
-    // No story recuamos o conteúdo pro miolo visível; no feed usamos a arte toda.
-    const topInset = isStory ? 200 : 66;
-    const bottomInset = isStory ? 320 : 0;
-
-    // ——— topo: ícone ⋈ (só no feed — no story não caiu bem) + url ———
     const iconH = 52;
-    if (!isStory) drawMark(ctx, M, topInset, iconH, INK);
+    const setLS = (v: string) => {
+      if ("letterSpacing" in ctx)
+        (ctx as unknown as { letterSpacing: string }).letterSpacing = v;
+    };
 
-    ctx.fillStyle = MUTED;
-    ctx.textAlign = "right";
-    ctx.textBaseline = "middle";
-    ctx.font = "500 24px ui-monospace, 'SF Mono', Menlo, Monaco, monospace";
-    if ("letterSpacing" in ctx) (ctx as unknown as { letterSpacing: string }).letterSpacing = "2.5px";
-    ctx.fillText(SITE, W - M, topInset + iconH / 2);
-    if ("letterSpacing" in ctx) (ctx as unknown as { letterSpacing: string }).letterSpacing = "0px";
-
-    // ——— bloco de legenda (embaixo) ———
-    const bottomPad = 76;
-    const kickerSize = 25;
-    const titleMax = isStory ? 112 : 92;
-    const descSize = 30;
-
-    const captionH = isStory ? 300 : 250;
-    const captionTop = H - bottomInset - captionH;
-
-    // imagem: entre o topo e a legenda
-    const imgTop = topInset + iconH + 46;
-    const imgBottom = captionTop - 40;
-    if (img) {
-      drawCover(ctx, img, M, imgTop, W - 2 * M, imgBottom - imgTop);
+    // ——— layout por formato ———
+    // Story (9:16): imagem ALTA de ponta a ponta no topo + rodapé branco com a
+    //   legenda, tudo na zona segura do Instagram (o rodapé fica reservado à UI).
+    // Feed (4:5): barra no topo (ícone ⋈ + url) + imagem emoldurada + legenda.
+    let captionTop: number;
+    if (isStory) {
+      const imgH = 1300; // imagem alta (~5:6), sem margens laterais
+      if (img) {
+        drawCover(ctx, img, 0, 0, W, imgH);
+      } else {
+        ctx.fillStyle = "#eef2e7";
+        ctx.fillRect(0, 0, W, imgH);
+      }
+      captionTop = imgH + 56;
     } else {
-      ctx.fillStyle = "#eef2e7";
-      ctx.fillRect(M, imgTop, W - 2 * M, imgBottom - imgTop);
+      drawMark(ctx, M, 66, iconH, INK);
+      ctx.fillStyle = MUTED;
+      ctx.textAlign = "right";
+      ctx.textBaseline = "middle";
+      ctx.font = "500 24px ui-monospace, 'SF Mono', Menlo, Monaco, monospace";
+      setLS("2.5px");
+      ctx.fillText(SITE, W - M, 66 + iconH / 2);
+      setLS("0px");
+
+      captionTop = H - 250;
+      const imgTop = 66 + iconH + 46;
+      const imgBottom = captionTop - 40;
+      if (img) {
+        drawCover(ctx, img, M, imgTop, W - 2 * M, imgBottom - imgTop);
+      } else {
+        ctx.fillStyle = "#eef2e7";
+        ctx.fillRect(M, imgTop, W - 2 * M, imgBottom - imgTop);
+      }
     }
 
-    // kicker (tipo · categoria)
+    // ——— legenda ———
+    const kickerSize = 25;
+    const titleMax = isStory ? 104 : 92;
+    const descSize = 30;
+
+    // kicker (categoria) à esquerda; no story a url vai no canto direito da mesma linha
     let y = captionTop + 4;
+    if (isStory) {
+      ctx.fillStyle = MUTED;
+      ctx.textAlign = "right";
+      ctx.textBaseline = "top";
+      ctx.font = "500 22px ui-monospace, 'SF Mono', Menlo, Monaco, monospace";
+      setLS("2px");
+      ctx.fillText(SITE, W - M, y + 2);
+      setLS("0px");
+    }
     if (kicker) {
       ctx.fillStyle = MUTED;
       ctx.textAlign = "left";
       ctx.textBaseline = "top";
       ctx.font = "500 25px ui-monospace, 'SF Mono', Menlo, Monaco, monospace";
-      if ("letterSpacing" in ctx) (ctx as unknown as { letterSpacing: string }).letterSpacing = "2px";
-      // encolhe se não couber numa linha
+      setLS("2px");
+      // encolhe se não couber; no story reserva espaço p/ a url à direita
+      const kickerMaxW = isStory ? W - 2 * M - 260 : W - 2 * M;
       let ks = kickerSize;
-      while (ks > 16 && ctx.measureText(kicker).width > W - 2 * M) {
+      while (ks > 16 && ctx.measureText(kicker).width > kickerMaxW) {
         ks -= 1;
         ctx.font = `500 ${ks}px ui-monospace, 'SF Mono', Menlo, Monaco, monospace`;
       }
       ctx.fillText(kicker, M, y);
-      if ("letterSpacing" in ctx) (ctx as unknown as { letterSpacing: string }).letterSpacing = "0px";
+      setLS("0px");
       y += ks + 26;
     }
 
@@ -267,8 +285,6 @@ export function ShareProject({ title, year, category, descriptor, coverUrl, slug
       ctx.font = `400 ${descSize}px Inter, system-ui, sans-serif`;
       ctx.fillText(`${descriptor}.`, M, baseline + 26);
     }
-
-    void bottomPad;
 
     // prepara o arquivo pra compartilhar (pré-gerado p/ caber no gesto do usuário)
     canvas.toBlob((blob) => {
