@@ -14,6 +14,7 @@ import {
   CountUp,
   BeforeAfterComparison,
 } from "@/components/case/CaseBlocks";
+import { ShareProject } from "@/components/case/ShareProject";
 import { supabase } from "@/integrations/supabase/client";
 import { normalizeCaseContent } from "@/lib/case-content";
 import { breadcrumbJsonLd } from "@/lib/seo";
@@ -27,7 +28,7 @@ export const Route = createFileRoute("/cases/$slug")({
   loader: async ({ params }) => {
     const { data, error } = await supabase
       .from("cases")
-      .select("slug, title, year, category, descriptor, seo_description, content")
+      .select("slug, title, year, category, descriptor, cover_url, seo_description, content")
       .eq("slug", params.slug)
       .maybeSingle();
 
@@ -36,6 +37,10 @@ export const Route = createFileRoute("/cases/$slug")({
 
     return {
       title: data.title,
+      year: data.year,
+      category: data.category,
+      descriptor: data.descriptor,
+      coverUrl: data.cover_url,
       seoDescription: data.seo_description,
       content: normalizeCaseContent(data.content),
     };
@@ -73,7 +78,9 @@ const socials = [
 ];
 
 function CasePage() {
-  const { title, content } = Route.useLoaderData();
+  const { title, year, category, descriptor, coverUrl, content } =
+    Route.useLoaderData();
+  const { slug } = Route.useParams();
   const { hero, challenge, strategy, identity, applications, motion, results } =
     content;
 
@@ -128,6 +135,19 @@ function CasePage() {
               <p className="mt-10 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
                 {hero.lead}
               </p>
+            </Rise>
+
+            <Rise delay={0.22}>
+              <div className="mt-10">
+                <ShareProject
+                  title={title}
+                  year={year}
+                  category={category}
+                  descriptor={descriptor}
+                  coverUrl={coverUrl ?? hero.image.url}
+                  slug={slug}
+                />
+              </div>
             </Rise>
           </div>
 
