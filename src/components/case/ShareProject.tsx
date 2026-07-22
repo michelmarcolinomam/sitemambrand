@@ -175,17 +175,22 @@ export function ShareProject({ title, year, category, descriptor, coverUrl, slug
     const M = 60;
     const isStory = format === "story";
 
+    // Zona de segurança do Instagram Stories: o topo e o rodapé da tela são
+    // cobertos pela interface do app (perfil, "Aa", legenda, barra de resposta).
+    // No story recuamos o conteúdo pro miolo visível; no feed usamos a arte toda.
+    const topInset = isStory ? 200 : 66;
+    const bottomInset = isStory ? 320 : 0;
+
     // ——— topo: ícone ⋈ (só no feed — no story não caiu bem) + url ———
-    const iconTop = 66;
     const iconH = 52;
-    if (!isStory) drawMark(ctx, M, iconTop, iconH, INK);
+    if (!isStory) drawMark(ctx, M, topInset, iconH, INK);
 
     ctx.fillStyle = MUTED;
     ctx.textAlign = "right";
     ctx.textBaseline = "middle";
     ctx.font = "500 24px ui-monospace, 'SF Mono', Menlo, Monaco, monospace";
     if ("letterSpacing" in ctx) (ctx as unknown as { letterSpacing: string }).letterSpacing = "2.5px";
-    ctx.fillText(SITE, W - M, iconTop + iconH / 2);
+    ctx.fillText(SITE, W - M, topInset + iconH / 2);
     if ("letterSpacing" in ctx) (ctx as unknown as { letterSpacing: string }).letterSpacing = "0px";
 
     // ——— bloco de legenda (embaixo) ———
@@ -194,11 +199,11 @@ export function ShareProject({ title, year, category, descriptor, coverUrl, slug
     const titleMax = isStory ? 112 : 92;
     const descSize = 30;
 
-    const captionH = isStory ? 340 : 250;
-    const captionTop = H - captionH;
+    const captionH = isStory ? 300 : 250;
+    const captionTop = H - bottomInset - captionH;
 
     // imagem: entre o topo e a legenda
-    const imgTop = iconTop + iconH + 46;
+    const imgTop = topInset + iconH + 46;
     const imgBottom = captionTop - 40;
     if (img) {
       drawCover(ctx, img, M, imgTop, W - 2 * M, imgBottom - imgTop);
