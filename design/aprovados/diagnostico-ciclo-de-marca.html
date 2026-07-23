@@ -414,12 +414,19 @@
   .lp-hero-video { width:100%; max-width:600px; margin:34px auto 4px; }
   .lp-video-frame { position:relative; width:100%; aspect-ratio:16/9; border-radius:20px; overflow:hidden; background:var(--black); border:1px solid var(--border); box-shadow:0 24px 70px rgba(13,13,13,0.22); }
   .lp-video-frame iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
+  /* VSL: player levemente ampliado — o overlay de título/canal do YouTube fica fora do quadro */
+  #hero-video iframe { top:-11%; height:122%; }
   .lp-video-ph { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; cursor:pointer; background:radial-gradient(circle at 50% 40%, #1c1c1c 0%, #0d0d0d 70%); }
   .lp-video-ph::after { content:''; position:absolute; width:340px; height:340px; background:radial-gradient(circle, rgba(200,230,176,0.16) 0%, transparent 65%); pointer-events:none; }
   .lp-play { width:74px; height:74px; border-radius:50%; background:var(--green); display:flex; align-items:center; justify-content:center; position:relative; z-index:1; box-shadow:0 10px 30px rgba(200,230,176,0.35); transition:transform .3s; }
   .lp-video-ph:hover .lp-play { transform:scale(1.08); }
   /* VSL: camada invisível sobre o player — bloqueia pausar/arrastar/abrir no YouTube */
   .video-lock { position:absolute; inset:0; z-index:5; }
+  /* VSL: aviso de som sobre o vídeo mudo (também bloqueia interação enquanto mudo) */
+  .video-sound { position:absolute; inset:0; z-index:6; display:flex; align-items:flex-end; justify-content:center; padding:18px; cursor:pointer; }
+  .video-sound span { display:inline-flex; align-items:center; gap:8px; background:rgba(13,13,13,0.88); color:#fff; border:1px solid rgba(255,255,255,0.28); border-radius:999px; padding:10px 18px; font-size:13.5px; font-weight:600; animation:soundPulse 1.6s ease-in-out infinite; }
+  @keyframes soundPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.05)} }
+  @media (prefers-reduced-motion: reduce) { .video-sound span { animation:none; } }
   .lp-play svg { width:26px; height:26px; margin-left:4px; }
   .lp-video-cap { color:rgba(255,255,255,0.85); font-size:14px; font-weight:600; position:relative; z-index:1; text-align:center; max-width:360px; line-height:1.5; }
   .lp-video-note { font-size:11px; color:var(--gray); font-weight:500; margin-top:10px; font-style:italic; }
@@ -1654,16 +1661,27 @@ function restartQuiz(){
 const HERO_VIDEO_ID = 'qltFmeuETNM';
 (function(){
   // Vídeo do hero
-  // VSL: a capa (placeholder) vira o botão de play; o vídeo toca sem controles e sem
-  // como pular/pausar — a única saída é o CTA. Clique do usuário libera autoplay com som.
+  // VSL: o vídeo começa sozinho MUDO ao carregar a página (o navegador permite autoplay
+  // sem som). O aviso "ativar o som" cobre o player — bloqueia interação enquanto mudo —
+  // e, no toque, recomeça do zero COM som já travado (sem controles, sem pular).
+  function heroSrc(extra) {
+    return 'https://www.youtube-nocookie.com/embed/'+HERO_VIDEO_ID+'?'+extra+'&controls=0&disablekb=1&playsinline=1&rel=0&modestbranding=1&iv_load_policy=3';
+  }
+  function startHeroMuted() {
+    var hv = document.getElementById('hero-video');
+    if (!hv) return;
+    hv.innerHTML = '<iframe src="'+heroSrc('autoplay=1&mute=1&loop=1&playlist='+HERO_VIDEO_ID)+'" title="Apresentação MAM Brand" allow="autoplay; encrypted-media" allowfullscreen></iframe>'
+      + '<div class="video-sound" onclick="playHeroVideo()" role="button" aria-label="Ativar o som do vídeo"><span>🔊 Toque para ativar o som</span></div>';
+  }
   function playHeroVideo() {
     var hv = document.getElementById('hero-video');
     if (!hv) return;
-    hv.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/'+HERO_VIDEO_ID+'?autoplay=1&controls=0&disablekb=1&playsinline=1&rel=0&modestbranding=1&iv_load_policy=3" title="Apresentação MAM Brand" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe><div class="video-lock" aria-hidden="true"></div>';
+    hv.innerHTML = '<iframe src="'+heroSrc('autoplay=1')+'" title="Apresentação MAM Brand" allow="autoplay; encrypted-media" allowfullscreen></iframe><div class="video-lock" aria-hidden="true"></div>';
   }
+  // O bloco roda dentro de IIFE — o onclick injetado precisa da função no escopo global
+  window.playHeroVideo = playHeroVideo;
   if (HERO_VIDEO_ID) {
-    var heroPh = document.querySelector('#hero-video .lp-video-ph');
-    if (heroPh) heroPh.onclick = playHeroVideo;
+    startHeroMuted();
     var note = document.querySelector('.lp-video-note'); if(note) note.style.display='none';
   }
   // Radar (Chart.js) — inicia quando entra na tela
