@@ -418,6 +418,8 @@
   .lp-video-ph::after { content:''; position:absolute; width:340px; height:340px; background:radial-gradient(circle, rgba(200,230,176,0.16) 0%, transparent 65%); pointer-events:none; }
   .lp-play { width:74px; height:74px; border-radius:50%; background:var(--green); display:flex; align-items:center; justify-content:center; position:relative; z-index:1; box-shadow:0 10px 30px rgba(200,230,176,0.35); transition:transform .3s; }
   .lp-video-ph:hover .lp-play { transform:scale(1.08); }
+  /* VSL: camada invisível sobre o player — bloqueia pausar/arrastar/abrir no YouTube */
+  .video-lock { position:absolute; inset:0; z-index:5; }
   .lp-play svg { width:26px; height:26px; margin-left:4px; }
   .lp-video-cap { color:rgba(255,255,255,0.85); font-size:14px; font-weight:600; position:relative; z-index:1; text-align:center; max-width:360px; line-height:1.5; }
   .lp-video-note { font-size:11px; color:var(--gray); font-weight:500; margin-top:10px; font-style:italic; }
@@ -1152,9 +1154,12 @@ function shuffleOptions(){
 // ══════════════════════════════════════
 // FLUXO INICIAL
 // ══════════════════════════════════════
-// Iframe escondido com display:none continua tocando áudio — recarregar o src para o vídeo
+// Iframe escondido com display:none continua tocando áudio — recarregar o src para o vídeo.
+// (troca autoplay=1 por 0, senão o reload recomeçaria a tocar escondido)
 function stopVideosIn(screenId) {
-  document.querySelectorAll('#'+screenId+' iframe').forEach(function(f){ f.src = f.src; });
+  document.querySelectorAll('#'+screenId+' iframe').forEach(function(f){
+    f.src = f.src.replace('autoplay=1','autoplay=0');
+  });
 }
 function goToForm() {
   stopVideosIn('screen-start');
@@ -1649,9 +1654,16 @@ function restartQuiz(){
 const HERO_VIDEO_ID = 'qltFmeuETNM';
 (function(){
   // Vídeo do hero
-  if (HERO_VIDEO_ID) {
+  // VSL: a capa (placeholder) vira o botão de play; o vídeo toca sem controles e sem
+  // como pular/pausar — a única saída é o CTA. Clique do usuário libera autoplay com som.
+  function playHeroVideo() {
     var hv = document.getElementById('hero-video');
-    if (hv) hv.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/'+HERO_VIDEO_ID+'?rel=0&modestbranding=1" title="Apresentação MAM Brand" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+    if (!hv) return;
+    hv.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/'+HERO_VIDEO_ID+'?autoplay=1&controls=0&disablekb=1&playsinline=1&rel=0&modestbranding=1&iv_load_policy=3" title="Apresentação MAM Brand" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe><div class="video-lock" aria-hidden="true"></div>';
+  }
+  if (HERO_VIDEO_ID) {
+    var heroPh = document.querySelector('#hero-video .lp-video-ph');
+    if (heroPh) heroPh.onclick = playHeroVideo;
     var note = document.querySelector('.lp-video-note'); if(note) note.style.display='none';
   }
   // Radar (Chart.js) — inicia quando entra na tela
