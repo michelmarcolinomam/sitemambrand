@@ -91,6 +91,30 @@ function fitFontSize(
   return size;
 }
 
+// quebra o texto em no máximo `maxLines` linhas que caibam em `maxWidth`
+function wrapLines(
+  ctx: CanvasRenderingContext2D,
+  text: string,
+  maxWidth: number,
+  maxLines: number,
+) {
+  const words = text.split(" ");
+  const lines: string[] = [];
+  let cur = "";
+  for (const w of words) {
+    const test = cur ? `${cur} ${w}` : w;
+    if (ctx.measureText(test).width > maxWidth && cur) {
+      lines.push(cur);
+      cur = w;
+      if (lines.length === maxLines) break;
+    } else {
+      cur = test;
+    }
+  }
+  if (lines.length < maxLines && cur) lines.push(cur);
+  return lines.slice(0, maxLines);
+}
+
 type Props = {
   title: string;
   year?: string | null;
@@ -183,7 +207,7 @@ export function ShareProject({ title, year, category, descriptor, coverUrl, slug
     // ——— moldura editorial (as duas versões, como na 1ª ideia): ícone ⋈ + url
     //     no topo, imagem emoldurada (com margem lateral) e legenda embaixo.
     //     No story sobra uma margem no rodapé, que a interface do Instagram cobre. ———
-    const topBarY = isStory ? 176 : 66; // no story desce pra fora da UI do topo do Instagram
+    const topBarY = 66; // topo pra ambos (1ª versão): a imagem começa alta e domina
     drawMark(ctx, M, topBarY, iconH, INK);
     ctx.fillStyle = MUTED;
     ctx.textAlign = "right";
@@ -193,8 +217,10 @@ export function ShareProject({ title, year, category, descriptor, coverUrl, slug
     ctx.fillText(SITE, W - M, topBarY + iconH / 2);
     setLS("0px");
 
-    const captionH = isStory ? 300 : 250;
-    const bottomSafe = isStory ? 210 : 0;
+    // imagem dominante (1ª versão aprovada): legenda compacta embaixo e margem
+    // de rodapé enxuta, pra a foto ocupar o corpo do card.
+    const captionH = isStory ? 320 : 250;
+    const bottomSafe = isStory ? 64 : 0;
     const captionTop = H - bottomSafe - captionH;
 
     const imgTop = topBarY + iconH + 46;
@@ -263,7 +289,13 @@ export function ShareProject({ title, year, category, descriptor, coverUrl, slug
       ctx.textAlign = "left";
       ctx.textBaseline = "top";
       ctx.font = `400 ${descSize}px Inter, system-ui, sans-serif`;
-      ctx.fillText(`${descriptor}.`, M, baseline + 26);
+      const descText = /[.!?]$/.test(descriptor) ? descriptor : `${descriptor}.`;
+      const lines = wrapLines(ctx, descText, W - 2 * M, 2);
+      let dy = baseline + 28;
+      for (const ln of lines) {
+        ctx.fillText(ln, M, dy);
+        dy += descSize * 1.34;
+      }
     }
 
     // prepara o arquivo pra compartilhar (pré-gerado p/ caber no gesto do usuário)
