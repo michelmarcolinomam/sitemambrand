@@ -1152,7 +1152,12 @@ function shuffleOptions(){
 // ══════════════════════════════════════
 // FLUXO INICIAL
 // ══════════════════════════════════════
+// Iframe escondido com display:none continua tocando áudio — recarregar o src para o vídeo
+function stopVideosIn(screenId) {
+  document.querySelectorAll('#'+screenId+' iframe').forEach(function(f){ f.src = f.src; });
+}
 function goToForm() {
+  stopVideosIn('screen-start');
   document.getElementById('screen-start').style.display='none';
   document.getElementById('screen-form').style.display='flex';
   window.scrollTo({top:0,behavior:'smooth'});
@@ -1630,6 +1635,7 @@ function openWhatsApp(phase){
 }
 function restartQuiz(){
   answers={};currentBlock=0;userData={};
+  stopVideosIn('screen-report');
   document.getElementById('screen-report').style.display='none';
   document.getElementById('screen-start').style.display='block'; window.scrollTo({top:0});
   ['field-name','field-company','field-email','field-phone'].forEach(id=>document.getElementById(id).value='');
