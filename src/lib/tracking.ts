@@ -4,8 +4,8 @@
    ———————————————————————————————————————————————— */
 
 export const GA4_ID = "G-BSFQ9JTVPQ";
-// Google Ads: preencher com o ID da conta (AW-XXXXXXXXX) quando ela existir.
-export const ADS_ID = "";
+// Google Ads: tag "MAM Publicidade" (conta 707-107-4993).
+export const ADS_ID = "AW-18328861802";
 // Meta Pixel (Facebook/Instagram) — conjunto de dados "MAM Brand" no Gerenciador de Eventos.
 export const META_PIXEL_ID = "1545568493827284";
 
