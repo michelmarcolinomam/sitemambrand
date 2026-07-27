@@ -104,6 +104,10 @@ function DiagnosticoPage() {
       const camp = l.utm_campaign ? ` · ${l.utm_campaign}` : "";
       return { label: `Google Ads${camp}`, kind: "ads" };
     }
+    if (["meta", "facebook", "instagram", "fb", "ig"].includes((l.utm_source ?? "").toLowerCase())) {
+      const camp = l.utm_campaign ? ` · ${l.utm_campaign}` : "";
+      return { label: `Meta Ads${camp}`, kind: "ads" };
+    }
     if (l.utm_source) {
       const parts = [l.utm_source, l.utm_medium, l.utm_campaign].filter(Boolean);
       return { label: parts.join(" / "), kind: "utm" };

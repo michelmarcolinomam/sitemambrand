@@ -79,9 +79,17 @@ export type Database = {
           crm_updated_at: string | null
           crm_value: number | null
           email: string
+          gclid: string | null
           id: string
+          landing_url: string | null
           message: string
           name: string
+          referrer: string | null
+          utm_campaign: string | null
+          utm_content: string | null
+          utm_medium: string | null
+          utm_source: string | null
+          utm_term: string | null
           whatsapp: string | null
         }
         Insert: {
@@ -97,9 +105,17 @@ export type Database = {
           crm_updated_at?: string | null
           crm_value?: number | null
           email: string
+          gclid?: string | null
           id?: string
+          landing_url?: string | null
           message: string
           name: string
+          referrer?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
           whatsapp?: string | null
         }
         Update: {
@@ -115,9 +131,17 @@ export type Database = {
           crm_updated_at?: string | null
           crm_value?: number | null
           email?: string
+          gclid?: string | null
           id?: string
+          landing_url?: string | null
           message?: string
           name?: string
+          referrer?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
           whatsapp?: string | null
         }
         Relationships: []

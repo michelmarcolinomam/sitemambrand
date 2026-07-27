@@ -3,12 +3,23 @@ import { z } from "zod";
 // Chave pública basta aqui: a RLS de `contacts` só permite INSERT validado.
 import { supabase } from "@/integrations/supabase/client";
 
+// Campos de origem (gclid/UTM/referrer) — opcionais, capturados pelo site.
+const origem = z.string().trim().max(500).nullish();
+
 const contactSchema = z.object({
   name: z.string().trim().min(1, "Informe seu nome.").max(100),
   company: z.string().trim().max(120).optional().or(z.literal("")),
   email: z.string().trim().email("E-mail inválido.").max(255),
   whatsapp: z.string().trim().max(30).optional().or(z.literal("")),
   message: z.string().trim().min(1, "Escreva uma mensagem.").max(2000),
+  gclid: origem,
+  utm_source: origem,
+  utm_medium: origem,
+  utm_campaign: origem,
+  utm_term: origem,
+  utm_content: origem,
+  referrer: origem,
+  landing_url: origem,
 });
 
 export const Route = createFileRoute("/api/public/contact")({
@@ -30,14 +41,22 @@ export const Route = createFileRoute("/api/public/contact")({
           );
         }
 
-        const { name, company, email, whatsapp, message } = parsed.data;
+        const d = parsed.data;
 
         const { error } = await supabase.from("contacts").insert({
-          name,
-          company: company || null,
-          email,
-          whatsapp: whatsapp || null,
-          message,
+          name: d.name,
+          company: d.company || null,
+          email: d.email,
+          whatsapp: d.whatsapp || null,
+          message: d.message,
+          gclid: d.gclid ?? null,
+          utm_source: d.utm_source ?? null,
+          utm_medium: d.utm_medium ?? null,
+          utm_campaign: d.utm_campaign ?? null,
+          utm_term: d.utm_term ?? null,
+          utm_content: d.utm_content ?? null,
+          referrer: d.referrer ?? null,
+          landing_url: d.landing_url ?? null,
         });
 
         if (error) {

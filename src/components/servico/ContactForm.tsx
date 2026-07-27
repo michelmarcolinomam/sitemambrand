@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { z } from "zod";
 import { toast } from "sonner";
-import { trackLead } from "@/lib/tracking";
+import { trackLead, getOrigin } from "@/lib/tracking";
 
 const contactSchema = z.object({
   name: z.string().trim().min(1, "Informe seu nome.").max(100),
@@ -53,7 +53,7 @@ export function ContactForm() {
       const res = await fetch("/api/public/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(parsed.data),
+        body: JSON.stringify({ ...parsed.data, ...getOrigin() }),
       });
       if (!res.ok) {
         toast.error("Não foi possível enviar agora. Tente novamente em instantes.");

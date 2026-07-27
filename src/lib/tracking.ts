@@ -51,3 +51,55 @@ export function trackLead(label: string): void {
     event_label: label,
   });
 }
+
+/* ————————————————————————————————————————————————
+   Origem do visitante (gclid/UTM/referrer) — guardada na
+   primeira página da sessão para etiquetar qualquer lead
+   que ele envie depois (formulário de contato).
+   ———————————————————————————————————————————————— */
+
+const ORIGIN_KEY = "mam_origin";
+
+export type VisitOrigin = {
+  gclid: string | null;
+  utm_source: string | null;
+  utm_medium: string | null;
+  utm_campaign: string | null;
+  utm_term: string | null;
+  utm_content: string | null;
+  referrer: string | null;
+  landing_url: string | null;
+};
+
+/** Captura a origem na chegada. Parâmetros de campanha sobrescrevem uma origem vazia. */
+export function captureOrigin(): void {
+  if (typeof window === "undefined") return;
+  try {
+    const p = new URLSearchParams(window.location.search);
+    const origin: VisitOrigin = {
+      gclid: p.get("gclid"),
+      utm_source: p.get("utm_source"),
+      utm_medium: p.get("utm_medium"),
+      utm_campaign: p.get("utm_campaign"),
+      utm_term: p.get("utm_term"),
+      utm_content: p.get("utm_content"),
+      referrer: document.referrer || null,
+      landing_url: window.location.href,
+    };
+    const hasCampaign = !!(origin.gclid || origin.utm_source);
+    if (sessionStorage.getItem(ORIGIN_KEY) && !hasCampaign) return;
+    sessionStorage.setItem(ORIGIN_KEY, JSON.stringify(origin));
+  } catch {
+    // sessionStorage indisponível (modo privado antigo etc.) — segue sem origem
+  }
+}
+
+/** Origem guardada da sessão, pra anexar ao envio de formulários. */
+export function getOrigin(): Partial<VisitOrigin> {
+  if (typeof window === "undefined") return {};
+  try {
+    return JSON.parse(sessionStorage.getItem(ORIGIN_KEY) || "{}");
+  } catch {
+    return {};
+  }
+}

@@ -8,12 +8,12 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { type ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { Toaster } from "@/components/ui/sonner";
 import { SITE_URL, SITE_NAME, OG_IMAGE, canonical, structuredDataJson } from "@/lib/seo";
-import { GTAG_SRC, GTAG_BOOTSTRAP, META_PIXEL_BOOTSTRAP } from "@/lib/tracking";
+import { GTAG_SRC, GTAG_BOOTSTRAP, META_PIXEL_BOOTSTRAP, captureOrigin } from "@/lib/tracking";
 
 function NotFoundComponent() {
   return (
@@ -162,6 +162,12 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+
+  // Etiqueta a sessão com a origem do visitante (gclid/UTM/referrer)
+  // pra qualquer formulário enviado depois carregar a campanha de onde veio.
+  useEffect(() => {
+    captureOrigin();
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>

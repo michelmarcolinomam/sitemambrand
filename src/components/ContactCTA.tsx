@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { z } from "zod";
 import { toast } from "sonner";
-import { trackLead } from "@/lib/tracking";
+import { trackLead, getOrigin } from "@/lib/tracking";
 import { Linkedin, Instagram, Youtube, MessageCircle } from "lucide-react";
 import { FadeIn } from "./FadeIn";
 import { SectionKicker } from "./SectionKicker";
@@ -60,7 +60,7 @@ export function ContactCTA() {
       const res = await fetch("/api/public/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(parsed.data),
+        body: JSON.stringify({ ...parsed.data, ...getOrigin() }),
       });
       if (!res.ok) {
         toast.error("Não foi possível enviar agora. Tente novamente em instantes.");

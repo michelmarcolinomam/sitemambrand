@@ -137,7 +137,9 @@ function CrmPage() {
         .order("created_at", { ascending: false }),
       supabase
         .from("contacts")
-        .select(`id,name,company,email,whatsapp,message,created_at,${crmCols}`)
+        .select(
+          `id,name,company,email,whatsapp,message,created_at,gclid,utm_source,utm_medium,utm_campaign,referrer,${crmCols}`,
+        )
         .order("created_at", { ascending: false }),
     ]);
     setLoading(false);
@@ -186,11 +188,11 @@ function CrmPage() {
         phase: null,
         message: c.message,
         dimensions: null,
-        gclid: null,
-        utm_source: null,
-        utm_medium: null,
-        utm_campaign: null,
-        referrer: null,
+        gclid: c.gclid,
+        utm_source: c.utm_source,
+        utm_medium: c.utm_medium,
+        utm_campaign: c.utm_campaign,
+        referrer: c.referrer,
         created_at: c.created_at,
         crm_status: c.crm_status,
         crm_notes: c.crm_notes,
@@ -852,9 +854,11 @@ function waHref(l: {
 }
 
 function originOf(l: Lead): string {
-  if (l.source === "contato") return "Formulário de contato";
   if (l.gclid)
     return l.utm_campaign ? `Google Ads · ${l.utm_campaign}` : "Google Ads";
+  const src = (l.utm_source ?? "").toLowerCase();
+  if (["meta", "facebook", "instagram", "fb", "ig"].includes(src))
+    return l.utm_campaign ? `Meta Ads · ${l.utm_campaign}` : "Meta Ads";
   if (l.utm_source)
     return [l.utm_source, l.utm_medium].filter(Boolean).join(" / ");
   if (l.referrer) {
@@ -864,7 +868,7 @@ function originOf(l: Lead): string {
       return l.referrer;
     }
   }
-  return "Direto";
+  return l.source === "contato" ? "Formulário de contato" : "Direto";
 }
 
 function periodRange(p: PeriodKey): { start: string | null; end: string | null } {
