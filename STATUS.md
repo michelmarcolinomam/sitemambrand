@@ -12,11 +12,15 @@
 - ✅ **Conta Ads 707-107-4993** em **Modo Especialista** (nome na conta = "MAM Publicidade"). Tem **GBP**: MAM Publicidade, Av. Guaiapó 2577, Maringá.
 - ✅ **4 campanhas de Pesquisa PUBLICADAS e PAUSADAS** (R$ 0/dia, nada gasta): **S_Marca_BR3** (R$6/dia, Brasil, →home) · **S_Branding_PR** (R$20, PR, →/branding) · **S_Rebranding_PR** (R$15, PR, →/rebranding) · **S_Diagnostico_PR** (R$15, PR, →/ciclo-de-marca). Padrão: Search-only, Maximizar cliques + teto CPC (marca R$3, resto R$6), IA Max off, keywords frase/exata, RSA 5 títulos+2 descrições, conversão generate_lead herdada.
 
+**ATUALIZAÇÃO 2026-07-27 (sessão Claude+Michel): MEDIÇÃO 100% FECHADA ✅**
+- ✅ **CARTÃO resolvido** — Mastercard ••••9083 é a forma de pagamento PRINCIPAL, sem erro; as 2 Visas problemáticas (0227 recusada / 2001 inutilizável) foram excluídas pelo Michel.
+- ✅ **`generate_lead` = evento-chave no GA4** (trava do Google liberou; estrela marcada em Admin→Eventos).
+- ✅ **Conversão importada no Ads**: "Enviar formulário de lead → MAM GESTÃO (web) generate_lead", marcada Principal. Sugestões lead_form/form_submit IGNORADAS de propósito (evitar contagem dupla).
+- ✅ **`ADS_ID` preenchido**: `AW-18328861802` (tag "MAM Publicidade", + GT-KV5FFJTC) em `src/lib/tracking.ts`, no ar — gtag agora configura GA4 + AW (remarketing automático). Commit `b61f21e`.
+
 **🔴 PENDÊNCIAS DO MICHEL (bloqueiam ATIVAR, não montar):**
-1. **CARTÃO** — erro persistente "Nova forma de pagamento exigida / não é possível cobrar". Resolver em **Faturamento → Formas de pagamento** (cartão que passe). Sem isso nenhuma campanha veicula. Nº 1.
-2. **Crédito R$ 880** — apareceu "não disponível"; conferir em Faturamento → Promoções / suporte Google.
-3. **Verificação do anunciante** (documentos) — escolher razão social (PF Michel × CNPJ MAM) e enviar docs.
-4. **`generate_lead` como evento-chave** no GA4 — trava de processamento 24–48h do Google; quando aparecer em Admin→Eventos→"Eventos recentes", é 1 clique na estrela; depois importar no Ads e preencher `ADS_ID` (AW-) em `src/lib/tracking.ts`.
+1. **Crédito R$ 880** — apareceu "não disponível"; conferir em Faturamento → Promoções / suporte Google.
+2. **Verificação do anunciante** (documentos) — escolher razão social (PF Michel × CNPJ MAM) e enviar docs.
 - ⚠️ O Google dispara **reauth de identidade** (login/2FA) a cada ação sensível no Ads — só o Michel conclui.
 
 **➡️ PRÓXIMO GRANDE BLOCO = LANDING PAGES (Fase 2).** As demais campanhas (logo/identidade, sites, rótulo/embalagem, consultoria de mkt, audiovisual, verticais, + SP/SC) **NÃO foram criadas** de propósito — precisam de **LPs de conversão dedicadas** antes (senão clique cai na página errada). **Começar pela LP Diagnóstico/Ciclo de Marca** (oferta-âncora). Precisa do Michel: perguntas de qualificação do form + conteúdo/cases (ou eu rascunho). Infra da LP: template de conversão + form c/ qualificação e captura de GCLID + notificação e-mail + WhatsApp tracking.
