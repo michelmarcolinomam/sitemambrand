@@ -145,6 +145,18 @@
   }
 }
 
+/* Esteira de capas de /audiovisual. São 4 cópias da fita e o movimento percorre
+   apenas uma (-25%); as outras três cobrem qualquer largura de tela, de modo que
+   nunca sobra espaço vazio na ponta direita. */
+@keyframes audiovisual-march {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-25%, 0, 0);
+  }
+}
+
 @keyframes drift {
   0%,
   100% {

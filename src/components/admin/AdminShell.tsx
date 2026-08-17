@@ -12,6 +12,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
   const nav = [
     { to: "/admin", label: "Cases", exact: true },
     { to: "/admin/projetos", label: "Carrossel", exact: false },
+    { to: "/admin/audiovisual", label: "Audiovisual", exact: false },
     { to: "/admin/contatos", label: "Contatos", exact: false },
     { to: "/admin/crm", label: "CRM", exact: false },
     { to: "/admin/diagnostico", label: "Diagnóstico", exact: false },

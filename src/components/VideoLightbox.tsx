@@ -8,9 +8,22 @@ type Props = {
   poster?: string;
   title?: string;
   subtitle?: string;
+  /** Proporção da moldura. Vertical (Reels) precisa de "9 / 16". */
+  aspect?: string;
+  /** Se preenchido, toca do YouTube em vez do arquivo. */
+  youtubeId?: string;
 };
 
-export function VideoLightbox({ open, onClose, src, poster, title, subtitle }: Props) {
+export function VideoLightbox({
+  open,
+  onClose,
+  src,
+  poster,
+  title,
+  subtitle,
+  aspect = "16 / 9",
+  youtubeId,
+}: Props) {
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
@@ -46,10 +59,20 @@ export function VideoLightbox({ open, onClose, src, poster, title, subtitle }: P
 
       <div
         onClick={(e) => e.stopPropagation()}
-        className="flex w-full max-w-[1200px] flex-col gap-6"
+        className={`flex w-full flex-col gap-6 ${
+          aspect === "9 / 16" ? "max-h-full max-w-[min(430px,92vw)]" : "max-w-[1200px]"
+        }`}
       >
-        <div className="relative w-full overflow-hidden bg-black" style={{ aspectRatio: "16 / 9" }}>
-          {src ? (
+        <div className="relative w-full overflow-hidden bg-black" style={{ aspectRatio: aspect }}>
+          {youtubeId ? (
+            <iframe
+              src={`https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&rel=0`}
+              title={title ?? "Vídeo"}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="absolute inset-0 h-full w-full"
+            />
+          ) : src ? (
             <video
               src={src}
               poster={poster}
@@ -83,9 +106,7 @@ export function VideoLightbox({ open, onClose, src, poster, title, subtitle }: P
                 {title}
               </div>
             )}
-            {subtitle && (
-              <div className="mt-1 text-sm text-white/70 md:text-base">{subtitle}</div>
-            )}
+            {subtitle && <div className="mt-1 text-sm text-white/70 md:text-base">{subtitle}</div>}
           </div>
         )}
       </div>
