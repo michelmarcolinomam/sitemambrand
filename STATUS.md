@@ -7,7 +7,48 @@
 ## 🚦 HANDOFF — onde estamos (2026-07-17)
 
 ### ⭐ PONTO DE RETOMADA (ler isto primeiro — próximo chat)
-**Fase atual: Bloco 2 — Google Ads.** Estado agora:
+
+**2026-08-18 — Rótulos e Embalagens: mosaico APROVADO e construído.** A tela não é portfólio por
+cliente: é um **mosaico corrido full-bleed** — o "catado" das peças que a agência já fez, sem
+separar por cliente, sem case e sem ficha (o projeto por cliente já vive nos cases e nas páginas
+de marca). Proposta aprovada pelo Michel:
+https://claude.ai/code/artifact/92187c5c-388d-4eb3-8d86-4ef8766d5193
+
+**Banco — tabela `gallery_pieces`** (migration `replace_gallery_projects_with_gallery_pieces`).
+Uma peça = uma imagem: `image_url`, `alt`, `size` (`auto`|`larga`|`grande`), `client` (só controle
+interno, **não aparece no site**), `service`, `published`, `sort_order`. A `gallery_projects`, do
+modelo antigo de projeto+conjunto, foi **derrubada** — nunca teve dado.
+
+**Encaixe automático** (decisão: automático com promoção manual). Peça em `auto` recebe formato pelo
+ciclo `i % 7` — grande (2×2), larga (2 col), alta (2 linhas) e normal — dando ritmo sem ninguém
+escolher tamanho foto a foto. `larga` e `grande` no cadastro sobrepõem o ciclo.
+
+**Painel:** `/admin/galeria` — upload em lote com contador de progresso, três botões de tamanho por
+peça, alt e cliente com gravação ao sair do campo, reordenar, publicar e excluir.
+
+**Testado em local:** build e tipos limpos, lint limpo, mosaico confirmado sem ancestral que limite
+largura (full-bleed real), lightbox abrindo/navegando/fechando no Esc.
+
+✅ Regra do Michel já valendo aqui e no audiovisual: **portfólio não tem formulário** — contato
+direto por WhatsApp.
+
+**Pendências:**
+- [ ] **MATERIAL** — bloqueio real. Não há arquivo de rótulo/embalagem no Mac
+      (`~/Desktop/_Clientes` só tem post/story/banner). Sem imagem, a tela mostra
+      "portfólio em publicação".
+- [ ] Não commitado nem deployado — aguarda o Michel.
+
+**2026-08-17 — nova página `/audiovisual` + aba no painel.** Portfólio de vídeo, administrável.
+Está **pronta e testada em local, NÃO deployada** (aguarda o "pode subir" do Michel). Ver a seção
+**"Audiovisual"** mais abaixo. Pendente de decisão do Michel: **como o card toca** (os 4 primeiros
+em autoplay + hover no resto × todos tocando com prévia de 4s). Hoje o card é capa parada e abre
+no clique — o campo `preview_seconds` já existe no banco esperando essa decisão.
+
+**2026-08-10 — começou a Fase 2 (LANDING PAGES).** Primeira LP construída: **`/alinhamento`** — captura de
+lead do produto de ticket alto (R$ 10.000). Está **pronta e testada em local, NÃO deployada** (aguarda o
+"pode subir" do Michel). Ver a seção **"LP Alinhamento de Marca"** mais abaixo antes de mexer nela.
+
+**Fase anterior: Bloco 2 — Google Ads.** Estado:
 - ✅ **Site + SEO 100%** no ar (mambrand.com.br). **GA4 medindo** (G-BSFQ9JTVPQ), `generate_lead` dispara no form. **GA4↔Ads vinculado.**
 - ✅ **Conta Ads 707-107-4993** em **Modo Especialista** (nome na conta = "MAM Publicidade"). Tem **GBP**: MAM Publicidade, Av. Guaiapó 2577, Maringá.
 - ✅ **4 campanhas de Pesquisa PUBLICADAS e PAUSADAS** (R$ 0/dia, nada gasta): **S_Marca_BR3** (R$6/dia, Brasil, →home) · **S_Branding_PR** (R$20, PR, →/branding) · **S_Rebranding_PR** (R$15, PR, →/rebranding) · **S_Diagnostico_PR** (R$15, PR, →/ciclo-de-marca). Padrão: Search-only, Maximizar cliques + teto CPC (marca R$3, resto R$6), IA Max off, keywords frase/exata, RSA 5 títulos+2 descrições, conversão generate_lead herdada.
@@ -65,7 +106,8 @@
 ## Endereços
 - **Produção:** https://mambrand.com.br (domínio próprio, no ar) — também acessível por https://sitemambrand.vercel.app
 - **Domínio final:** **mambrand.com.br** — ✅ CONECTADO em 2026-07-16 (apex A → Vercel `216.198.79.1`; `www` → CNAME `cname.vercel-dns.com` com redirect 308 → apex; SSL emitido pela Vercel). E-mail Titan (MX titan.email) intacto na HostGator. DNS gerenciado no cPanel da HostGator (NS ns1002/ns1003.hostgator.com.br).
-- **Repositório local:** `~/Desktop/MAM-site-limpo` (fonte da verdade)
+- **Repositório local:** `~/Desktop/_MAM_Agencia/MAM-site-limpo` (fonte da verdade) — a pasta foi movida
+  para dentro de `_MAM_Agencia` na reorganização do Desktop; o `launch.json` global já aponta pro caminho novo.
 - **GitHub:** github.com/michelmarcolinomam/sitemambrand — push na `main` = deploy automático na Vercel
 - **Painel admin:** `/admin` — login com `contato@mamgestao.com`
 
@@ -89,7 +131,97 @@
 | **Serviços / Ciclo de Marca** | `src/routes/servicos.ciclo-de-marca.tsx` → `/servicos/ciclo-de-marca` | 🟡 Criada (2026-07-13) — acessível por URL, **ainda não linkada**. Portfólio é lista editorial **estática** (não puxa do banco — por decisão) |
 | **Cases (dinâmico)** | `src/routes/cases.$slug.tsx` → `/cases/[slug]` | ✅ No ar — template único alimentado pelo banco. Agora com bloco opcional "Antes/Depois" (rebranding) |
 | **Case Ranken** | `/cases/ranken` | ✅ Publicado (2026-07-13) com **imagens fictícias (picsum)** — trocar pelas reais no painel |
+| **LP Alinhamento de Marca** | `src/routes/alinhamento.tsx` → `/alinhamento` | 🟡 Pronta local (2026-08-10) — **não deployada**. LP de captura p/ tráfego pago. Ver seção própria abaixo |
+| **Audiovisual** | `src/routes/audiovisual.tsx` → `/audiovisual` | 🟡 Pronta local (2026-08-17) — **não deployada**. Portfólio de vídeo administrável. Ver seção própria abaixo |
+| **Rótulos e Embalagens** | `src/routes/rotulos-e-embalagens.tsx` → `/rotulos-e-embalagens` | 🟡 Mosaico pronto local (2026-08-18) — **não deployado**. Era "em breve" (commit eed4d3a). Ver ponto de retomada |
 | **Painel admin** | `src/routes/admin/*` → `/admin` | ✅ Funcionando (2026-07-13) |
+
+## Rótulos e Embalagens — `/rotulos-e-embalagens` + `/admin/galeria`
+
+Ver o ponto de retomada no topo (2026-08-18). O modelo antigo de projeto + conjunto de imagens
+foi substituído pelo mosaico de peças soltas; a descrição aqui ficou obsoleta e foi removida para
+não confundir quem retomar.
+
+## Audiovisual — `/audiovisual` + `/admin/audiovisual` (2026-08-17)
+
+Portfólio de vídeo do estúdio: grade de peças verticais (9:16) e horizontais (16:9), com esteira de
+capas em movimento no topo e fechamento em contato **direto por WhatsApp — sem formulário**
+(decisão do Michel). Estrutura visual aprovada por Artifact antes de virar código.
+
+**Banco — tabela `videos`** (migration `create_videos_table`). Campos: `client`, `objective`,
+`channel`, `format` (`vertical`|`horizontal`), `duration`, `video_url`, `youtube_id`, `cover_url`,
+`cover_alt`, `preview_seconds`, `section` (`conteudo`|`filme`), `published`, `sort_order`.
+RLS igual a `cases`/`portfolio_projects`: público lê só o publicado, escrita só do admin.
+
+**Hospedagem do vídeo — decisão do Michel (2026-08-17): arquivo direto, não YouTube.** O vídeo vive
+no bucket `site` (pasta `audiovisual/`), porque o autoplay mudo no card exige o arquivo — com iframe
+do YouTube não dá, e 12 players na mesma página derrubam a performance. `youtube_id` fica no banco
+como **plano B**: se a banda do Supabase pesar, basta preencher e o vídeo completo passa a vir de lá,
+sem refazer a tela.
+
+**Comprimir antes de subir.** Upload limitado a 50 MB; os originais têm 40–90 MB. O `avconvert`
+(nativo do macOS, sem instalar nada) resolve — e também corta trecho:
+`avconvert --preset Preset960x540 --source ORIGINAL.mp4 --output web.mp4` (32 MB → 4 MB).
+
+**Pendências:**
+- [ ] **Decidir como o card toca** — 4 primeiros em autoplay + hover no resto (recomendado, ~10 MB por
+      visita) × todos tocando com prévia de 4s (~35 MB). Medido: 8s de prévia = 2,5 MB. Hoje o card é
+      capa parada e abre no clique.
+- [ ] Cadastrar as peças (material mapeado: Canan Home, Box Tobaco, Vaso In Casa, Black Erva, os 5 do
+      Diagnóstico e o AD de tráfego). Textos de "objetivo" precisam da revisão do Michel.
+- [ ] Confirmar autorização dos clientes para exibir as peças no portfólio.
+- [ ] Dois arquivos sem dono identificado: `FINAL_RECON.mp4` e `MICHEL MARCOLINO - 03.mp4`.
+- [ ] Linkar `/audiovisual` no menu do site (hoje só entra por URL e pelo sitemap).
+
+## LP "Alinhamento de Marca" — `/alinhamento` (2026-08-10)
+
+**O que é:** landing page de captura de lead para o produto de consultoria de ticket alto (R$ 10.000).
+Tráfego **frio**, vindo de vídeos curtos. Objetivo = **conversa**, não venda no clique. Preço **não** aparece
+na página (decisão do Michel). **Pronta e testada em local — ainda não commitada nem deployada.**
+
+**A tese, em uma linha:** a distância entre o que a marca quer significar e o que o mercado percebe
+(*Brand Gap*) nasce nas 4 camadas que traduzem a marca de dentro pra fora — donos → alta liderança →
+equipe → lojistas/parceiros — medidas pela mesma régua de 8 dimensões.
+
+**Estrutura (7 blocos, nessa ordem):** herói (dor) · sintomas em seção near-black · o conceito + desenho
+da lacuna · as 4 camadas · o que você recebe + Placar visual · quem conduz · formulário.
+A metodologia entra em **dose mínima** — a apresentação original tem 43 slides e é para reunião ao vivo,
+não para página rolável. **Não transformar a LP em resumo do deck.**
+
+**Arquivos:**
+- `src/lib/alinhamento.ts` — **configuração central**: SLUG, NOME, PRODUCT_KEY, LEAD_LABEL, PRAZO.
+  **Renomear produto/rota = mexer aqui + renomear `src/routes/alinhamento.tsx`.** Mais nada.
+- `src/routes/alinhamento.tsx` — a página (toda a copy mora aqui, em arrays no topo).
+- `src/components/alinhamento/` — `LpChrome` (header/rodapé enxutos), `GapDiagram`, `Placar`, `LeadForm`.
+- `src/routes/api/public/alinhamento-lead.ts` — endpoint do formulário.
+
+**Decisões que não se quebram:**
+- **Header e rodapé próprios**, não a `Navbar`/`Footer` do site: os dois apontam para âncoras da HOME
+  (`#problema`, `#ciclo`…) — em LP de mídia paga isso é link morto e fuga de conversão.
+- **Visual claro do site** (Fraunces + Inter + mint `#f0f7ea`), com o peso do deck dark concentrado em
+  **uma** seção invertida. Não trazer o verde-sálvia da apresentação: é outra cor.
+- **Dobra do celular:** headline + CTA cabem sem rolar (medido em 375×812 — CTA termina em 636px).
+- Números do Placar são **ilustrativos** e estão rotulados como exemplo.
+
+**Lead:** cai em `diagnostic_leads` (mesma tabela do quiz do Ciclo), com **`product = 'alinhamento'`** —
+migration `diagnostic_leads_product_e_message` (2026-08-10) adicionou as colunas `product` (default
+`'ciclo'`, pegou as linhas antigas) e `message` (a resposta de qualificação). Aparece no **`/admin/crm`**
+com etiqueta preta "Alinhamento", mensagem de WhatsApp própria e origem "LP Alinhamento".
+**Não tem notificação por e-mail** — decisão do Michel de deixar pra depois; hoje só se vê abrindo o CRM.
+
+**Medição:** dispara `generate_lead` com rótulo **`lp_alinhamento`** (GA4 + Ads já instalados no `__root`),
+só no sucesso real do envio. gclid/UTM entram junto pelo `captureOrigin()`.
+
+**Testado em local (2026-08-10):** envio real gravou no Supabase com `product=alinhamento` (linha de teste
+apagada depois) · payload inválido devolve 400 com as mensagens certas · `tsc --noEmit` limpo · sem erro de
+console · sem scroll horizontal no celular.
+
+**Pendências:**
+- [ ] **`PRAZO`** em `src/lib/alinhamento.ts` está vazio (a linha "Conduzido em X semanas" simplesmente não
+      aparece enquanto estiver assim). Michel define.
+- [ ] Commit + push (= deploy na Vercel) — **não feito, aguarda o "pode subir"**.
+- [ ] Campanha própria no Ads apontando pra `/alinhamento` (a `S_Diagnostico_PR` continua indo pro
+      `/ciclo-de-marca` — são produtos diferentes, não deixar as duas disputarem as mesmas keywords).
 
 ## Painel administrativo (2026-07-13)
 Portfólio de branding agora é 100% administrável em `/admin`, sem mexer em código:

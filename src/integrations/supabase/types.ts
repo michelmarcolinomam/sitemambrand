@@ -230,6 +230,45 @@ export type Database = {
         }
         Relationships: []
       }
+      gallery_pieces: {
+        Row: {
+          alt: string
+          client: string
+          created_at: string
+          id: string
+          image_url: string
+          published: boolean
+          service: string
+          size: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          alt?: string
+          client?: string
+          created_at?: string
+          id?: string
+          image_url: string
+          published?: boolean
+          service?: string
+          size?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          alt?: string
+          client?: string
+          created_at?: string
+          id?: string
+          image_url?: string
+          published?: boolean
+          service?: string
+          size?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       portfolio_projects: {
         Row: {
           category: string
