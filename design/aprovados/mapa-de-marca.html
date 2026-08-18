@@ -1,0 +1,798 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mapa de Marca · MAM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Lora:ital@1&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#ffffff; --bg2:#f9f9f7; --bg3:#f4f4f0;
+    --green:#c8e6b0; --green-dark:#7ab356; --green-deep:#5d9440; --green-light:#f0f7ea;
+    --black:#0d0d0d; --gray:#6b6b6b; --gray-light:#d0d0cc; --border:#e4e4de;
+    --amber:#c49a00; --amber-light:#fdf6e3; --red:#c0392b; --red-light:#fdf0ee;
+    --text:#0d0d0d; --text-muted:#6b6b6b;
+    --sans:'Montserrat','Avenir Next','Segoe UI',-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif;
+    --serif:'Lora',Georgia,'Times New Roman',serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
+  em{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--green-dark)}
+  button{font-family:inherit}
+
+  /* ── CAPA ── */
+  #capa{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 24px;position:relative;overflow:hidden}
+  #capa::before{content:'';position:absolute;width:700px;height:700px;background:radial-gradient(circle,rgba(200,230,176,.35) 0%,transparent 65%);top:-200px;right:-200px;pointer-events:none}
+  #capa::after{content:'';position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(200,230,176,.2) 0%,transparent 65%);bottom:-100px;left:-100px;pointer-events:none}
+  .badge{background:var(--green-light);border:1px solid var(--green);color:var(--green-deep);font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:7px 20px;border-radius:100px;margin-bottom:26px;position:relative;z-index:1}
+  .capa-cli{font-size:13px;color:var(--green-deep);font-weight:800;letter-spacing:2px;margin-bottom:14px;position:relative;z-index:1}
+  .capa-t{font-size:clamp(34px,5.5vw,64px);font-weight:800;text-align:center;line-height:1.05;max-width:780px;margin-bottom:22px;letter-spacing:-2px;position:relative;z-index:1}
+  .capa-s{font-size:15.5px;color:var(--text-muted);text-align:center;max-width:545px;line-height:1.75;margin-bottom:38px;position:relative;z-index:1}
+  .rules{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:880px;width:100%;margin-bottom:38px;position:relative;z-index:1}
+  .rule{background:#fff;border:1.5px solid var(--border);border-radius:18px;padding:22px 20px;box-shadow:0 8px 32px rgba(13,13,13,.04)}
+  .rule .n{font-family:var(--serif);font-style:italic;font-size:24px;color:var(--green-dark);line-height:1;margin-bottom:12px}
+  .rule .t{font-size:13.5px;font-weight:800;letter-spacing:-.2px;margin-bottom:7px}
+  .rule .d{font-size:12.5px;color:var(--text-muted);line-height:1.65}
+  .rule .d b{color:var(--black);font-weight:700}
+  .capa-meta{font-size:12px;color:var(--gray);margin-top:22px;position:relative;z-index:1}
+
+  .btn{background:var(--black);color:#fff;border:none;font-size:14.5px;font-weight:700;padding:15px 34px;border-radius:100px;cursor:pointer;letter-spacing:.2px;transition:transform .15s,opacity .15s;position:relative;z-index:1}
+  .btn:hover:not(:disabled){transform:translateY(-1px)}
+  .btn:disabled{opacity:.32;cursor:not-allowed}
+  .btn.ghost{background:transparent;color:var(--gray);border:1.5px solid var(--border);font-weight:600}
+  .btn:focus-visible{outline:3px solid var(--green);outline-offset:3px}
+
+  /* ── SHELL ── */
+  #quiz{display:none;min-height:100vh;flex-direction:column}
+  .topo{position:sticky;top:0;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);z-index:30}
+  .topo-in{max-width:800px;margin:0 auto;padding:15px 24px 12px}
+  .topo-l{display:flex;align-items:baseline;gap:10px;margin-bottom:9px;flex-wrap:wrap}
+  .parte{font-size:10px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:var(--green-deep)}
+  .passo{font-size:11.5px;color:var(--gray);margin-left:auto}
+  .barra{height:4px;background:var(--bg3);border-radius:99px;overflow:hidden}
+  .barra i{display:block;height:100%;background:var(--green-dark);border-radius:99px;transition:width .35s ease}
+
+  .palco{flex:1;max-width:800px;margin:0 auto;padding:42px 24px 140px;width:100%}
+  .b-nome{font-size:clamp(25px,3.8vw,36px);font-weight:800;letter-spacing:-1.2px;line-height:1.13;margin-bottom:10px}
+  .b-desc{font-size:15px;color:var(--text-muted);line-height:1.7;margin-bottom:36px;max-width:570px}
+
+  .q{margin-bottom:34px;padding-bottom:32px;border-bottom:1px solid var(--border)}
+  .q:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+  .q-n{font-family:var(--serif);font-style:italic;font-size:15px;color:var(--green-dark);margin-bottom:8px}
+  .q-t{font-size:19px;font-weight:700;line-height:1.4;letter-spacing:-.4px;margin-bottom:6px}
+  .q-h{font-size:13px;color:var(--gray);margin-bottom:16px;line-height:1.6}
+  .q.falta .q-t{color:var(--red)}
+  .aviso{display:none;font-size:12.5px;color:var(--red);background:var(--red-light);border-radius:8px;padding:8px 13px;margin-top:12px;font-weight:600}
+  .q.falta .aviso{display:block}
+
+  /* cartoes de escolha unica */
+  .ops{display:flex;flex-direction:column;gap:8px}
+  .op{display:flex;align-items:flex-start;gap:12px;background:#fff;border:1.5px solid var(--border);border-radius:13px;padding:14px 16px;cursor:pointer;transition:border-color .15s,background .15s;font-size:14.5px;line-height:1.5}
+  .op:hover{border-color:var(--gray-light);background:var(--bg2)}
+  .op .mark{width:19px;height:19px;border-radius:50%;border:2px solid var(--gray-light);flex:none;margin-top:1px;position:relative;transition:border-color .15s}
+  .op.on{border-color:var(--green-dark);background:var(--green-light)}
+  .op.on .mark{border-color:var(--green-dark)}
+  .op.on .mark::after{content:'';position:absolute;inset:3px;border-radius:50%;background:var(--green-dark)}
+
+  /* chips */
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{background:#fff;border:1.5px solid var(--border);border-radius:100px;padding:9px 16px;cursor:pointer;font-size:13.5px;transition:all .15s;color:var(--text)}
+  .chip:hover{border-color:var(--gray-light);background:var(--bg2)}
+  .chip.on{background:var(--green-light);border-color:var(--green-dark);color:var(--green-deep);font-weight:700}
+
+  /* texto */
+  textarea,input[type=text],input[type=number]{width:100%;font-family:inherit;font-size:14.5px;color:var(--text);background:#fff;border:1.5px solid var(--border);border-radius:13px;padding:13px 15px;line-height:1.6;resize:vertical}
+  textarea:focus,input:focus{outline:none;border-color:var(--green-dark)}
+  textarea{min-height:92px}
+  .conta{font-size:11.5px;color:var(--gray-light);margin-top:6px;text-align:right}
+
+  /* tags */
+  .tag-in{display:flex;gap:8px}
+  .tag-in input{flex:1}
+  .tag-add{background:var(--black);color:#fff;border:none;border-radius:11px;padding:0 20px;font-size:13.5px;font-weight:700;cursor:pointer}
+  .tag-lista{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px}
+  .tag-x{display:inline-flex;align-items:center;gap:8px;background:var(--green-light);border:1.5px solid var(--green);color:var(--green-deep);border-radius:100px;padding:7px 9px 7px 15px;font-size:13px;font-weight:700}
+  .tag-x b{cursor:pointer;background:var(--green);color:#fff;width:17px;height:17px;border-radius:50%;display:grid;place-items:center;font-size:12px;line-height:1;font-weight:800}
+
+  /* numero com unidade */
+  .num-wrap{display:flex;align-items:center;gap:0;max-width:290px;border:1.5px solid var(--border);border-radius:13px;overflow:hidden;background:#fff}
+  .num-wrap:focus-within{border-color:var(--green-dark)}
+  .num-pre{background:var(--bg3);padding:13px 14px;font-size:14px;font-weight:700;color:var(--gray);border-right:1.5px solid var(--border)}
+  .num-wrap input{border:none;border-radius:0;flex:1;min-width:0}
+  .num-suf{padding:13px 15px;font-size:13.5px;color:var(--gray);white-space:nowrap}
+
+  /* escala / slider */
+  .esc{padding:6px 2px 0}
+  .esc-topo{display:flex;justify-content:space-between;font-size:12px;color:var(--gray);margin-bottom:9px}
+  .esc-val{text-align:center;font-family:var(--serif);font-style:italic;font-size:21px;color:var(--green-deep);margin-bottom:8px;font-weight:400}
+  input[type=range]{width:100%;-webkit-appearance:none;appearance:none;height:6px;border-radius:99px;background:var(--bg3);outline:none}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:var(--green-dark);cursor:pointer;border:3px solid #fff;box-shadow:0 2px 8px rgba(13,13,13,.18)}
+  input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:var(--green-dark);cursor:pointer;border:3px solid #fff}
+  .esc-marcas{display:flex;justify-content:space-between;margin-top:8px;font-size:11px;color:var(--gray-light)}
+
+  /* divisao em % */
+  .div-l{display:flex;flex-direction:column;gap:9px}
+  .div-i{display:grid;grid-template-columns:1fr 118px;gap:12px;align-items:center}
+  .div-nome{font-size:14px}
+  .div-ctrl{display:flex;align-items:center;gap:8px}
+  .div-ctrl input{width:62px;text-align:center;padding:9px 6px;font-weight:700}
+  .div-pc{font-size:13px;color:var(--gray);font-weight:700}
+  .div-bar{height:6px;background:var(--bg3);border-radius:99px;overflow:hidden;margin-top:6px}
+  .div-bar i{display:block;height:100%;background:var(--green-dark);border-radius:99px;transition:width .2s}
+  .div-total{display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding-top:12px;border-top:1.5px solid var(--border);font-size:13.5px;font-weight:800}
+  .div-total.ok{color:var(--green-deep)}
+  .div-total.no{color:var(--red)}
+
+  /* ranking */
+  .rk{display:flex;flex-direction:column;gap:8px}
+  .rk-i{display:flex;align-items:center;gap:12px;background:#fff;border:1.5px solid var(--border);border-radius:13px;padding:13px 16px;cursor:pointer;font-size:14.5px;transition:all .15s}
+  .rk-i:hover{border-color:var(--gray-light);background:var(--bg2)}
+  .rk-i.on{border-color:var(--green-dark);background:var(--green-light)}
+  .rk-pos{width:27px;height:27px;border-radius:50%;background:var(--bg3);color:var(--gray-light);display:grid;place-items:center;font-size:13px;font-weight:800;flex:none}
+  .rk-i.on .rk-pos{background:var(--green-dark);color:#fff}
+  .rk-dica{font-size:12.5px;color:var(--gray);margin-top:10px;font-style:italic}
+
+  /* estados */
+  .uf-atalhos{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+  .uf-at{background:var(--bg3);border:1.5px solid transparent;border-radius:100px;padding:7px 14px;font-size:12.5px;font-weight:700;cursor:pointer;color:var(--gray)}
+  .uf-at:hover{border-color:var(--gray-light);color:var(--text)}
+  .uf-reg{margin-bottom:15px}
+  .uf-reg-n{font-size:10.5px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--gray-light);margin-bottom:8px}
+  .uf-grid{display:flex;flex-wrap:wrap;gap:6px}
+  .uf{width:50px;height:38px;border:1.5px solid var(--border);background:#fff;border-radius:9px;font-size:13px;font-weight:800;color:var(--gray);cursor:pointer;transition:all .12s}
+  .uf:hover{border-color:var(--gray-light);background:var(--bg2)}
+  .uf.on{background:var(--green-dark);border-color:var(--green-dark);color:#fff}
+  .uf-conta{font-size:12.5px;color:var(--green-deep);font-weight:700;margin-top:6px}
+
+  /* grade (matriz) */
+  .gr-scroll{overflow-x:auto;margin:0 -2px}
+  .gr{width:100%;border-collapse:collapse;font-size:13.5px;min-width:430px}
+  .gr th{font-size:10.5px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--gray);padding:0 6px 10px;text-align:center}
+  .gr th:first-child{text-align:left;width:38%}
+  .gr td{padding:7px 6px;border-top:1px solid var(--border)}
+  .gr td:first-child{font-weight:600}
+  .gr-c{width:23px;height:23px;border-radius:50%;border:2px solid var(--gray-light);background:#fff;cursor:pointer;display:block;margin:0 auto;transition:all .12s;position:relative}
+  .gr-c:hover{border-color:var(--green-dark)}
+  .gr-c.on{border-color:var(--green-dark)}
+  .gr-c.on::after{content:'';position:absolute;inset:3px;border-radius:50%;background:var(--green-dark)}
+
+  /* meses */
+  .ms{display:grid;grid-template-columns:repeat(6,1fr);gap:7px}
+  .ms-i{border:1.5px solid var(--border);background:#fff;border-radius:11px;padding:11px 4px;cursor:pointer;text-align:center;transition:all .12s}
+  .ms-i:hover{border-color:var(--gray-light)}
+  .ms-n{font-size:12.5px;font-weight:800;color:var(--text);margin-bottom:3px}
+  .ms-e{font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--gray-light)}
+  .ms-i.forte{background:var(--green-light);border-color:var(--green-dark)}
+  .ms-i.forte .ms-e{color:var(--green-deep)}
+  .ms-i.fraco{background:var(--red-light);border-color:#e8b4ac}
+  .ms-i.fraco .ms-e{color:var(--red)}
+  .ms-leg{font-size:12.5px;color:var(--gray);margin-top:11px;font-style:italic}
+
+  /* rodape */
+  .rodape{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:1px solid var(--border);z-index:30}
+  .rodape-in{max-width:800px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:11px}
+  .falta-txt{font-size:12.5px;color:var(--red);font-weight:700;margin-right:auto}
+  .ok-txt{font-size:12.5px;color:var(--green-deep);font-weight:700;margin-right:auto}
+
+  /* ── RESULTADO ── */
+  #fim{display:none;min-height:100vh;padding:70px 24px 90px}
+  .fim-in{max-width:720px;margin:0 auto}
+  .fim-top{text-align:center;margin-bottom:42px}
+  .fase-selo{display:inline-block;font-size:10px;font-weight:800;letter-spacing:3px;text-transform:uppercase;padding:8px 22px;border-radius:100px;margin-bottom:20px;color:#fff}
+  .fase-nome{font-size:clamp(38px,6vw,60px);font-weight:800;letter-spacing:-2px;line-height:1;margin-bottom:16px}
+  .fase-txt{font-size:15.5px;color:var(--text-muted);line-height:1.75;max-width:520px;margin:0 auto}
+  .dims{display:flex;flex-direction:column;gap:12px;margin-top:14px}
+  .d-item{background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:15px 18px}
+  .d-topo{display:flex;align-items:baseline;gap:10px;margin-bottom:9px}
+  .d-nome{font-size:14.5px;font-weight:700;letter-spacing:-.2px}
+  .d-fase{font-size:10.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;margin-left:auto;padding:3px 10px;border-radius:100px;color:#fff}
+  .d-barra{height:7px;background:var(--bg3);border-radius:99px;overflow:hidden}
+  .d-barra i{display:block;height:100%;border-radius:99px}
+  .d-nota{font-family:var(--serif);font-size:14px;font-style:italic;color:var(--gray);margin-top:7px}
+  .fim-tit{font-size:11.5px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:var(--gray);margin-bottom:4px}
+  .nota-mam{background:var(--bg2);border:1.5px dashed var(--gray-light);border-radius:14px;padding:20px 22px;margin-top:36px}
+  .nota-mam .t{font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--green-deep);margin-bottom:8px}
+  .nota-mam p{font-size:13.5px;color:var(--text-muted);line-height:1.7}
+
+  @media(max-width:760px){
+    .rules{grid-template-columns:1fr}
+    .palco{padding:30px 20px 140px}
+    .ms{grid-template-columns:repeat(3,1fr)}
+    .div-i{grid-template-columns:1fr 108px}
+  }
+</style>
+
+<!-- ══════════ CAPA ══════════ -->
+<div id="capa">
+  <div class="badge">Mapa de Marca</div>
+  <div class="capa-cli"></div>
+  <h1 class="capa-t">Antes de criar, a gente precisa <em>entender</em>.</h1>
+  <p class="capa-s">Duas partes. Na primeira, onde a sua marca está hoje — a resposta sai das suas próprias respostas, não da nossa opinião. Na segunda, como o seu negócio funciona de verdade: o que vende, pra quem, onde, como entrega e em que ritmo. É desse cruzamento que sai o seu projeto de conteúdo.</p>
+  <div class="rules">
+    <div class="rule"><div class="n">i</div><div class="t">Responda com sinceridade</div><div class="d">Não existe resposta certa. O retrato só serve se for <b>o retrato real</b> — maquiar aqui é enganar a si mesmo.</div></div>
+    <div class="rule"><div class="n">ii</div><div class="t">Sócios respondem juntos</div><div class="d">Se a empresa tem mais de um dono, sentem lado a lado. A marca precisa de <b>uma voz só</b>.</div></div>
+    <div class="rule"><div class="n">iii</div><div class="t">O prazo começa no envio</div><div class="d">O cronograma do projeto passa a correr a partir do <b>envio deste mapa</b>.</div></div>
+  </div>
+  <button class="btn" onclick="comecar()">Começar o mapa →</button>
+  <p class="capa-meta">Cerca de 25 minutos · dá pra parar e voltar depois</p>
+</div>
+
+<!-- ══════════ QUIZ ══════════ -->
+<div id="quiz">
+  <div class="topo"><div class="topo-in">
+    <div class="topo-l"><span class="parte" id="parte"></span><span class="passo" id="passo"></span></div>
+    <div class="barra"><i id="barra" style="width:0%"></i></div>
+  </div></div>
+  <div class="palco">
+    <h2 class="b-nome" id="bnome"></h2>
+    <p class="b-desc" id="bdesc"></p>
+    <div id="perguntas"></div>
+  </div>
+  <div class="rodape"><div class="rodape-in">
+    <span id="status" class="ok-txt"></span>
+    <button class="btn ghost" id="voltar" onclick="voltar()">← Voltar</button>
+    <button class="btn" id="avancar" onclick="avancar()">Avançar →</button>
+  </div></div>
+</div>
+
+<!-- ══════════ RESULTADO ══════════ -->
+<div id="fim"><div class="fim-in">
+  <div class="fim-top">
+    <div class="fase-selo" id="selo"></div>
+    <h2 class="fase-nome" id="fnome"></h2>
+    <p class="fase-txt" id="ftxt"></p>
+  </div>
+  <div class="fim-tit">As 7 dimensões</div>
+  <div class="dims" id="dims"></div>
+  <div class="nota-mam">
+    <div class="t">O que acontece agora</div>
+    <p>A MAM recebeu as suas respostas. O que você vê aqui é onde a marca está. A leitura completa — cruzando esta fase com a forma como o seu negócio opera — a gente apresenta pessoalmente, junto com o projeto de conteúdo.</p>
+  </div>
+</div></div>
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   Mapa de Marca · MAM — conectado ao Supabase do gestor.
+   Sem ?chave= na URL roda em modo demonstração (nada é enviado).
+   ══════════════════════════════════════════════════════════════ */
+const SUPABASE_URL = 'https://zokmlfocjalehjvczwep.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_jiTPujKev4H4m-H_ABFE1w_rRvHNCVZ';
+
+async function supaFetch(method, path, body = null, prefer = null) {
+  const p = prefer !== null ? prefer : (method === 'POST' ? 'return=representation' : '');
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+    method,
+    headers: {
+      'Content-Type': 'application/json',
+      'apikey': SUPABASE_KEY,
+      'Authorization': `Bearer ${SUPABASE_KEY}`,
+      'Prefer': p
+    },
+    body: body ? JSON.stringify(body) : null
+  });
+  if (res.status === 204) return null;
+  if (!res.ok) throw new Error('supabase ' + res.status + ' ' + (await res.text()));
+  const txt = await res.text();
+  return txt ? JSON.parse(txt) : null;
+}
+
+const chave = new URLSearchParams(location.search).get('chave');
+const DEMO = !chave;
+const LS_KEY = 'mam_mapa_' + (chave || 'demo');
+let CLIENTE = null;
+
+// ═══════════ PARTE 1 · O CICLO (21 perguntas, opções originais da LP) ═══════════
+const CICLO=[
+{dim:"Percepção e Reputação de Mercado",desc:"Como sua marca é vista, lembrada e valorizada pelo mercado.",qs:[
+ {t:"Quando você se apresenta a um potencial cliente pela primeira vez, o que mais acontece?",o:[
+  {t:"Ele nunca ouviu falar de mim — explico tudo do zero",f:"I"},
+  {t:"Já me conheceu melhor no passado, hoje sinto que me lembram menos",f:"D"},
+  {t:"Conhece superficialmente, sem clareza do meu diferencial",f:"C"},
+  {t:"Já me conhece e chega com boa impressão prévia",f:"C"},
+  {t:"Chega praticamente decidido — confia na marca antes de falar comigo",f:"P"}]},
+ {t:"Com que frequência sua marca é mencionada espontaneamente no mercado?",o:[
+  {t:"Nunca ou quase nunca",f:"I"},
+  {t:"Já foi mais comentada do que é hoje",f:"D"},
+  {t:"Às vezes, de forma irregular",f:"C"},
+  {t:"Com frequência — apareço em conversas do setor",f:"P"},
+  {t:"Constantemente — sou referência citada naturalmente",f:"P"}]},
+ {t:"O mercado percebe seu diferencial sem você precisar explicar?",o:[
+  {t:"Não há diferenciação clara percebida ainda",f:"I"},
+  {t:"Meu diferencial já foi mais nítido, hoje se diluiu",f:"D"},
+  {t:"Alguns percebem, outros não",f:"C"},
+  {t:"A maioria percebe meu diferencial sem explicação",f:"C"},
+  {t:"Meu diferencial é evidente e reconhecido pelo mercado",f:"P"}]}]},
+{dim:"Inteligência Competitiva",desc:"O quanto sua marca conhece, monitora e responde ao ambiente competitivo.",qs:[
+ {t:"Quanto você conhece dos seus principais concorrentes?",o:[
+  {t:"Não tenho clareza nem de quem são meus concorrentes diretos",f:"I"},
+  {t:"Conheço, mas parei de acompanhar e sinto que me ultrapassaram",f:"D"},
+  {t:"Conheço alguns bem, mas sem visão completa do mercado",f:"C"},
+  {t:"Conheço bem os principais — forças, fraquezas e estratégias",f:"C"},
+  {t:"Tenho visão profunda e atualizada de todo o cenário competitivo",f:"P"}]},
+ {t:"Você consegue articular seu diferencial de forma que o cliente perceba valor real?",o:[
+  {t:"Não tenho um diferencial claro definido",f:"I"},
+  {t:"Tinha um diferencial forte, mas ele perdeu força no mercado",f:"D"},
+  {t:"Tenho, mas nem sempre ressoa com o cliente",f:"C"},
+  {t:"Meu diferencial é claro e percebido pela maioria",f:"C"},
+  {t:"É reconhecido e valorizado de forma consistente pelo mercado",f:"P"}]},
+ {t:"Sua marca tem elementos difíceis de copiar — método, comunidade, ativos exclusivos?",o:[
+  {t:"Não — qualquer concorrente faz o que eu faço",f:"I"},
+  {t:"Tinha vantagens que hoje os concorrentes já alcançaram",f:"D"},
+  {t:"Tenho alguns elementos, mas ainda frágeis ou replicáveis",f:"C"},
+  {t:"Tenho barreiras competitivas relevantes já construídas",f:"P"},
+  {t:"Tenho ativos únicos que criam vantagem duradoura",f:"P"}]}]},
+{dim:"Performance Comercial e Financeira",desc:"A saúde real do negócio através dos seus resultados comerciais e financeiros.",qs:[
+ {t:"Trajetória do seu faturamento nos últimos 12 meses?",o:[
+  {t:"Caindo de forma consistente e preocupante",f:"D"},
+  {t:"Estagnado — fatura sempre na mesma faixa",f:"P"},
+  {t:"Ainda muito recente pra ter série, mas começando a entrar receita",f:"I"},
+  {t:"Crescendo de forma consistente, dentro do planejado",f:"C"},
+  {t:"Crescendo forte, superando o que eu esperava",f:"C"}]},
+ {t:"Previsibilidade financeira do negócio?",o:[
+  {t:"Nenhuma — cada mês é uma surpresa, mal sei o que vem",f:"I"},
+  {t:"Pouca — oscilações grandes que travam qualquer planejamento",f:"I"},
+  {t:"A receita vinha, mas começou a ficar mais incerta ultimamente",f:"D"},
+  {t:"Parcial — tenho contratos fixos, mas dependo de novas vendas",f:"C"},
+  {t:"Alta — receita recorrente robusta que me deixa planejar com segurança",f:"P"}]},
+ {t:"A força da marca facilita a sua venda?",o:[
+  {t:"A marca já ajudou mais a vender do que ajuda hoje",f:"D"},
+  {t:"Não tem impacto perceptível — vendo no esforço, não na marca",f:"I"},
+  {t:"Às vezes ajuda, mas ainda sem consistência",f:"C"},
+  {t:"Claramente facilita e acelera o fechamento",f:"C"},
+  {t:"É um dos principais ativos da venda — a marca vende por mim",f:"P"}]}]},
+{dim:"Identidade, Branding e Posicionamento",desc:"O quanto a marca sabe quem ela é e traduz isso em tudo que comunica e entrega.",qs:[
+ {t:"Se tivesse 30 segundos pra explicar por que sua marca existe (além do lucro)?",o:[
+  {t:"Não consigo — nunca estruturei isso",f:"I"},
+  {t:"Já tive um propósito claro, mas ele se perdeu pelo caminho",f:"D"},
+  {t:"Tenho uma ideia, mas muda conforme o contexto",f:"C"},
+  {t:"Tenho clareza e comunico com consistência",f:"C"},
+  {t:"É cristalino, internalizado pela equipe, presente em tudo",f:"P"}]},
+ {t:"O que a marca promete na comunicação corresponde ao que o cliente vive na entrega?",o:[
+  {t:"Há uma lacuna grande — prometo mais do que entrego",f:"D"},
+  {t:"Estou ajustando isso agora — ainda há descompasso de início",f:"I"},
+  {t:"Em geral há coerência, com falhas pontuais",f:"C"},
+  {t:"A entrega está alinhada à promessa quase sempre",f:"C"},
+  {t:"A entrega supera a promessa de forma consistente",f:"P"}]},
+ {t:"A marca se manifesta de forma coerente em todos os pontos de contato?",o:[
+  {t:"Há grande inconsistência entre os canais",f:"I"},
+  {t:"Já foi mais coesa — hoje cada canal fala uma língua",f:"D"},
+  {t:"Consistência em alguns canais, irregular no conjunto",f:"C"},
+  {t:"Coerente na maioria dos pontos de contato",f:"P"},
+  {t:"Consistente e reconhecível em todos os contextos",f:"P"}]}]},
+{dim:"Experiência e Relacionamento com o Cliente",desc:"A qualidade real do vínculo entre a marca e seus clientes.",qs:[
+ {t:"Como está a retenção dos seus clientes ao longo do tempo?",o:[
+  {t:"Muito baixa — a maioria compra uma vez e não volta",f:"I"},
+  {t:"Caiu — clientes que ficavam começaram a sair",f:"D"},
+  {t:"Moderada — parte retorna sem padrão claro",f:"C"},
+  {t:"Alta — a maioria continua comprando",f:"P"},
+  {t:"Muito alta — base fiel que cresce em valor",f:"P"}]},
+ {t:"Com que frequência clientes indicam sua marca sem você pedir?",o:[
+  {t:"Nunca ou quase nunca",f:"I"},
+  {t:"Indicavam mais antes — hoje as indicações minguaram",f:"D"},
+  {t:"Às vezes, sem volume relevante",f:"C"},
+  {t:"Com frequência — é fonte real de novos clientes",f:"C"},
+  {t:"Sempre — clientes viraram promotores ativos",f:"P"}]},
+ {t:"Você conhece profundamente seu cliente ideal — dores, desejos, o que o prende?",o:[
+  {t:"Conhecimento muito superficial",f:"I"},
+  {t:"Já conheci bem meu cliente, mas ele mudou e eu não acompanhei",f:"D"},
+  {t:"Conheço o básico, sem profundidade real",f:"C"},
+  {t:"Conheço bem e uso isso nas decisões",f:"C"},
+  {t:"Conhecimento profundo e atualizado que guia a estratégia",f:"P"}]}]},
+{dim:"Pessoas, Cultura e Clima Organizacional",desc:"A capacidade da marca de atrair, desenvolver e reter pessoas — e construir uma cultura que a sustente.",qs:[
+ {t:"Sua equipe vive o propósito e os valores da marca no dia a dia?",o:[
+  {t:"Trabalha sem clareza ou conexão com o propósito",f:"I"},
+  {t:"Já houve mais conexão — hoje a equipe parece desengajada",f:"D"},
+  {t:"Há consciência, mas ainda superficial",f:"C"},
+  {t:"A equipe tem clareza e isso orienta comportamentos",f:"C"},
+  {t:"O propósito é vivo — orienta, motiva e une as pessoas",f:"P"}]},
+ {t:"O que a marca promete por fora é vivido por dentro?",o:[
+  {t:"Grande contradição entre discurso externo e cultura interna",f:"D"},
+  {t:"Estou começando a estruturar a cultura agora",f:"I"},
+  {t:"Algum alinhamento, com contradições a resolver",f:"C"},
+  {t:"Consistência entre marca externa e cultura na maioria dos aspectos",f:"C"},
+  {t:"A cultura interna é a expressão mais autêntica da marca",f:"P"}]},
+ {t:"Se precisasse dobrar de tamanho em 12 meses, a cultura sustentaria?",o:[
+  {t:"Não — o crescimento quebraria a cultura",f:"I"},
+  {t:"Hoje já sinto a cultura se diluindo — dobrar pioraria",f:"D"},
+  {t:"Talvez — temos estrutura ainda frágil",f:"C"},
+  {t:"Provavelmente sim — com ajustes pontuais",f:"C"},
+  {t:"Sim, com confiança — cultura e processos robustos pra escalar",f:"P"}]}]},
+{dim:"Visão e Maturidade Empreendedora",desc:"O nível de clareza, maturidade e protagonismo do empreendedor como principal arquiteto da marca.",qs:[
+ {t:"Quando o negócio gera mais dinheiro, qual seu comportamento?",o:[
+  {t:"Elevo meu padrão de vida na hora — carro, status, viagens",f:"D"},
+  {t:"Reinvisto quase tudo — ainda estou plantando o negócio",f:"I"},
+  {t:"Divido entre consumo e reinvestimento, sem estratégia clara",f:"C"},
+  {t:"Priorizo reinvestir na marca, com retirada controlada",f:"C"},
+  {t:"Tenho estratégia clara de alocação — reinvisto com intenção",f:"P"}]},
+ {t:"Como é sua visão para a marca nos próximos 5 anos?",o:[
+  {t:"Não tenho visão clara — vivo o dia a dia",f:"I"},
+  {t:"Tinha uma visão, mas perdi o rumo recentemente",f:"D"},
+  {t:"Visão em construção, sem estratégia clara ainda",f:"C"},
+  {t:"Visão clara que já orienta as decisões de hoje",f:"C"},
+  {t:"Visão nítida, compartilhada com a equipe e em execução deliberada",f:"P"}]},
+ {t:"O que acontece com o negócio se você sumir por 30 dias?",o:[
+  {t:"Para — nada funciona sem minha presença",f:"I"},
+  {t:"Entra em colapso parcial — surgem crises que só eu resolvo",f:"D"},
+  {t:"Funciona com dificuldade, com perda de qualidade",f:"C"},
+  {t:"Funciona bem, com pequenos ajustes à distância",f:"C"},
+  {t:"Funciona perfeitamente — a marca opera com autonomia total",f:"P"}]}]}
+];
+
+// ═══════════ PARTE 2 · A ATUAÇÃO DO NEGÓCIO ═══════════
+const ATUACAO=[
+{dim:"O que você vende",desc:"O assunto do conteúdo sai daqui — do que efetivamente paga as contas, não do que é mais bonito de mostrar.",qs:[
+ {tipo:"tags",t:"Seus produtos ou serviços principais.",h:"Adicione um por vez. Comece pelo mais importante — no máximo 8.",min:2,max:8,ph:"Ex: Erva-mate tradicional"},
+ {tipo:"divisao",t:"Como o faturamento se divide entre eles?",h:"Distribua 100% entre as linhas. Vale estimativa — o que importa é a proporção.",fonte:0},
+ {tipo:"uma",t:"Ticket médio de uma venda.",o:["Até R$ 100","R$ 100 a R$ 500","R$ 500 a R$ 2 mil","R$ 2 mil a R$ 10 mil","R$ 10 mil a R$ 50 mil","Acima de R$ 50 mil"]},
+ {tipo:"uma",t:"Como é a natureza da compra?",o:["Compra única, sem recorrência natural","Recompra esporádica, quando precisa","Recompra frequente e previsível","Contrato ou assinatura recorrente","Mistura de venda avulsa e contrato"]},
+ {tipo:"escala",t:"Da primeira conversa até fechar, quanto tempo costuma levar?",min:0,max:5,rotulos:["Na hora","1-3 dias","Uma semana","Duas semanas","Um mês","Mais de um mês"]},
+ {tipo:"uma",t:"Onde está a sua margem?",h:"Ajuda a definir o que o conteúdo deve empurrar.",o:["Margem parecida em tudo que vendo","Os produtos de maior volume dão a melhor margem","Os produtos de menor volume dão a melhor margem","A margem está nos serviços, não nos produtos","A margem está na recompra, não na primeira venda"]}]},
+
+{dim:"Pra quem você vende",desc:"Define com quem o conteúdo fala, em que linguagem e — igualmente importante — com quem ele não precisa falar.",qs:[
+ {tipo:"divisao",t:"Como se divide a sua venda entre empresa e consumidor final?",h:"Se vende só para um dos dois, ponha 100% nele.",itens:["Empresa (B2B)","Consumidor final (B2C)","Governo / licitação"]},
+ {tipo:"varias",t:"Faixa etária de quem decide a compra.",h:"Marque todas as faixas relevantes.",o:["18 a 24","25 a 34","35 a 44","45 a 54","55 a 64","65 ou mais"]},
+ {tipo:"varias",t:"Faixa de renda do público que compra de você.",h:"Se vende para empresa, pense em quem decide. Marque todas que valem.",o:["Até 2 salários mínimos","2 a 5 salários","5 a 10 salários","10 a 20 salários","Acima de 20 salários","Não vendo para pessoa física"]},
+ {tipo:"varias",t:"Se vende para empresa, qual o porte do cliente?",o:["MEI e autônomo","Micro e pequena empresa","Média empresa","Grande empresa","Não vendo para empresa"]},
+ {tipo:"divisao",t:"Divisão por gênero de quem compra.",h:"Estimativa serve.",itens:["Mulheres","Homens","Não se aplica ao meu negócio"]},
+ {tipo:"estados",t:"Em quais estados você atua hoje?",h:"Marque todos onde já vende, mesmo que pouco. Use os atalhos por região."},
+ {tipo:"uma",t:"Dentro dessa área, qual é o alcance real?",o:["Um bairro ou uma cidade só","Cidade e região vizinha","O estado inteiro","Vários estados, concentrado em alguns","Brasil inteiro, sem concentração","Também vendo para fora do país"]},
+ {tipo:"divisao",t:"Peso entre cliente novo e cliente que volta.",itens:["Cliente novo","Cliente que já comprou antes"]},
+ {tipo:"texto",t:"Descreva o seu cliente típico.",h:"Quem é, o que faz, o que valoriza, em que momento da vida ou do negócio ele procura você.",min:40}]},
+
+{dim:"Como você vende",desc:"Mostra por onde o conteúdo precisa puxar a pessoa — e onde ele não adianta nada.",qs:[
+ {tipo:"divisao",t:"Como a venda se distribui entre os canais?",h:"Distribua 100% pelos canais que realmente vendem. Deixe em zero os que não usa.",itens:["Loja física","E-commerce próprio","Marketplace","WhatsApp","Equipe comercial","Representantes","Telefone"]},
+ {tipo:"ranking",t:"Como o cliente chega até você hoje?",h:"Clique na ordem de importância — o primeiro clique é o que mais traz cliente. Ordene pelo menos 3.",o:["Indicação de cliente","Anúncio pago","Busca no Google","Redes sociais","Passagem / ponto físico","Prospecção ativa","Eventos e feiras","Parceria com outra empresa"],min:3},
+ {tipo:"numero",t:"Quantas pessoas trabalham com vendas hoje?",h:"Conte você, se você também vende.",pre:"👤",suf:"pessoas",max:9999},
+ {tipo:"uma",t:"Como o acompanhamento de um interessado é feito?",o:["Não tem acompanhamento — quem volta, volta","Na memória e no WhatsApp, sem sistema","Planilha ou caderno","CRM ou sistema próprio","Sistema com automação de follow-up"]},
+ {tipo:"escala",t:"O quanto o preço aparece como obstáculo na venda?",min:0,max:4,rotulos:["Quase nunca","Às vezes","Na metade das vezes","Na maioria","É o obstáculo principal"]}]},
+
+{dim:"Como você entrega",desc:"A entrega é parte da marca — e costuma ser o assunto que mais gera dúvida antes da compra.",qs:[
+ {tipo:"varias",t:"Como o produto ou serviço chega ao cliente?",h:"Marque tudo que se aplica.",o:["Cliente retira no local","Entrega própria","Motoboy ou aplicativo","Correios","Transportadora","Serviço presencial no cliente","Serviço presencial no meu espaço","Digital / online","Representante entrega"]},
+ {tipo:"escala",t:"Prazo médio entre a compra e o cliente receber.",min:0,max:5,rotulos:["Na hora","Mesmo dia","1-3 dias","4-7 dias","2-4 semanas","Mais de um mês"]},
+ {tipo:"uma",t:"Como funciona o frete ou o custo de deslocamento?",o:["Não se aplica — não tem entrega","Sempre grátis","Grátis acima de um valor","Sempre cobrado do cliente","Depende da região","Incluído no preço, sem destacar"]},
+ {tipo:"uma",t:"A embalagem ou a chegada do produto tem cuidado de marca?",h:"Vale para serviço também: o primeiro encontro é cuidado?",o:["Não — é funcional, sem identidade","Tem o logo, mas nada além disso","Tem cuidado visual, sem ser o foco","É um ponto forte da experiência","É um dos motivos pelos quais falam da marca"]},
+ {tipo:"uma",t:"O que acontece depois que o cliente recebe?",o:["Nada — a relação termina na entrega","Só se ele procurar por algum problema","Mando mensagem perguntando se deu tudo certo","Tenho pós-venda estruturado","Tenho pós-venda e programa de recompra"]}]},
+
+{dim:"Como você comunica e em que ritmo",desc:"Define o formato, a frequência e — principalmente — o que a sua estrutura consegue sustentar de verdade.",qs:[
+ {tipo:"grade",t:"Onde a marca publica e com que frequência?",h:"Uma resposta por canal. Seja honesto: vale o que acontece, não o que era pra acontecer.",
+  linhas:["Instagram","Facebook","TikTok","LinkedIn","YouTube","Site ou blog","WhatsApp / lista","E-mail"],
+  colunas:["Não uso","Parado","Quando dá","Semanal","Várias por semana","Todo dia"]},
+ {tipo:"uma",t:"Quem produz o conteúdo hoje?",o:["Eu mesmo, no tempo que sobra","Alguém da equipe, entre outras funções","Pessoa dedicada a conteúdo","Agência ou freelancer","Ninguém produz hoje"]},
+ {tipo:"uma",t:"Quanto se investe em mídia paga por mês?",o:["Nada","Até R$ 500","R$ 500 a R$ 2 mil","R$ 2 mil a R$ 10 mil","R$ 10 mil a R$ 50 mil","Acima de R$ 50 mil"]},
+ {tipo:"varias",t:"Que base de contatos própria a marca tem hoje?",h:"Marque só o que existe de verdade e está acessível.",o:["Lista de transmissão no WhatsApp","Grupo de WhatsApp","Base de e-mails","Cadastro de clientes no sistema","Seguidores, mas sem base própria","Não tenho base organizada"]},
+ {tipo:"uma",t:"Que material de marca já existe pronto?",o:["Nada além do logo","Logo e algumas artes soltas","Manual de marca básico","Manual completo e aplicado","Manual completo, aplicado e atualizado"]},
+ {tipo:"meses",t:"Como é a sazonalidade do negócio?",h:"Clique em cada mês para marcar. Um clique marca como mês forte, dois como fraco, três volta ao normal."},
+ {tipo:"texto",t:"Datas importantes no horizonte dos próximos 12 meses.",h:"Feira, lançamento, aniversário da empresa, temporada — qualquer coisa que o conteúdo precise acompanhar.",min:20}]}
+];
+
+const BLOCOS=[...CICLO.map(b=>({...b,parte:1})),...ATUACAO.map(b=>({...b,parte:2}))];
+const R={};
+let atual=0, tentou=false;
+const el=id=>document.getElementById(id);
+const K=qi=>`${atual}_${qi}`;
+
+const REGIOES=[
+ {n:"Norte",ufs:["AC","AP","AM","PA","RO","RR","TO"]},
+ {n:"Nordeste",ufs:["AL","BA","CE","MA","PB","PE","PI","RN","SE"]},
+ {n:"Centro-Oeste",ufs:["DF","GO","MT","MS"]},
+ {n:"Sudeste",ufs:["ES","MG","RJ","SP"]},
+ {n:"Sul",ufs:["PR","RS","SC"]}
+];
+const MESES=["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
+
+function comecar(){ el('capa').style.display='none'; el('quiz').style.display='flex'; render(); scrollTo(0,0); }
+
+/* ─────────── PERSISTÊNCIA ───────────
+   As gravações vão numa fila de uma por vez. Sem isso, duas subidas
+   simultâneas podem chegar fora de ordem e a antiga sobrescrever a nova
+   — foi o que aconteceu no teste: o envio final virou "parcial" de novo. */
+let syncTimer = null;
+let fila = Promise.resolve();
+let finalizado = false;
+
+function enfileira(fn){
+  fila = fila.then(fn).catch(e => console.warn('gravação falhou:', e.message));
+  return fila;
+}
+
+function salvaLocal(){
+  try { localStorage.setItem(LS_KEY, JSON.stringify({ R, atual })); } catch {}
+}
+// sobe o progresso parcial: com atraso durante a digitação, na hora ao trocar de bloco
+function sincroniza(agora = false){
+  salvaLocal();
+  if (DEMO || !CLIENTE || finalizado) return;
+  clearTimeout(syncTimer);
+  const manda = () => {
+    if (finalizado) return;               // depois do envio, nenhum parcial encosta na linha
+    return enfileira(() => supaFetch('POST', 'mapa_respostas?on_conflict=chave_acesso', {
+      cliente_id: CLIENTE.id,
+      chave_acesso: chave,
+      versao_questionario: 'mapa-v1',
+      respostas: R,
+      bloco_atual: atual,
+      status: 'parcial',
+      updated_at: new Date().toISOString()
+    }, 'resolution=merge-duplicates,return=minimal'));
+  };
+  if (agora) manda(); else syncTimer = setTimeout(manda, 4000);
+}
+
+function capaErro(titulo, texto){
+  document.querySelector('.capa-t').innerHTML = titulo;
+  document.querySelector('.capa-s').textContent = texto;
+  document.querySelector('.rules').style.display = 'none';
+  document.querySelector('#capa .btn').style.display = 'none';
+  document.querySelector('.capa-meta').style.display = 'none';
+  document.querySelector('.capa-cli').style.display = 'none';
+}
+
+async function boot(){
+  if (DEMO) {
+    document.querySelector('.capa-cli').textContent = 'MODO DEMONSTRAÇÃO';
+    document.querySelector('.capa-meta').textContent =
+      'Cerca de 25 minutos · sem chave de acesso, nada é enviado';
+    return;
+  }
+  let rows;
+  try {
+    rows = await supaFetch('GET',
+      `clientes_briefing?chave_acesso=eq.${encodeURIComponent(chave)}&excluido_em=is.null&select=id,nome,mapa_status`);
+  } catch {
+    return capaErro('Não consegui <em>carregar</em>.',
+      'Houve um problema de conexão. Recarregue a página em instantes — se continuar, fala com a equipe MAM.');
+  }
+  if (!rows || !rows.length) {
+    return capaErro('Esse link não é <em>válido</em>.',
+      'Confira o link que você recebeu da equipe MAM — ele precisa vir completo, com a sua chave de acesso. Qualquer dúvida, fala com a gente.');
+  }
+  CLIENTE = rows[0];
+  document.querySelector('.capa-cli').textContent = (CLIENTE.nome || '').toUpperCase();
+
+  if (CLIENTE.mapa_status === 'preenchido') {
+    return capaErro('Já <em>recebemos</em> o seu mapa.',
+      'Obrigado! A equipe MAM está com as suas respostas. Se precisar ajustar alguma coisa, fala direto com a gente.');
+  }
+
+  // retomada: primeiro o que está no aparelho, senão o que está no servidor
+  let salvo = null;
+  try { salvo = JSON.parse(localStorage.getItem(LS_KEY) || 'null'); } catch {}
+  if (!salvo || !salvo.R || !Object.keys(salvo.R).length) {
+    try {
+      const p = await supaFetch('GET',
+        `mapa_respostas?chave_acesso=eq.${encodeURIComponent(chave)}&select=respostas,bloco_atual,status`);
+      if (p && p.length && p[0].status === 'parcial' && Object.keys(p[0].respostas || {}).length) {
+        salvo = { R: p[0].respostas, atual: p[0].bloco_atual || 0 };
+      }
+    } catch {}
+  }
+  if (salvo && salvo.R && Object.keys(salvo.R).length) {
+    Object.assign(R, salvo.R);
+    atual = Math.min(salvo.atual || 0, BLOCOS.length - 1);
+    document.querySelector('#capa .btn').textContent = 'Continuar de onde parei →';
+    document.querySelector('.capa-meta').textContent =
+      `Você parou no bloco ${atual + 1} de ${BLOCOS.length} · dá pra continuar de qualquer aparelho`;
+  }
+}
+boot();
+
+// ── itens de uma divisão: fixos ou vindos de uma pergunta de tags ──
+function itensDivisao(q){
+  if(q.itens) return q.itens;
+  const base=R[`${atual}_${q.fonte}`];
+  return (Array.isArray(base)&&base.length)?base:[];
+}
+
+function render(){
+  const b=BLOCOS[atual]; tentou=false;
+  el('parte').textContent = b.parte===1?'Parte 1 · O ciclo da marca':'Parte 2 · A atuação do negócio';
+  el('passo').textContent = `Bloco ${atual+1} de ${BLOCOS.length}`;
+  el('barra').style.width = (atual/BLOCOS.length*100)+'%';
+  el('bnome').textContent=b.dim; el('bdesc').textContent=b.desc;
+  el('voltar').style.visibility = atual===0?'hidden':'visible';
+  el('avancar').textContent = atual===BLOCOS.length-1?'Enviar o mapa ✓':'Avançar →';
+
+  const wrap=el('perguntas'); wrap.innerHTML='';
+  b.qs.forEach((q,qi)=>{
+    const d=document.createElement('div');
+    d.className='q'; d.id=`q_${atual}_${qi}`;
+    const rom=['i','ii','iii','iv','v','vi','vii','viii','ix'][qi]||(qi+1);
+    d.innerHTML=`<div class="q-n">${rom}</div><div class="q-t">${q.t}</div>
+      ${q.h?`<div class="q-h">${q.h}</div>`:''}<div class="corpo">${corpo(q,qi)}</div>
+      <div class="aviso">Falta responder essa.</div>`;
+    wrap.appendChild(d);
+  });
+  checa();
+}
+
+function corpo(q,qi){
+  const v=R[K(qi)], t=q.tipo||'uma';
+
+  if(t==='uma') return `<div class="ops">${q.o.map((o,oi)=>
+    `<label class="op ${v===oi?'on':''}" onclick="setUma(${qi},${oi})"><span class="mark"></span><span>${o}</span></label>`).join('')}</div>`;
+
+  if(t==='varias'){ const s=v||[]; return `<div class="chips">${q.o.map((o,oi)=>
+    `<button type="button" class="chip ${s.includes(oi)?'on':''}" onclick="setVarias(${qi},${oi})">${o}</button>`).join('')}</div>`; }
+
+  if(t==='texto') return `<textarea oninput="setTexto(${qi},this.value)" placeholder="Escreva aqui…">${v||''}</textarea>
+    <div class="conta" id="c_${qi}">${(v||'').trim().length} caracteres · mínimo ${q.min}</div>`;
+
+  if(t==='tags'){ const s=v||[]; return `<div class="tag-in">
+      <input type="text" id="ti_${qi}" placeholder="${q.ph||'Digite e adicione'}" onkeydown="if(event.key==='Enter'){event.preventDefault();addTag(${qi})}">
+      <button type="button" class="tag-add" onclick="addTag(${qi})">Adicionar</button></div>
+      <div class="tag-lista">${s.map((x,i)=>`<span class="tag-x">${x}<b onclick="delTag(${qi},${i})">×</b></span>`).join('')}</div>
+      <div class="conta">${s.length} de ${q.max} · mínimo ${q.min}</div>`; }
+
+  if(t==='numero') return `<div class="num-wrap"><span class="num-pre">${q.pre||''}</span>
+    <input type="number" min="0" max="${q.max||99999}" value="${v??''}" oninput="setNum(${qi},this.value)" placeholder="0">
+    <span class="num-suf">${q.suf||''}</span></div>`;
+
+  if(t==='escala'){ const val=v??Math.floor(q.rotulos.length/2);
+    return `<div class="esc"><div class="esc-val" id="ev_${qi}">${v===undefined?'—':q.rotulos[val]}</div>
+      <input type="range" min="${q.min}" max="${q.max}" value="${val}" oninput="setEsc(${qi},this.value)">
+      <div class="esc-marcas"><span>${q.rotulos[0]}</span><span>${q.rotulos[q.rotulos.length-1]}</span></div></div>`; }
+
+  if(t==='divisao'){
+    const itens=itensDivisao(q);
+    if(!itens.length) return `<div class="q-h" style="color:var(--red)">Responda a pergunta anterior primeiro — as linhas vêm de lá.</div>`;
+    const m=v||{}; const tot=itens.reduce((a,_,i)=>a+(+m[i]||0),0);
+    return `<div class="div-l">${itens.map((it,i)=>`
+      <div><div class="div-i"><span class="div-nome">${it}</span>
+        <span class="div-ctrl"><input type="number" min="0" max="100" value="${m[i]??''}" placeholder="0"
+          oninput="setDiv(${qi},${i},this.value)"><span class="div-pc">%</span></span></div>
+        <div class="div-bar"><i style="width:${Math.min(100,+m[i]||0)}%"></i></div></div>`).join('')}</div>
+      <div class="div-total ${tot===100?'ok':'no'}"><span>Total</span><span>${tot}% ${tot===100?'✓':'· precisa fechar 100%'}</span></div>`;
+  }
+
+  if(t==='ranking'){ const ord=v||[]; return `<div class="rk">${q.o.map((o,oi)=>{
+      const p=ord.indexOf(oi);
+      return `<div class="rk-i ${p>=0?'on':''}" onclick="setRank(${qi},${oi})">
+        <span class="rk-pos">${p>=0?p+1:'·'}</span><span>${o}</span></div>`}).join('')}</div>
+      <div class="rk-dica">Ordenados: ${ord.length} de ${q.min} necessários. Clique de novo para tirar da ordem.</div>`; }
+
+  if(t==='estados'){ const s=v||[];
+    return `<div class="uf-atalhos">
+      <button type="button" class="uf-at" onclick="ufTodos()">Brasil inteiro</button>
+      ${REGIOES.map((r,ri)=>`<button type="button" class="uf-at" onclick="ufRegiao(${qi},${ri})">${r.n}</button>`).join('')}
+      <button type="button" class="uf-at" onclick="ufLimpa(${qi})">Limpar</button></div>
+      ${REGIOES.map(r=>`<div class="uf-reg"><div class="uf-reg-n">${r.n}</div><div class="uf-grid">
+        ${r.ufs.map(u=>`<button type="button" class="uf ${s.includes(u)?'on':''}" onclick="setUf(${qi},'${u}')">${u}</button>`).join('')}
+      </div></div>`).join('')}
+      <div class="uf-conta">${s.length} estado${s.length===1?'':'s'} selecionado${s.length===1?'':'s'}</div>`; }
+
+  if(t==='grade'){ const m=v||{};
+    return `<div class="gr-scroll"><table class="gr"><thead><tr><th>Canal</th>
+      ${q.colunas.map(c=>`<th>${c}</th>`).join('')}</tr></thead><tbody>
+      ${q.linhas.map((l,li)=>`<tr><td>${l}</td>${q.colunas.map((_,ci)=>
+        `<td><span class="gr-c ${m[li]===ci?'on':''}" onclick="setGrade(${qi},${li},${ci})"></span></td>`).join('')}</tr>`).join('')}
+      </tbody></table></div>`; }
+
+  if(t==='meses'){ const m=v||{};
+    const cls=n=>n===1?'forte':n===2?'fraco':'';
+    const txt=n=>n===1?'Forte':n===2?'Fraco':'Normal';
+    return `<div class="ms">${MESES.map((mes,i)=>
+      `<div class="ms-i ${cls(m[i])}" onclick="setMes(${qi},${i})"><div class="ms-n">${mes}</div><div class="ms-e">${txt(m[i])}</div></div>`).join('')}</div>
+      <div class="ms-leg">Marque pelo menos um mês forte e um fraco — se o negócio não tem sazonalidade, marque o mês de maior e o de menor movimento.</div>`; }
+
+  return '';
+}
+
+// ── setters ──
+function setUma(qi,oi){ R[K(qi)]=oi; render(); }
+function setVarias(qi,oi){ const k=K(qi),s=R[k]||[]; R[k]=s.includes(oi)?s.filter(x=>x!==oi):[...s,oi]; render(); }
+function setTexto(qi,v){ R[K(qi)]=v; const c=el(`c_${qi}`); if(c) c.textContent=`${v.trim().length} caracteres · mínimo ${BLOCOS[atual].qs[qi].min}`; checa(); }
+function setNum(qi,v){ R[K(qi)]=v===''?undefined:Math.max(0,+v); checa(); }
+function setEsc(qi,v){ R[K(qi)]=+v; const e=el(`ev_${qi}`); if(e) e.textContent=BLOCOS[atual].qs[qi].rotulos[+v]; checa(); }
+function setDiv(qi,i,v){ const k=K(qi); const m={...(R[k]||{})}; m[i]=v===''?0:Math.min(100,Math.max(0,+v)); R[k]=m; render(); }
+function setRank(qi,oi){ const k=K(qi); const o=[...(R[k]||[])];
+  const p=o.indexOf(oi); if(p>=0) o.splice(p,1); else o.push(oi); R[k]=o; render(); }
+function setGrade(qi,li,ci){ const k=K(qi); R[k]={...(R[k]||{}),[li]:ci}; render(); }
+function setMes(qi,i){ const k=K(qi); const m={...(R[k]||{})}; m[i]=((m[i]||0)+1)%3; R[k]=m; render(); }
+function setUf(qi,u){ const k=K(qi),s=R[k]||[]; R[k]=s.includes(u)?s.filter(x=>x!==u):[...s,u]; render(); }
+function ufRegiao(qi,ri){ const k=K(qi),s=new Set(R[k]||[]); const r=REGIOES[ri].ufs;
+  const todos=r.every(u=>s.has(u)); r.forEach(u=>todos?s.delete(u):s.add(u)); R[k]=[...s]; render(); }
+function ufTodos(){ const q=BLOCOS[atual].qs.findIndex(x=>x.tipo==='estados');
+  R[`${atual}_${q}`]=REGIOES.flatMap(r=>r.ufs); render(); }
+function ufLimpa(qi){ R[K(qi)]=[]; render(); }
+function addTag(qi){ const inp=el(`ti_${qi}`); const v=(inp.value||'').trim(); if(!v) return;
+  const k=K(qi),s=R[k]||[]; if(s.length>=BLOCOS[atual].qs[qi].max) return;
+  R[k]=[...s,v]; render(); const n=el(`ti_${qi}`); if(n) n.focus(); }
+function delTag(qi,i){ const k=K(qi); R[k]=(R[k]||[]).filter((_,x)=>x!==i); render(); }
+
+// ── validação ──
+function respondida(qi){
+  const q=BLOCOS[atual].qs[qi], v=R[K(qi)], t=q.tipo||'uma';
+  if(t==='uma')     return v!==undefined;
+  if(t==='varias')  return Array.isArray(v)&&v.length>0;
+  if(t==='texto')   return typeof v==='string'&&v.trim().length>=(q.min||10);
+  if(t==='tags')    return Array.isArray(v)&&v.length>=q.min;
+  if(t==='numero')  return v!==undefined&&v!==''&&!isNaN(v);
+  if(t==='escala')  return v!==undefined;
+  if(t==='ranking') return Array.isArray(v)&&v.length>=q.min;
+  if(t==='estados') return Array.isArray(v)&&v.length>0;
+  if(t==='grade')   return v&&Object.keys(v).length===q.linhas.length;
+  if(t==='meses')   return v&&Object.values(v).some(x=>x===1)&&Object.values(v).some(x=>x===2);
+  if(t==='divisao'){ const it=itensDivisao(q); if(!it.length) return false;
+    return it.reduce((a,_,i)=>a+(+((v||{})[i])||0),0)===100; }
+  return true;
+}
+function faltando(){ return BLOCOS[atual].qs.map((_,i)=>i).filter(i=>!respondida(i)); }
+function checa(){
+  sincroniza();
+  const f=faltando(); el('avancar').disabled=f.length>0;
+  const s=el('status');
+  if(!f.length){ s.className='ok-txt'; s.textContent='Bloco completo ✓'; }
+  else { s.className='falta-txt'; s.textContent=tentou?`Falta${f.length>1?'m':''} ${f.length} pergunta${f.length>1?'s':''}`:''; }
+  if(tentou) BLOCOS[atual].qs.forEach((_,i)=>{ const d=el(`q_${atual}_${i}`); if(d) d.classList.toggle('falta',!respondida(i)); });
+}
+function avancar(){
+  const f=faltando();
+  if(f.length){ tentou=true; checa(); el(`q_${atual}_${f[0]}`).scrollIntoView({behavior:'smooth',block:'center'}); return; }
+  if(atual===BLOCOS.length-1) return finalizar();
+  atual++; render(); scrollTo(0,0); sincroniza(true);
+}
+function voltar(){ if(atual>0){ atual--; render(); scrollTo(0,0); sincroniza(true); } }
+
+// ═══════════ MOTOR DE FASE — igual ao da LP ═══════════
+const NOMES={I:'Introdução',C:'Crescimento',P:'Platô',D:'Declínio'};
+const ORDEM=['Introdução','Crescimento','Platô','Declínio'];
+const PESO={D:1.5,I:2,C:4,P:5};
+const COR={'Introdução':'#7c6aab','Crescimento':'#3a8f4a','Platô':'#c49a00','Declínio':'#c0392b'};
+const TEXTO={
+ 'Introdução':'A marca está sendo construída. O mercado ainda não a conhece o suficiente para escolhê-la sozinho — e é isso que o conteúdo precisa resolver primeiro.',
+ 'Crescimento':'A marca está subindo, e essa é a zona de maior atenção. A subida não dura para sempre: o que se investe agora é o que sustenta a estabilidade depois.',
+ 'Platô':'A zona mais perigosa do ciclo. O negócio fatura, o dono relaxa e entra em manutenção — e é exatamente aí que a marca começa a perder espaço sem perceber.',
+ 'Declínio':'A marca perdeu terreno que já teve. Não é o fim: é o momento em que reposicionar deixa de ser opção e vira necessidade.'
+};
+function contaFases(bi){ const c={I:0,C:0,P:0,D:0};
+  CICLO[bi].qs.forEach((q,qi)=>{ const v=R[`${bi}_${qi}`]; if(v!==undefined) c[q.o[v].f]++; }); return c; }
+function dominante(c){ let best=null,bestN=-1;
+  ORDEM.forEach(n=>{ const k=Object.keys(NOMES).find(x=>NOMES[x]===n); if(c[k]>bestN){bestN=c[k];best=n;} }); return best; }
+function nota(bi){ let s=0;
+  CICLO[bi].qs.forEach((q,qi)=>{ const v=R[`${bi}_${qi}`]; if(v!==undefined) s+=PESO[q.o[v].f]; });
+  return Math.round(s/(CICLO[bi].qs.length*5)*100); }
+
+async function finalizar(){
+  const g={I:0,C:0,P:0,D:0};
+  CICLO.forEach((_,bi)=>{ const c=contaFases(bi); for(const k in c) g[k]+=c[k]; });
+  const fase=dominante(g);
+  const dimensoes=CICLO.map((b,bi)=>({ dimensao:b.dim, fase:dominante(contaFases(bi)), nota:nota(bi) }));
+
+  const btn=el('avancar');
+  if(!DEMO && CLIENTE){
+    btn.disabled=true; btn.textContent='Enviando…';
+    clearTimeout(syncTimer);
+    finalizado=true;          // trava novos parciais
+    await fila;               // e espera os que já estavam na fila terminarem
+    try{
+      await supaFetch('POST','mapa_respostas?on_conflict=chave_acesso',{
+        cliente_id: CLIENTE.id,
+        chave_acesso: chave,
+        versao_questionario: 'mapa-v1',
+        respostas: R,
+        fase, dimensoes,
+        bloco_atual: BLOCOS.length-1,
+        status: 'enviado',
+        updated_at: new Date().toISOString()
+      },'resolution=merge-duplicates,return=minimal');
+      await supaFetch('PATCH',`clientes_briefing?chave_acesso=eq.${encodeURIComponent(chave)}`,{ mapa_status:'preenchido' });
+      try { localStorage.removeItem(LS_KEY); } catch {}
+    }catch(e){
+      finalizado=false;       // liberou de novo: o parcial volta a proteger as respostas
+      btn.disabled=false; btn.textContent='Tentar enviar de novo';
+      el('status').className='falta-txt';
+      el('status').textContent='Não consegui enviar. Verifique a conexão e tente de novo — suas respostas estão guardadas.';
+      return;
+    }
+  }
+
+  el('quiz').style.display='none'; el('fim').style.display='block';
+  el('selo').style.background=COR[fase]; el('selo').textContent='Sua fase no ciclo';
+  el('fnome').textContent=fase; el('fnome').style.color=COR[fase];
+  el('ftxt').textContent=TEXTO[fase];
+  el('dims').innerHTML=CICLO.map((b,bi)=>{ const f=dominante(contaFases(bi)), n=nota(bi);
+    return `<div class="d-item"><div class="d-topo"><span class="d-nome">${b.dim}</span>
+      <span class="d-fase" style="background:${COR[f]}">${f}</span></div>
+      <div class="d-barra"><i style="width:${n}%;background:${COR[f]}"></i></div>
+      <div class="d-nota">${n} de 100</div></div>`; }).join('');
+  scrollTo(0,0);
+}
+</script>
