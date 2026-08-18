@@ -575,9 +575,10 @@ async function boot(){
 boot();
 
 // ── itens de uma divisão: fixos ou vindos de uma pergunta de tags ──
-function itensDivisao(q){
+// bi explícito: no envio a gente monta o texto de TODOS os blocos, não só do atual
+function itensDivisao(q, bi = atual){
   if(q.itens) return q.itens;
-  const base=R[`${atual}_${q.fonte}`];
+  const base=R[`${bi}_${q.fonte}`];
   return (Array.isArray(base)&&base.length)?base:[];
 }
 
@@ -750,6 +751,32 @@ function nota(bi){ let s=0;
   CICLO[bi].qs.forEach((q,qi)=>{ const v=R[`${bi}_${qi}`]; if(v!==undefined) s+=PESO[q.o[v].f]; });
   return Math.round(s/(CICLO[bi].qs.length*5)*100); }
 
+// monta a versão legível pro gestor: pergunta + resposta em texto, bloco a bloco
+function respostasLegiveis(){
+  return BLOCOS.map((b,bi)=>({
+    bloco: b.dim,
+    parte: b.parte,
+    itens: b.qs.map((q,qi)=>{
+      const v=R[`${bi}_${qi}`], t=q.tipo||'uma';
+      let txt='—';
+      if(t==='uma')          txt = q.o[v]!==undefined ? (typeof q.o[v]==='string'?q.o[v]:q.o[v].t) : '—';
+      else if(t==='varias')  txt = (v||[]).map(i=>q.o[i]).join(' · ');
+      else if(t==='texto')   txt = (v||'').trim();
+      else if(t==='tags')    txt = (v||[]).join(' · ');
+      else if(t==='numero')  txt = `${v ?? ''}${q.suf?' '+q.suf:''}`.trim();
+      else if(t==='escala')  txt = q.rotulos[v] ?? '—';
+      else if(t==='ranking') txt = (v||[]).map((i,n)=>`${n+1}º ${q.o[i]}`).join('   ');
+      else if(t==='estados') txt = (v||[]).join(' · ');
+      else if(t==='grade')   txt = q.linhas.map((l,li)=>`${l}: ${q.colunas[(v||{})[li]] ?? '—'}`).join(' · ');
+      else if(t==='meses')   txt = MESES.map((m,i)=>{ const s=(v||{})[i];
+                                    return s===1?`${m} forte`:s===2?`${m} fraco`:null; }).filter(Boolean).join(' · ');
+      else if(t==='divisao'){ const it=itensDivisao(q, bi);
+                              txt = it.map((n,i)=>`${n}: ${(v||{})[i]||0}%`).join(' · '); }
+      return { pergunta:q.t, resposta:txt };
+    })
+  }));
+}
+
 async function finalizar(){
   const g={I:0,C:0,P:0,D:0};
   CICLO.forEach((_,bi)=>{ const c=contaFases(bi); for(const k in c) g[k]+=c[k]; });
@@ -768,6 +795,7 @@ async function finalizar(){
         chave_acesso: chave,
         versao_questionario: 'mapa-v1',
         respostas: R,
+        legivel: respostasLegiveis(),
         fase, dimensoes,
         bloco_atual: BLOCOS.length-1,
         status: 'enviado',
