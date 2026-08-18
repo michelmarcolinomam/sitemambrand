@@ -604,14 +604,18 @@ function render(){
   checa();
 }
 
+// texto de uma opção: no ciclo vem {t,f}, na atuação vem string
+const rotulo = o => (o && typeof o === 'object') ? o.t : o;
+
 function corpo(q,qi){
   const v=R[K(qi)], t=q.tipo||'uma';
 
+  // no ciclo a opção é {t,f}; na atuação é string — normaliza antes de escrever na tela
   if(t==='uma') return `<div class="ops">${q.o.map((o,oi)=>
-    `<label class="op ${v===oi?'on':''}" onclick="setUma(${qi},${oi})"><span class="mark"></span><span>${o}</span></label>`).join('')}</div>`;
+    `<label class="op ${v===oi?'on':''}" onclick="setUma(${qi},${oi})"><span class="mark"></span><span>${rotulo(o)}</span></label>`).join('')}</div>`;
 
   if(t==='varias'){ const s=v||[]; return `<div class="chips">${q.o.map((o,oi)=>
-    `<button type="button" class="chip ${s.includes(oi)?'on':''}" onclick="setVarias(${qi},${oi})">${o}</button>`).join('')}</div>`; }
+    `<button type="button" class="chip ${s.includes(oi)?'on':''}" onclick="setVarias(${qi},${oi})">${rotulo(o)}</button>`).join('')}</div>`; }
 
   if(t==='texto') return `<textarea oninput="setTexto(${qi},this.value)" placeholder="Escreva aqui…">${v||''}</textarea>
     <div class="conta" id="c_${qi}">${(v||'').trim().length} caracteres · mínimo ${q.min}</div>`;
@@ -646,7 +650,7 @@ function corpo(q,qi){
   if(t==='ranking'){ const ord=v||[]; return `<div class="rk">${q.o.map((o,oi)=>{
       const p=ord.indexOf(oi);
       return `<div class="rk-i ${p>=0?'on':''}" onclick="setRank(${qi},${oi})">
-        <span class="rk-pos">${p>=0?p+1:'·'}</span><span>${o}</span></div>`}).join('')}</div>
+        <span class="rk-pos">${p>=0?p+1:'·'}</span><span>${rotulo(o)}</span></div>`}).join('')}</div>
       <div class="rk-dica">Ordenados: ${ord.length} de ${q.min} necessários. Clique de novo para tirar da ordem.</div>`; }
 
   if(t==='estados'){ const s=v||[];
@@ -759,13 +763,13 @@ function respostasLegiveis(){
     itens: b.qs.map((q,qi)=>{
       const v=R[`${bi}_${qi}`], t=q.tipo||'uma';
       let txt='—';
-      if(t==='uma')          txt = q.o[v]!==undefined ? (typeof q.o[v]==='string'?q.o[v]:q.o[v].t) : '—';
-      else if(t==='varias')  txt = (v||[]).map(i=>q.o[i]).join(' · ');
+      if(t==='uma')          txt = q.o[v]!==undefined ? rotulo(q.o[v]) : '—';
+      else if(t==='varias')  txt = (v||[]).map(i=>rotulo(q.o[i])).join(' · ');
       else if(t==='texto')   txt = (v||'').trim();
       else if(t==='tags')    txt = (v||[]).join(' · ');
       else if(t==='numero')  txt = `${v ?? ''}${q.suf?' '+q.suf:''}`.trim();
       else if(t==='escala')  txt = q.rotulos[v] ?? '—';
-      else if(t==='ranking') txt = (v||[]).map((i,n)=>`${n+1}º ${q.o[i]}`).join('   ');
+      else if(t==='ranking') txt = (v||[]).map((i,n)=>`${n+1}º ${rotulo(q.o[i])}`).join('   ');
       else if(t==='estados') txt = (v||[]).join(' · ');
       else if(t==='grade')   txt = q.linhas.map((l,li)=>`${l}: ${q.colunas[(v||{})[li]] ?? '—'}`).join(' · ');
       else if(t==='meses')   txt = MESES.map((m,i)=>{ const s=(v||{})[i];
