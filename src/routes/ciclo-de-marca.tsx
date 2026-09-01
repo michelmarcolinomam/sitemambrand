@@ -567,10 +567,10 @@ function CicloDeMarcaPage() {
                     ))}
                   </ul>
                   <a
-                    href="mailto:contato@mambrand.com.br"
+                    href="mailto:negocios@mambrand.com.br"
                     className="mt-8 inline-block text-base text-foreground hover:text-mint-ink md:text-lg"
                   >
-                    contato@mambrand.com.br
+                    negocios@mambrand.com.br
                   </a>
                 </div>
               </Rise>

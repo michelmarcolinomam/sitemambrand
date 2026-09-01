@@ -181,10 +181,10 @@ function Convite() {
           <p className="mt-6 font-mono text-[11px] uppercase tracking-[0.16em] text-foreground/50">
             Ou escreva para{" "}
             <a
-              href="mailto:contato@mambrand.com.br"
+              href="mailto:negocios@mambrand.com.br"
               className="border-b border-foreground/30 text-foreground"
             >
-              contato@mambrand.com.br
+              negocios@mambrand.com.br
             </a>
           </p>
         </FadeIn>

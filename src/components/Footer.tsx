@@ -30,8 +30,8 @@ export function Footer() {
           </div>
           <ul className="mt-4 space-y-2 text-sm text-foreground">
             <li>
-              <a href="mailto:contato@mambrand.com.br" className="hover:underline">
-                contato@mambrand.com.br
+              <a href="mailto:negocios@mambrand.com.br" className="hover:underline">
+                negocios@mambrand.com.br
               </a>
             </li>
             <li>
