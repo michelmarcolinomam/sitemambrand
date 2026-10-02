@@ -37,7 +37,9 @@ function NotFoundComponent() {
   );
 }
 
-function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
+// O TanStack Start 1.168 passa `error` como unknown (pode ser qualquer coisa
+// lançada, não só Error). Aqui ele só vai para o console, então basta aceitar.
+function ErrorComponent({ error, reset }: { error: unknown; reset: () => void }) {
   console.error(error);
   const router = useRouter();
 

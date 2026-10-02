@@ -15,7 +15,8 @@ gestor: https://gestor.mambrand.com.br → cartão **Comercial**. Os três formu
 `src/lib/gestor-leads.server.ts`, que exige a variável **`GESTOR_LEADS_CHAVE`** (secreta; na Vercel e
 no `.env` local). **Sem ela os formulários respondem erro** — configurar na Vercel ANTES do deploy.
 As tabelas `contacts` e `diagnostic_leads` do banco do site ficaram sem uso; os 10 leads foram
-copiados para o gestor. Detalhes no STATUS do gestor, seção "Comercial".
+copiados para o gestor e, conferidos, **as tabelas e a função `save_diagnostic_lead` foram apagadas do
+banco do site** (migration `remove_leads_movidos_para_gestor`). Detalhes no STATUS do gestor, seção "Comercial".
 
 **2026-08-18 — Rótulos e Embalagens: mosaico APROVADO e construído.** A tela não é portfólio por
 cliente: é um **mosaico corrido full-bleed** — o "catado" das peças que a agência já fez, sem
