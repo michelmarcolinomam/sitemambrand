@@ -15,6 +15,7 @@ import {
   LIMITE_CELULAR,
   compor,
   formatoDe,
+  larguraMaxima,
   normalizarImagens,
   razao,
   type Formato,
@@ -129,7 +130,13 @@ function RotulosPage() {
                 <div
                   key={faixa.map((p) => p.id).join("-")}
                   className="flex"
-                  style={{ gap: celular ? GAP_CELULAR : GAP_DESKTOP }}
+                  style={{
+                    gap: celular ? GAP_CELULAR : GAP_DESKTOP,
+                    maxWidth: larguraMaxima(
+                      faixa.map((p) => p.formato),
+                      W,
+                    ),
+                  }}
                 >
                   {faixa.map((peca) => (
                     <div

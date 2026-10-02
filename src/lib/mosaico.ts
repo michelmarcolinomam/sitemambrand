@@ -134,6 +134,23 @@ function hash(s: string) {
  * mesmo conjunto de peças dá sempre o mesmo mosaico — e qualquer peça nova
  * rediagrama tudo.
  */
+/** Altura-alvo das faixas para uma largura de página. */
+export function alturaAlvo(largura: number) {
+  const celular = largura < LIMITE_CELULAR;
+  const gap = celular ? GAP_CELULAR : GAP_DESKTOP;
+  return (largura - gap * (celular ? 1 : 2)) / (celular ? 1.55 : 3.1);
+}
+
+/**
+ * Largura máxima de uma faixa: quando não há peças para fechar a largura (uma
+ * peça só, por exemplo), a faixa não estica além de 15% acima da altura-alvo.
+ */
+export function larguraMaxima(formatos: Formato[], largura: number) {
+  const gap = largura < LIMITE_CELULAR ? GAP_CELULAR : GAP_DESKTOP;
+  const soma = formatos.reduce((s, f) => s + razao(f), 0);
+  return Math.min(largura, alturaAlvo(largura) * 1.15 * soma + gap * (formatos.length - 1));
+}
+
 export function compor<T extends { id: string; formato: Formato }>(
   pecas: T[],
   largura: number,
@@ -142,8 +159,7 @@ export function compor<T extends { id: string; formato: Formato }>(
   const celular = largura < LIMITE_CELULAR;
   const gap = celular ? GAP_CELULAR : GAP_DESKTOP;
   const maxN = celular ? 2 : 4;
-  const alvoSoma = celular ? 1.55 : 3.1;
-  const alvo = (largura - gap * (celular ? 1 : 2)) / alvoSoma;
+  const alvo = alturaAlvo(largura);
   const lista = receitas(maxN);
   const custo = (n: number, soma: number) => {
     const desvio = (largura - gap * (n - 1)) / soma / alvo - 1;
