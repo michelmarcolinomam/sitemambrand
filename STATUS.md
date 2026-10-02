@@ -8,6 +8,25 @@
 
 ### ⭐ PONTO DE RETOMADA (ler isto primeiro — próximo chat)
 
+**2026-10-02 — Audiovisual: upload de vídeo destravado.** O Carlos Fassina (usa o login do
+Michel, `contato@mamgestao.com`) não conseguia subir vídeo nenhum. A causa não era o aviso de
+50 MB na tela: o bucket `site` aceitava **só `image/*`** e tinha teto de **10 MB**, então todo
+MP4 era recusado antes de chegar lá. Corrigido direto no Supabase (plano Pro):
+`allowed_mime_types` agora inclui `video/mp4`, `video/quicktime` e `video/webm`, e
+`file_size_limit` foi para **150 MB** — o número que ele pediu. Vale desde já, independe de deploy.
+
+O campo **"Prévia no card (segundos)"** foi lido como se cortasse o vídeo em 30s. Ele nunca fez
+isso — é só a amostra que roda no card, em loop e sem som. **Comportamento mantido** (decisão do
+Michel); só o texto passou a dizer isso com todas as letras. Commit `df0c15e`.
+
+⚠️ **Teto é 150 MB, não meta.** Um vídeo de 30s bem comprimido fica em 5–15 MB. Os arquivos saem
+do Supabase a cada visita: vídeo pesado vira conta de banda e página lenta no 4G.
+
+⚠️ **`is_admin()` reconhece um e-mail só** (`contato@mamgestao.com`). Quem for usar o painel com
+conta própria não escreve nada — nem no banco nem no storage. Hoje não é problema porque o Carlos
+usa o login do Michel; se mudar, a função precisa virar lista.
+
+
 **2026-10-02 — Leads saíram do site e foram para o gestor.** O painel `/admin` agora é **só
 portfólio** (Cases, Carrossel, Audiovisual, Galeria). **Contatos, CRM e Diagnóstico** moram no
 gestor: https://gestor.mambrand.com.br → cartão **Comercial**. Os três formulários (`contact`,
