@@ -9,90 +9,35 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SobreRouteImport } from './routes/sobre'
-import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
-import { Route as RotulosEEmbalagensRouteImport } from './routes/rotulos-e-embalagens'
-import { Route as RebrandingRouteImport } from './routes/rebranding'
-import { Route as MapaRouteImport } from './routes/mapa'
-import { Route as LinksRouteImport } from './routes/links'
-import { Route as EstudioRouteImport } from './routes/estudio'
-import { Route as DiarioRouteImport } from './routes/diario'
-import { Route as DiagnosticoLeadRouteImport } from './routes/diagnostico-lead'
-import { Route as CicloDeMarcaRouteImport } from './routes/ciclo-de-marca'
-import { Route as BrandingRouteImport } from './routes/branding'
-import { Route as AudiovisualRouteImport } from './routes/audiovisual'
-import { Route as AdminRouteRouteImport } from './routes/admin/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminRouteRouteImport } from './routes/admin/route'
+import { Route as AudiovisualRouteImport } from './routes/audiovisual'
+import { Route as BrandingRouteImport } from './routes/branding'
+import { Route as CicloDeMarcaRouteImport } from './routes/ciclo-de-marca'
+import { Route as DiagnosticoLeadRouteImport } from './routes/diagnostico-lead'
+import { Route as DiarioRouteImport } from './routes/diario'
+import { Route as EstudioRouteImport } from './routes/estudio'
+import { Route as LinksRouteImport } from './routes/links'
+import { Route as MapaRouteImport } from './routes/mapa'
+import { Route as RebrandingRouteImport } from './routes/rebranding'
+import { Route as RotulosEEmbalagensRouteImport } from './routes/rotulos-e-embalagens'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as SobreRouteImport } from './routes/sobre'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
-import { Route as CasesSlugRouteImport } from './routes/cases.$slug'
-import { Route as AdminProjetosRouteImport } from './routes/admin/projetos'
-import { Route as AdminGaleriaRouteImport } from './routes/admin/galeria'
-import { Route as AdminDiagnosticoRouteImport } from './routes/admin/diagnostico'
-import { Route as AdminCrmRouteImport } from './routes/admin/crm'
-import { Route as AdminContatosRouteImport } from './routes/admin/contatos'
 import { Route as AdminAudiovisualRouteImport } from './routes/admin/audiovisual'
-import { Route as ApiPublicDiagnosticLeadRouteImport } from './routes/api/public/diagnostic-lead'
-import { Route as ApiPublicContactRouteImport } from './routes/api/public/contact'
+import { Route as AdminContatosRouteImport } from './routes/admin/contatos'
+import { Route as AdminCrmRouteImport } from './routes/admin/crm'
+import { Route as AdminDiagnosticoRouteImport } from './routes/admin/diagnostico'
+import { Route as AdminGaleriaRouteImport } from './routes/admin/galeria'
+import { Route as AdminProjetosRouteImport } from './routes/admin/projetos'
+import { Route as CasesSlugRouteImport } from './routes/cases.$slug'
 import { Route as AdminCasesIdRouteImport } from './routes/admin/cases.$id'
+import { Route as ApiPublicContactRouteImport } from './routes/api/public/contact'
+import { Route as ApiPublicDiagnosticLeadRouteImport } from './routes/api/public/diagnostic-lead'
 
-const SobreRoute = SobreRouteImport.update({
-  id: '/sobre',
-  path: '/sobre',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
-  id: '/sitemap.xml',
-  path: '/sitemap.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RotulosEEmbalagensRoute = RotulosEEmbalagensRouteImport.update({
-  id: '/rotulos-e-embalagens',
-  path: '/rotulos-e-embalagens',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RebrandingRoute = RebrandingRouteImport.update({
-  id: '/rebranding',
-  path: '/rebranding',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MapaRoute = MapaRouteImport.update({
-  id: '/mapa',
-  path: '/mapa',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LinksRoute = LinksRouteImport.update({
-  id: '/links',
-  path: '/links',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const EstudioRoute = EstudioRouteImport.update({
-  id: '/estudio',
-  path: '/estudio',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DiarioRoute = DiarioRouteImport.update({
-  id: '/diario',
-  path: '/diario',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DiagnosticoLeadRoute = DiagnosticoLeadRouteImport.update({
-  id: '/diagnostico-lead',
-  path: '/diagnostico-lead',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CicloDeMarcaRoute = CicloDeMarcaRouteImport.update({
-  id: '/ciclo-de-marca',
-  path: '/ciclo-de-marca',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BrandingRoute = BrandingRouteImport.update({
-  id: '/branding',
-  path: '/branding',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AudiovisualRoute = AudiovisualRouteImport.update({
-  id: '/audiovisual',
-  path: '/audiovisual',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminRouteRoute = AdminRouteRouteImport.update({
@@ -100,9 +45,64 @@ const AdminRouteRoute = AdminRouteRouteImport.update({
   path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const AudiovisualRoute = AudiovisualRouteImport.update({
+  id: '/audiovisual',
+  path: '/audiovisual',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BrandingRoute = BrandingRouteImport.update({
+  id: '/branding',
+  path: '/branding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CicloDeMarcaRoute = CicloDeMarcaRouteImport.update({
+  id: '/ciclo-de-marca',
+  path: '/ciclo-de-marca',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DiagnosticoLeadRoute = DiagnosticoLeadRouteImport.update({
+  id: '/diagnostico-lead',
+  path: '/diagnostico-lead',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DiarioRoute = DiarioRouteImport.update({
+  id: '/diario',
+  path: '/diario',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EstudioRoute = EstudioRouteImport.update({
+  id: '/estudio',
+  path: '/estudio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LinksRoute = LinksRouteImport.update({
+  id: '/links',
+  path: '/links',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MapaRoute = MapaRouteImport.update({
+  id: '/mapa',
+  path: '/mapa',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RebrandingRoute = RebrandingRouteImport.update({
+  id: '/rebranding',
+  path: '/rebranding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RotulosEEmbalagensRoute = RotulosEEmbalagensRouteImport.update({
+  id: '/rotulos-e-embalagens',
+  path: '/rotulos-e-embalagens',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SobreRoute = SobreRouteImport.update({
+  id: '/sobre',
+  path: '/sobre',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
@@ -110,29 +110,9 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminRouteRoute,
 } as any)
-const CasesSlugRoute = CasesSlugRouteImport.update({
-  id: '/cases/$slug',
-  path: '/cases/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminProjetosRoute = AdminProjetosRouteImport.update({
-  id: '/projetos',
-  path: '/projetos',
-  getParentRoute: () => AdminRouteRoute,
-} as any)
-const AdminGaleriaRoute = AdminGaleriaRouteImport.update({
-  id: '/galeria',
-  path: '/galeria',
-  getParentRoute: () => AdminRouteRoute,
-} as any)
-const AdminDiagnosticoRoute = AdminDiagnosticoRouteImport.update({
-  id: '/diagnostico',
-  path: '/diagnostico',
-  getParentRoute: () => AdminRouteRoute,
-} as any)
-const AdminCrmRoute = AdminCrmRouteImport.update({
-  id: '/crm',
-  path: '/crm',
+const AdminAudiovisualRoute = AdminAudiovisualRouteImport.update({
+  id: '/audiovisual',
+  path: '/audiovisual',
   getParentRoute: () => AdminRouteRoute,
 } as any)
 const AdminContatosRoute = AdminContatosRouteImport.update({
@@ -140,25 +120,45 @@ const AdminContatosRoute = AdminContatosRouteImport.update({
   path: '/contatos',
   getParentRoute: () => AdminRouteRoute,
 } as any)
-const AdminAudiovisualRoute = AdminAudiovisualRouteImport.update({
-  id: '/audiovisual',
-  path: '/audiovisual',
+const AdminCrmRoute = AdminCrmRouteImport.update({
+  id: '/crm',
+  path: '/crm',
   getParentRoute: () => AdminRouteRoute,
 } as any)
-const ApiPublicDiagnosticLeadRoute = ApiPublicDiagnosticLeadRouteImport.update({
-  id: '/api/public/diagnostic-lead',
-  path: '/api/public/diagnostic-lead',
-  getParentRoute: () => rootRouteImport,
+const AdminDiagnosticoRoute = AdminDiagnosticoRouteImport.update({
+  id: '/diagnostico',
+  path: '/diagnostico',
+  getParentRoute: () => AdminRouteRoute,
 } as any)
-const ApiPublicContactRoute = ApiPublicContactRouteImport.update({
-  id: '/api/public/contact',
-  path: '/api/public/contact',
+const AdminGaleriaRoute = AdminGaleriaRouteImport.update({
+  id: '/galeria',
+  path: '/galeria',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminProjetosRoute = AdminProjetosRouteImport.update({
+  id: '/projetos',
+  path: '/projetos',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const CasesSlugRoute = CasesSlugRouteImport.update({
+  id: '/cases/$slug',
+  path: '/cases/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminCasesIdRoute = AdminCasesIdRouteImport.update({
   id: '/cases/$id',
   path: '/cases/$id',
   getParentRoute: () => AdminRouteRoute,
+} as any)
+const ApiPublicContactRoute = ApiPublicContactRouteImport.update({
+  id: '/api/public/contact',
+  path: '/api/public/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicDiagnosticLeadRoute = ApiPublicDiagnosticLeadRouteImport.update({
+  id: '/api/public/diagnostic-lead',
+  path: '/api/public/diagnostic-lead',
+  getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -347,88 +347,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/sobre': {
-      id: '/sobre'
-      path: '/sobre'
-      fullPath: '/sobre'
-      preLoaderRoute: typeof SobreRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sitemap.xml': {
-      id: '/sitemap.xml'
-      path: '/sitemap.xml'
-      fullPath: '/sitemap.xml'
-      preLoaderRoute: typeof SitemapDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/rotulos-e-embalagens': {
-      id: '/rotulos-e-embalagens'
-      path: '/rotulos-e-embalagens'
-      fullPath: '/rotulos-e-embalagens'
-      preLoaderRoute: typeof RotulosEEmbalagensRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/rebranding': {
-      id: '/rebranding'
-      path: '/rebranding'
-      fullPath: '/rebranding'
-      preLoaderRoute: typeof RebrandingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/mapa': {
-      id: '/mapa'
-      path: '/mapa'
-      fullPath: '/mapa'
-      preLoaderRoute: typeof MapaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/links': {
-      id: '/links'
-      path: '/links'
-      fullPath: '/links'
-      preLoaderRoute: typeof LinksRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/estudio': {
-      id: '/estudio'
-      path: '/estudio'
-      fullPath: '/estudio'
-      preLoaderRoute: typeof EstudioRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/diario': {
-      id: '/diario'
-      path: '/diario'
-      fullPath: '/diario'
-      preLoaderRoute: typeof DiarioRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/diagnostico-lead': {
-      id: '/diagnostico-lead'
-      path: '/diagnostico-lead'
-      fullPath: '/diagnostico-lead'
-      preLoaderRoute: typeof DiagnosticoLeadRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/ciclo-de-marca': {
-      id: '/ciclo-de-marca'
-      path: '/ciclo-de-marca'
-      fullPath: '/ciclo-de-marca'
-      preLoaderRoute: typeof CicloDeMarcaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/branding': {
-      id: '/branding'
-      path: '/branding'
-      fullPath: '/branding'
-      preLoaderRoute: typeof BrandingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/audiovisual': {
-      id: '/audiovisual'
-      path: '/audiovisual'
-      fullPath: '/audiovisual'
-      preLoaderRoute: typeof AudiovisualRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin': {
@@ -438,11 +361,88 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/audiovisual': {
+      id: '/audiovisual'
+      path: '/audiovisual'
+      fullPath: '/audiovisual'
+      preLoaderRoute: typeof AudiovisualRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/branding': {
+      id: '/branding'
+      path: '/branding'
+      fullPath: '/branding'
+      preLoaderRoute: typeof BrandingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ciclo-de-marca': {
+      id: '/ciclo-de-marca'
+      path: '/ciclo-de-marca'
+      fullPath: '/ciclo-de-marca'
+      preLoaderRoute: typeof CicloDeMarcaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/diagnostico-lead': {
+      id: '/diagnostico-lead'
+      path: '/diagnostico-lead'
+      fullPath: '/diagnostico-lead'
+      preLoaderRoute: typeof DiagnosticoLeadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/diario': {
+      id: '/diario'
+      path: '/diario'
+      fullPath: '/diario'
+      preLoaderRoute: typeof DiarioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/estudio': {
+      id: '/estudio'
+      path: '/estudio'
+      fullPath: '/estudio'
+      preLoaderRoute: typeof EstudioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/links': {
+      id: '/links'
+      path: '/links'
+      fullPath: '/links'
+      preLoaderRoute: typeof LinksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mapa': {
+      id: '/mapa'
+      path: '/mapa'
+      fullPath: '/mapa'
+      preLoaderRoute: typeof MapaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rebranding': {
+      id: '/rebranding'
+      path: '/rebranding'
+      fullPath: '/rebranding'
+      preLoaderRoute: typeof RebrandingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rotulos-e-embalagens': {
+      id: '/rotulos-e-embalagens'
+      path: '/rotulos-e-embalagens'
+      fullPath: '/rotulos-e-embalagens'
+      preLoaderRoute: typeof RotulosEEmbalagensRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sobre': {
+      id: '/sobre'
+      path: '/sobre'
+      fullPath: '/sobre'
+      preLoaderRoute: typeof SobreRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/': {
@@ -452,39 +452,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRouteRoute
     }
-    '/cases/$slug': {
-      id: '/cases/$slug'
-      path: '/cases/$slug'
-      fullPath: '/cases/$slug'
-      preLoaderRoute: typeof CasesSlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin/projetos': {
-      id: '/admin/projetos'
-      path: '/projetos'
-      fullPath: '/admin/projetos'
-      preLoaderRoute: typeof AdminProjetosRouteImport
-      parentRoute: typeof AdminRouteRoute
-    }
-    '/admin/galeria': {
-      id: '/admin/galeria'
-      path: '/galeria'
-      fullPath: '/admin/galeria'
-      preLoaderRoute: typeof AdminGaleriaRouteImport
-      parentRoute: typeof AdminRouteRoute
-    }
-    '/admin/diagnostico': {
-      id: '/admin/diagnostico'
-      path: '/diagnostico'
-      fullPath: '/admin/diagnostico'
-      preLoaderRoute: typeof AdminDiagnosticoRouteImport
-      parentRoute: typeof AdminRouteRoute
-    }
-    '/admin/crm': {
-      id: '/admin/crm'
-      path: '/crm'
-      fullPath: '/admin/crm'
-      preLoaderRoute: typeof AdminCrmRouteImport
+    '/admin/audiovisual': {
+      id: '/admin/audiovisual'
+      path: '/audiovisual'
+      fullPath: '/admin/audiovisual'
+      preLoaderRoute: typeof AdminAudiovisualRouteImport
       parentRoute: typeof AdminRouteRoute
     }
     '/admin/contatos': {
@@ -494,25 +466,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminContatosRouteImport
       parentRoute: typeof AdminRouteRoute
     }
-    '/admin/audiovisual': {
-      id: '/admin/audiovisual'
-      path: '/audiovisual'
-      fullPath: '/admin/audiovisual'
-      preLoaderRoute: typeof AdminAudiovisualRouteImport
+    '/admin/crm': {
+      id: '/admin/crm'
+      path: '/crm'
+      fullPath: '/admin/crm'
+      preLoaderRoute: typeof AdminCrmRouteImport
       parentRoute: typeof AdminRouteRoute
     }
-    '/api/public/diagnostic-lead': {
-      id: '/api/public/diagnostic-lead'
-      path: '/api/public/diagnostic-lead'
-      fullPath: '/api/public/diagnostic-lead'
-      preLoaderRoute: typeof ApiPublicDiagnosticLeadRouteImport
-      parentRoute: typeof rootRouteImport
+    '/admin/diagnostico': {
+      id: '/admin/diagnostico'
+      path: '/diagnostico'
+      fullPath: '/admin/diagnostico'
+      preLoaderRoute: typeof AdminDiagnosticoRouteImport
+      parentRoute: typeof AdminRouteRoute
     }
-    '/api/public/contact': {
-      id: '/api/public/contact'
-      path: '/api/public/contact'
-      fullPath: '/api/public/contact'
-      preLoaderRoute: typeof ApiPublicContactRouteImport
+    '/admin/galeria': {
+      id: '/admin/galeria'
+      path: '/galeria'
+      fullPath: '/admin/galeria'
+      preLoaderRoute: typeof AdminGaleriaRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/projetos': {
+      id: '/admin/projetos'
+      path: '/projetos'
+      fullPath: '/admin/projetos'
+      preLoaderRoute: typeof AdminProjetosRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/cases/$slug': {
+      id: '/cases/$slug'
+      path: '/cases/$slug'
+      fullPath: '/cases/$slug'
+      preLoaderRoute: typeof CasesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/cases/$id': {
@@ -521,6 +507,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/cases/$id'
       preLoaderRoute: typeof AdminCasesIdRouteImport
       parentRoute: typeof AdminRouteRoute
+    }
+    '/api/public/contact': {
+      id: '/api/public/contact'
+      path: '/api/public/contact'
+      fullPath: '/api/public/contact'
+      preLoaderRoute: typeof ApiPublicContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/diagnostic-lead': {
+      id: '/api/public/diagnostic-lead'
+      path: '/api/public/diagnostic-lead'
+      fullPath: '/api/public/diagnostic-lead'
+      preLoaderRoute: typeof ApiPublicDiagnosticLeadRouteImport
+      parentRoute: typeof rootRouteImport
     }
   }
 }
