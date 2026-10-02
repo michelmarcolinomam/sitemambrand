@@ -14,9 +14,9 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
     { to: "/admin/projetos", label: "Carrossel", exact: false },
     { to: "/admin/audiovisual", label: "Audiovisual", exact: false },
     { to: "/admin/galeria", label: "Galeria", exact: false },
-    { to: "/admin/contatos", label: "Contatos", exact: false },
-    { to: "/admin/crm", label: "CRM", exact: false },
-    { to: "/admin/diagnostico", label: "Diagnóstico", exact: false },
+    // Contatos, CRM e Diagnóstico saíram daqui em 2026-10-02: os leads moram
+    // no gestor (gestor.mambrand.com.br → Comercial). O painel do site é só
+    // portfólio.
   ];
 
   const isActive = (to: string, exact: boolean) =>

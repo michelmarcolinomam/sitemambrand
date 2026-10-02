@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
-// Chave pública basta aqui: a RLS de `contacts` só permite INSERT validado.
-import { supabase } from "@/integrations/supabase/client";
+// O lead vai para o gestor (seção Comercial), não para o banco do site.
+import { enviarLeadAoGestor } from "@/lib/gestor-leads.server";
 
 // Campos de origem (gclid/UTM/referrer) — opcionais, capturados pelo site.
 const origem = z.string().trim().max(500).nullish();
@@ -43,12 +43,13 @@ export const Route = createFileRoute("/api/public/contact")({
 
         const d = parsed.data;
 
-        const { error } = await supabase.from("contacts").insert({
-          name: d.name,
-          company: d.company || null,
+        const error = await enviarLeadAoGestor({
+          tipo: "contato",
+          nome: d.name,
+          empresa: d.company || null,
           email: d.email,
           whatsapp: d.whatsapp || null,
-          message: d.message,
+          mensagem: d.message,
           gclid: d.gclid ?? null,
           utm_source: d.utm_source ?? null,
           utm_medium: d.utm_medium ?? null,
@@ -60,7 +61,7 @@ export const Route = createFileRoute("/api/public/contact")({
         });
 
         if (error) {
-          console.error("[contact] insert failed", error.message);
+          console.error("[contact] envio ao gestor falhou", error);
           return Response.json(
             { error: "Não foi possível registrar seu contato agora." },
             { status: 500 },

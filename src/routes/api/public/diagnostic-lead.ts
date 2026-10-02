@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
-// Chave pública basta: a RLS de `diagnostic_leads` só permite INSERT validado.
-import { supabase } from "@/integrations/supabase/client";
+// O lead vai para o gestor (seção Comercial), não para o banco do site.
+import { enviarLeadAoGestor } from "@/lib/gestor-leads.server";
 
 const str = (max: number) =>
   z.string().trim().max(max).optional().or(z.literal(""));
@@ -67,28 +67,30 @@ export const Route = createFileRoute("/api/public/diagnostic-lead")({
         const nn = (v: string | undefined) => (v && v.length ? v : null);
         const id = d.id ?? crypto.randomUUID();
 
-        // Grava/atualiza via função com privilégio elevado (server-side).
-        // Mesmo id → parcial (preenchimento) e conclusão caem na MESMA linha.
-        const { error } = await supabase.rpc("save_diagnostic_lead", {
-          p_id: id,
-          p_name: d.name,
-          p_company: nn(d.company),
-          p_email: d.email,
-          p_whatsapp: nn(d.whatsapp),
-          p_phase: nn(d.phase),
-          p_dimensions: d.dimensions ?? null,
-          p_gclid: nn(d.gclid),
-          p_utm_source: nn(d.utm_source),
-          p_utm_medium: nn(d.utm_medium),
-          p_utm_campaign: nn(d.utm_campaign),
-          p_utm_term: nn(d.utm_term),
-          p_utm_content: nn(d.utm_content),
-          p_referrer: nn(d.referrer),
-          p_landing_url: nn(d.landing_url),
+        // Mesmo id → parcial (preenchimento) e conclusão caem na MESMA linha
+        // do gestor. Na segunda vez, campo vazio não apaga o que já estava, e
+        // a etapa do funil nunca é tocada.
+        const error = await enviarLeadAoGestor({
+          tipo: "diagnostico",
+          id,
+          nome: d.name,
+          empresa: nn(d.company),
+          email: d.email,
+          whatsapp: nn(d.whatsapp),
+          fase: nn(d.phase),
+          dimensoes: d.dimensions ?? null,
+          gclid: nn(d.gclid),
+          utm_source: nn(d.utm_source),
+          utm_medium: nn(d.utm_medium),
+          utm_campaign: nn(d.utm_campaign),
+          utm_term: nn(d.utm_term),
+          utm_content: nn(d.utm_content),
+          referrer: nn(d.referrer),
+          landing_url: nn(d.landing_url),
         });
 
         if (error) {
-          console.error("[diagnostic-lead] insert failed", error.message);
+          console.error("[diagnostic-lead] envio ao gestor falhou", error);
           return Response.json(
             { error: "Não foi possível registrar o lead agora." },
             { status: 500, headers: CORS },

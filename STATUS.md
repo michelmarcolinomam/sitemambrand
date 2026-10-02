@@ -8,6 +8,15 @@
 
 ### ⭐ PONTO DE RETOMADA (ler isto primeiro — próximo chat)
 
+**2026-10-02 — Leads saíram do site e foram para o gestor.** O painel `/admin` agora é **só
+portfólio** (Cases, Carrossel, Audiovisual, Galeria). **Contatos, CRM e Diagnóstico** moram no
+gestor: https://gestor.mambrand.com.br → cartão **Comercial**. Os três formulários (`contact`,
+`diagnostic-lead`, `alinhamento-lead`) continuam validando aqui, mas gravam no banco do gestor por
+`src/lib/gestor-leads.server.ts`, que exige a variável **`GESTOR_LEADS_CHAVE`** (secreta; na Vercel e
+no `.env` local). **Sem ela os formulários respondem erro** — configurar na Vercel ANTES do deploy.
+As tabelas `contacts` e `diagnostic_leads` do banco do site ficaram sem uso; os 10 leads foram
+copiados para o gestor. Detalhes no STATUS do gestor, seção "Comercial".
+
 **2026-08-18 — Rótulos e Embalagens: mosaico APROVADO e construído.** A tela não é portfólio por
 cliente: é um **mosaico corrido full-bleed** — o "catado" das peças que a agência já fez, sem
 separar por cliente, sem case e sem ficha (o projeto por cliente já vive nos cases e nas páginas
@@ -205,7 +214,7 @@ não para página rolável. **Não transformar a LP em resumo do deck.**
 
 **Lead:** cai em `diagnostic_leads` (mesma tabela do quiz do Ciclo), com **`product = 'alinhamento'`** —
 migration `diagnostic_leads_product_e_message` (2026-08-10) adicionou as colunas `product` (default
-`'ciclo'`, pegou as linhas antigas) e `message` (a resposta de qualificação). Aparece no **`/admin/crm`**
+`'ciclo'`, pegou as linhas antigas) e `message` (a resposta de qualificação). Aparecia no `/admin/crm` (hoje: gestor → Comercial)
 com etiqueta preta "Alinhamento", mensagem de WhatsApp própria e origem "LP Alinhamento".
 **Não tem notificação por e-mail** — decisão do Michel de deixar pra depois; hoje só se vê abrindo o CRM.
 
@@ -230,7 +239,7 @@ Portfólio de branding agora é 100% administrável em `/admin`, sem mexer em c�
   identidade, aplicações, vídeos, resultado/depoimento) + card (título, slug, ano, categoria, capa, SEO).
   Upload de imagens direto pro Storage; vídeos por ID do YouTube.
 - **Carrossel** (`/admin/projetos`): itens simples (nome, ano, categoria) da faixa "Mais projetos".
-- **Contatos** (`/admin/contatos`): leads do formulário (bônus, mesmo banco).
+- ~~**Contatos** (`/admin/contatos`)~~ — saiu em 2026-10-02; leads agora no gestor (Comercial).
 
 Como funciona por baixo: `cases.content` (jsonb) guarda a página inteira; `src/lib/case-content.ts` define o
 shape e normaliza JSON parcial; a rota `cases.$slug.tsx` renderiza esse conteúdo com os blocos de

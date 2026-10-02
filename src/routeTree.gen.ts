@@ -25,9 +25,6 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SobreRouteImport } from './routes/sobre'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as AdminAudiovisualRouteImport } from './routes/admin/audiovisual'
-import { Route as AdminContatosRouteImport } from './routes/admin/contatos'
-import { Route as AdminCrmRouteImport } from './routes/admin/crm'
-import { Route as AdminDiagnosticoRouteImport } from './routes/admin/diagnostico'
 import { Route as AdminGaleriaRouteImport } from './routes/admin/galeria'
 import { Route as AdminProjetosRouteImport } from './routes/admin/projetos'
 import { Route as CasesSlugRouteImport } from './routes/cases.$slug'
@@ -115,21 +112,6 @@ const AdminAudiovisualRoute = AdminAudiovisualRouteImport.update({
   path: '/audiovisual',
   getParentRoute: () => AdminRouteRoute,
 } as any)
-const AdminContatosRoute = AdminContatosRouteImport.update({
-  id: '/contatos',
-  path: '/contatos',
-  getParentRoute: () => AdminRouteRoute,
-} as any)
-const AdminCrmRoute = AdminCrmRouteImport.update({
-  id: '/crm',
-  path: '/crm',
-  getParentRoute: () => AdminRouteRoute,
-} as any)
-const AdminDiagnosticoRoute = AdminDiagnosticoRouteImport.update({
-  id: '/diagnostico',
-  path: '/diagnostico',
-  getParentRoute: () => AdminRouteRoute,
-} as any)
 const AdminGaleriaRoute = AdminGaleriaRouteImport.update({
   id: '/galeria',
   path: '/galeria',
@@ -177,9 +159,6 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre': typeof SobreRoute
   '/admin/audiovisual': typeof AdminAudiovisualRoute
-  '/admin/contatos': typeof AdminContatosRoute
-  '/admin/crm': typeof AdminCrmRoute
-  '/admin/diagnostico': typeof AdminDiagnosticoRoute
   '/admin/galeria': typeof AdminGaleriaRoute
   '/admin/projetos': typeof AdminProjetosRoute
   '/cases/$slug': typeof CasesSlugRoute
@@ -203,9 +182,6 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre': typeof SobreRoute
   '/admin/audiovisual': typeof AdminAudiovisualRoute
-  '/admin/contatos': typeof AdminContatosRoute
-  '/admin/crm': typeof AdminCrmRoute
-  '/admin/diagnostico': typeof AdminDiagnosticoRoute
   '/admin/galeria': typeof AdminGaleriaRoute
   '/admin/projetos': typeof AdminProjetosRoute
   '/cases/$slug': typeof CasesSlugRoute
@@ -231,9 +207,6 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre': typeof SobreRoute
   '/admin/audiovisual': typeof AdminAudiovisualRoute
-  '/admin/contatos': typeof AdminContatosRoute
-  '/admin/crm': typeof AdminCrmRoute
-  '/admin/diagnostico': typeof AdminDiagnosticoRoute
   '/admin/galeria': typeof AdminGaleriaRoute
   '/admin/projetos': typeof AdminProjetosRoute
   '/cases/$slug': typeof CasesSlugRoute
@@ -260,9 +233,6 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/sobre'
     | '/admin/audiovisual'
-    | '/admin/contatos'
-    | '/admin/crm'
-    | '/admin/diagnostico'
     | '/admin/galeria'
     | '/admin/projetos'
     | '/cases/$slug'
@@ -286,9 +256,6 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/sobre'
     | '/admin/audiovisual'
-    | '/admin/contatos'
-    | '/admin/crm'
-    | '/admin/diagnostico'
     | '/admin/galeria'
     | '/admin/projetos'
     | '/cases/$slug'
@@ -313,9 +280,6 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/sobre'
     | '/admin/audiovisual'
-    | '/admin/contatos'
-    | '/admin/crm'
-    | '/admin/diagnostico'
     | '/admin/galeria'
     | '/admin/projetos'
     | '/cases/$slug'
@@ -459,27 +423,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAudiovisualRouteImport
       parentRoute: typeof AdminRouteRoute
     }
-    '/admin/contatos': {
-      id: '/admin/contatos'
-      path: '/contatos'
-      fullPath: '/admin/contatos'
-      preLoaderRoute: typeof AdminContatosRouteImport
-      parentRoute: typeof AdminRouteRoute
-    }
-    '/admin/crm': {
-      id: '/admin/crm'
-      path: '/crm'
-      fullPath: '/admin/crm'
-      preLoaderRoute: typeof AdminCrmRouteImport
-      parentRoute: typeof AdminRouteRoute
-    }
-    '/admin/diagnostico': {
-      id: '/admin/diagnostico'
-      path: '/diagnostico'
-      fullPath: '/admin/diagnostico'
-      preLoaderRoute: typeof AdminDiagnosticoRouteImport
-      parentRoute: typeof AdminRouteRoute
-    }
     '/admin/galeria': {
       id: '/admin/galeria'
       path: '/galeria'
@@ -527,9 +470,6 @@ declare module '@tanstack/react-router' {
 
 interface AdminRouteRouteChildren {
   AdminAudiovisualRoute: typeof AdminAudiovisualRoute
-  AdminContatosRoute: typeof AdminContatosRoute
-  AdminCrmRoute: typeof AdminCrmRoute
-  AdminDiagnosticoRoute: typeof AdminDiagnosticoRoute
   AdminGaleriaRoute: typeof AdminGaleriaRoute
   AdminProjetosRoute: typeof AdminProjetosRoute
   AdminIndexRoute: typeof AdminIndexRoute
@@ -538,9 +478,6 @@ interface AdminRouteRouteChildren {
 
 const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminAudiovisualRoute: AdminAudiovisualRoute,
-  AdminContatosRoute: AdminContatosRoute,
-  AdminCrmRoute: AdminCrmRoute,
-  AdminDiagnosticoRoute: AdminDiagnosticoRoute,
   AdminGaleriaRoute: AdminGaleriaRoute,
   AdminProjetosRoute: AdminProjetosRoute,
   AdminIndexRoute: AdminIndexRoute,
