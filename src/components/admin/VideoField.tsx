@@ -5,8 +5,8 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 
-/** Acima disso o Supabase recusa o upload — melhor avisar antes de tentar. */
-const MAX_MB = 50;
+/** Teto do bucket `site` no Supabase. Avisa aqui antes de o upload falhar lá. */
+const MAX_MB = 150;
 
 /** Sobe o arquivo pro bucket `site` e devolve a URL pública. */
 export async function uploadSiteVideo(file: File, folder: string): Promise<string> {
@@ -139,7 +139,7 @@ export function VideoField({
 
       <p className="text-xs text-muted-foreground">
         {hint ??
-          `MP4 comprimido para web, até ${MAX_MB} MB. O vídeo original da edição é pesado demais — use a versão leve.`}
+          `MP4 até ${MAX_MB} MB. Quanto mais leve, mais rápido o site abre no celular — um vídeo de 30s bem comprimido fica em 5 a 15 MB.`}
       </p>
     </div>
   );

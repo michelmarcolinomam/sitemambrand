@@ -462,7 +462,8 @@ function AudiovisualPage() {
                             className="w-28"
                           />
                           <p className="text-xs text-muted-foreground">
-                            Quanto o card toca em loop, sem som, antes do clique.
+                            Só a amostra que roda no card, em loop e sem som. Não corta nem limita o
+                            vídeo — ele abre inteiro quando o visitante clica.
                           </p>
                         </div>
 
