@@ -43,7 +43,9 @@ export type LeadParaGestor = {
 export async function enviarLeadAoGestor(lead: LeadParaGestor): Promise<string | null> {
   // Lido aqui dentro, não no topo do módulo: em alguns ambientes o env só
   // existe na hora da requisição (ver config.server.ts).
-  const chave = process.env.GESTOR_LEADS_CHAVE;
+  // trim: valor colado no painel da Vercel costuma vir com quebra de linha no
+  // fim, e um caractere a mais já faz o gestor recusar a chave.
+  const chave = process.env.GESTOR_LEADS_CHAVE?.trim();
   if (!chave) return "GESTOR_LEADS_CHAVE não configurada";
 
   try {
