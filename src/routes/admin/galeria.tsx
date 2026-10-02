@@ -1,12 +1,22 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { ArrowLeft, ArrowRight, ImagePlus, Loader2, Trash2 } from "lucide-react";
+import {
+  ArrowDown,
+  ArrowUp,
+  ChevronDown,
+  ChevronUp,
+  Loader2,
+  Plus,
+  Save,
+  Trash2,
+} from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
-import { uploadSiteImage } from "@/components/admin/fields";
+import { TextAreaField, TextField } from "@/components/admin/fields";
+import { PieceImages, type PieceImage } from "@/components/admin/PieceImages";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/admin/galeria")({
@@ -17,37 +27,66 @@ type Size = "auto" | "larga" | "grande";
 
 type Peca = {
   id: string;
-  image_url: string;
-  alt: string;
-  size: Size;
+  kind: string;
   client: string;
+  caption: string;
+  images: PieceImage[];
+  size: Size;
   published: boolean;
   sort_order: number;
 };
 
-/** Serviços com mosaico próprio. Somar aqui quando /logos ou /sites existirem. */
-const SERVICES = [{ key: "rotulos", label: "Rótulos e Embalagens" }];
+/**
+ * Lista fechada de propósito: com texto livre o site acaba mostrando "rótulo",
+ * "Rótulo" e "ROTULO" como três coisas. Para somar um tipo, basta incluir aqui.
+ */
+const TIPOS = [
+  "Rótulo",
+  "Embalagem",
+  "Pote",
+  "Lata",
+  "Garrafa",
+  "Sacaria",
+  "Cartucho",
+  "Caixa",
+  "Display",
+  "Kit",
+];
 
 const TAMANHOS: { key: Size; label: string; dica: string }[] = [
-  { key: "auto", label: "Normal", dica: "O sistema encaixa" },
-  { key: "larga", label: "Larga", dica: "Ocupa 2 colunas" },
-  { key: "grande", label: "Grande", dica: "Ocupa 2 × 2" },
+  { key: "auto", label: "Normal", dica: "O sistema encaixa na linha" },
+  { key: "larga", label: "Destaque", dica: "Ocupa mais espaço na linha" },
+  { key: "grande", label: "Abertura", dica: "Abre uma faixa só para ela" },
 ];
+
+function normalizarImagens(valor: unknown): PieceImage[] {
+  if (!Array.isArray(valor)) return [];
+  return valor
+    .filter((i): i is Record<string, unknown> => typeof i === "object" && i !== null)
+    .map((i) => ({
+      url: typeof i.url === "string" ? i.url : "",
+      alt: typeof i.alt === "string" ? i.alt : "",
+      w: typeof i.w === "number" ? i.w : null,
+      h: typeof i.h === "number" ? i.h : null,
+    }))
+    .filter((i) => i.url);
+}
 
 function GaleriaPage() {
   const [rows, setRows] = useState<Peca[]>([]);
   const [loading, setLoading] = useState(true);
   const [busyId, setBusyId] = useState<string | null>(null);
-  const [uploading, setUploading] = useState<{ feitas: number; total: number } | null>(null);
-  const [service] = useState(SERVICES[0].key);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const [criando, setCriando] = useState(false);
+  const [novoTipo, setNovoTipo] = useState(TIPOS[0]);
+  const [novoCliente, setNovoCliente] = useState("");
+  const [openId, setOpenId] = useState<string | null>(null);
 
   async function load() {
     setLoading(true);
     const { data, error } = await supabase
       .from("gallery_pieces")
       .select("*")
-      .eq("service", service)
+      .eq("service", "rotulos")
       .order("sort_order", { ascending: true })
       .order("created_at", { ascending: true });
     setLoading(false);
@@ -55,64 +94,55 @@ function GaleriaPage() {
       toast.error("Não foi possível carregar as peças.");
       return;
     }
-    setRows((data ?? []) as Peca[]);
+    setRows((data ?? []).map((r) => ({ ...r, images: normalizarImagens(r.images) })) as Peca[]);
   }
 
   useEffect(() => {
     load();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [service]);
+  }, []);
 
-  /** Sobe em lote: as imagens entram no fim do mosaico, na ordem escolhida. */
-  async function subirLote(files: FileList | null) {
-    if (!files || files.length === 0) return;
-    const lista = Array.from(files);
-    setUploading({ feitas: 0, total: lista.length });
-
-    let ordem = rows.length ? Math.max(...rows.map((r) => r.sort_order)) + 1 : 0;
-    const novas: { image_url: string; service: string; sort_order: number }[] = [];
-    let falhas = 0;
-
-    // Sequencial: o Storage engasga com muitos uploads simultâneos.
-    for (let i = 0; i < lista.length; i++) {
-      try {
-        const url = await uploadSiteImage(lista[i], "galeria/pecas");
-        novas.push({ image_url: url, service, sort_order: ordem++ });
-      } catch {
-        falhas += 1;
-      }
-      setUploading({ feitas: i + 1, total: lista.length });
+  async function add(e: React.FormEvent) {
+    e.preventDefault();
+    if (!novoCliente.trim()) {
+      toast.error("Informe o cliente.");
+      return;
     }
-
-    if (novas.length) {
-      const { error } = await supabase.from("gallery_pieces").insert(novas);
-      if (error) toast.error("As imagens subiram, mas falhou ao gravar no banco.");
-      else toast.success(`${novas.length} peça(s) no mosaico.`);
-    }
-    if (falhas) toast.error(`${falhas} imagem(ns) falharam no envio.`);
-
-    setUploading(null);
-    if (inputRef.current) inputRef.current.value = "";
-    load();
-  }
-
-  async function trocarTamanho(row: Peca, size: Size) {
-    setRows((rs) => rs.map((r) => (r.id === row.id ? { ...r, size } : r)));
-    const { error } = await supabase
+    setCriando(true);
+    const nextOrder = rows.length ? Math.max(...rows.map((r) => r.sort_order)) + 1 : 0;
+    const { data, error } = await supabase
       .from("gallery_pieces")
-      .update({ size, updated_at: new Date().toISOString() })
-      .eq("id", row.id);
+      .insert({
+        kind: novoTipo,
+        client: novoCliente.trim(),
+        service: "rotulos",
+        sort_order: nextOrder,
+        published: false,
+      })
+      .select()
+      .single();
+    setCriando(false);
     if (error) {
-      toast.error("Erro ao mudar o tamanho.");
-      load();
+      toast.error("Erro ao criar a peça.");
+      return;
     }
+    setNovoCliente("");
+    toast.success("Peça criada. Agora suba as imagens.");
+    await load();
+    if (data) setOpenId(data.id);
   }
 
-  async function salvarTexto(row: Peca) {
+  async function salvar(row: Peca) {
     setBusyId(row.id);
     const { error } = await supabase
       .from("gallery_pieces")
-      .update({ alt: row.alt, client: row.client, updated_at: new Date().toISOString() })
+      .update({
+        kind: row.kind,
+        client: row.client.trim(),
+        caption: row.caption,
+        images: row.images,
+        size: row.size,
+        updated_at: new Date().toISOString(),
+      })
       .eq("id", row.id);
     setBusyId(null);
     if (error) toast.error("Erro ao salvar.");
@@ -120,6 +150,16 @@ function GaleriaPage() {
   }
 
   async function togglePublish(row: Peca) {
+    if (!row.published) {
+      if (row.images.length === 0) {
+        toast.error("Suba ao menos uma imagem antes de publicar.");
+        return;
+      }
+      if (!row.kind) {
+        toast.error("Escolha o tipo do material antes de publicar.");
+        return;
+      }
+    }
     setBusyId(row.id);
     const { error } = await supabase
       .from("gallery_pieces")
@@ -133,17 +173,17 @@ function GaleriaPage() {
     load();
   }
 
-  async function mover(row: Peca, direcao: -1 | 1) {
+  async function mover(row: Peca, d: -1 | 1) {
     const i = rows.findIndex((r) => r.id === row.id);
-    const alvo = rows[i + direcao];
+    const alvo = rows[i + d];
     if (!alvo) return;
     setBusyId(row.id);
-    const results = await Promise.all([
+    const res = await Promise.all([
       supabase.from("gallery_pieces").update({ sort_order: alvo.sort_order }).eq("id", row.id),
       supabase.from("gallery_pieces").update({ sort_order: row.sort_order }).eq("id", alvo.id),
     ]);
     setBusyId(null);
-    if (results.some((r) => r.error)) {
+    if (res.some((r) => r.error)) {
       toast.error("Erro ao reordenar.");
       return;
     }
@@ -151,7 +191,7 @@ function GaleriaPage() {
   }
 
   async function remover(row: Peca) {
-    if (!confirm("Tirar esta peça do mosaico?")) return;
+    if (!confirm(`Excluir a peça de ${row.client}?`)) return;
     setBusyId(row.id);
     const { error } = await supabase.from("gallery_pieces").delete().eq("id", row.id);
     setBusyId(null);
@@ -166,7 +206,7 @@ function GaleriaPage() {
     setRows((rs) => rs.map((r) => (r.id === id ? { ...r, ...patch } : r)));
   }
 
-  const publicadas = rows.filter((r) => r.published).length;
+  const noAr = rows.filter((r) => r.published).length;
 
   return (
     <div>
@@ -174,111 +214,97 @@ function GaleriaPage() {
         Galeria — Rótulos e Embalagens
       </h1>
       <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-        O mosaico de <code className="text-foreground">/rotulos-e-embalagens</code>. Uma peça é uma
-        imagem — sem projeto e sem ficha. Suba quantas quiser de uma vez; elas entram no fim e você
-        reordena aqui.
+        Cada peça tem uma ficha — tipo do material, cliente e uma legenda — e um conjunto de
+        imagens. A primeira imagem é a capa; as outras viram carrossel quando o visitante abre.
       </p>
 
-      <div className="mt-8 flex flex-col gap-3 border border-border bg-background p-4 md:flex-row md:items-center md:justify-between">
-        <div>
-          <input
-            ref={inputRef}
-            type="file"
-            accept="image/*"
-            multiple
-            className="hidden"
-            onChange={(e) => subirLote(e.target.files)}
-          />
-          <Button disabled={uploading !== null} onClick={() => inputRef.current?.click()}>
-            {uploading ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : (
-              <ImagePlus className="h-4 w-4" />
-            )}
-            {uploading ? `Enviando ${uploading.feitas} de ${uploading.total}…` : "Subir imagens"}
-          </Button>
-          <p className="mt-2 text-xs text-muted-foreground">
-            Dá para selecionar várias de uma vez.
-          </p>
+      <form
+        onSubmit={add}
+        className="mt-8 flex flex-col gap-3 border border-border bg-background p-4 md:flex-row md:items-end"
+      >
+        <div className="md:w-48">
+          <label className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+            Tipo
+          </label>
+          <select
+            value={novoTipo}
+            onChange={(e) => setNovoTipo(e.target.value)}
+            className="mt-1 h-9 w-full border border-input bg-background px-3 text-sm"
+          >
+            {TIPOS.map((t) => (
+              <option key={t} value={t}>
+                {t}
+              </option>
+            ))}
+          </select>
         </div>
-        <span className="font-mono text-[11px] uppercase tracking-[0.18em] tabular-nums text-muted-foreground">
-          {rows.length} peça(s) · {publicadas} no ar
-        </span>
+        <div className="flex-1">
+          <label className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+            Cliente
+          </label>
+          <Input
+            value={novoCliente}
+            onChange={(e) => setNovoCliente(e.target.value)}
+            placeholder="Black Erva"
+          />
+        </div>
+        <Button type="submit" disabled={criando}>
+          {criando ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
+          Criar peça
+        </Button>
+      </form>
+
+      <div className="mt-4 text-[11px] font-semibold uppercase tracking-[0.18em] tabular-nums text-muted-foreground">
+        {rows.length} peça(s) · {noAr} no ar
       </div>
 
-      <div className="mt-6">
+      <div className="mt-4">
         {loading ? (
           <div className="flex items-center justify-center py-20">
             <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
           </div>
         ) : rows.length === 0 ? (
           <div className="border border-dashed border-border py-16 text-center text-sm text-muted-foreground">
-            O mosaico está vazio. Suba as primeiras imagens acima.
+            Nenhuma peça ainda.
           </div>
         ) : (
-          <ul className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
-            {rows.map((row, i) => (
-              <li key={row.id} className="flex gap-3 border border-border bg-background p-3">
-                <div className="h-28 w-24 shrink-0 overflow-hidden bg-muted">
-                  <img src={row.image_url} alt={row.alt} className="h-full w-full object-cover" />
-                </div>
-
-                <div className="flex min-w-0 flex-1 flex-col gap-2">
-                  <div className="inline-flex border border-border">
-                    {TAMANHOS.map((t) => (
-                      <button
-                        key={t.key}
-                        type="button"
-                        title={t.dica}
-                        onClick={() => trocarTamanho(row, t.key)}
-                        className={`flex-1 px-2 py-1 text-xs transition-colors ${
-                          row.size === t.key
-                            ? "bg-foreground text-background"
-                            : "text-muted-foreground hover:text-foreground"
-                        }`}
-                      >
-                        {t.label}
-                      </button>
-                    ))}
-                  </div>
-
-                  <Input
-                    value={row.alt}
-                    placeholder="Descrição da imagem"
-                    onChange={(e) => edit(row.id, { alt: e.target.value })}
-                    onBlur={() => salvarTexto(row)}
-                    className="h-8 text-xs"
-                  />
-                  <Input
-                    value={row.client}
-                    placeholder="Cliente (só seu — não aparece no site)"
-                    onChange={(e) => edit(row.id, { client: e.target.value })}
-                    onBlur={() => salvarTexto(row)}
-                    className="h-8 text-xs"
-                  />
-
-                  <div className="mt-auto flex items-center justify-between">
-                    <div className="flex items-center gap-1">
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        title="Mover para trás"
-                        disabled={i === 0 || busyId === row.id}
-                        onClick={() => mover(row, -1)}
-                      >
-                        <ArrowLeft className="h-3.5 w-3.5" />
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        title="Mover para frente"
-                        disabled={i === rows.length - 1 || busyId === row.id}
-                        onClick={() => mover(row, 1)}
-                      >
-                        <ArrowRight className="h-3.5 w-3.5" />
-                      </Button>
+          <ul className="flex flex-col gap-3">
+            {rows.map((row, i) => {
+              const aberto = openId === row.id;
+              const capa = row.images[0];
+              return (
+                <li key={row.id} className="border border-border bg-background">
+                  <div className="flex flex-wrap items-center gap-3 p-3">
+                    <div className="h-16 w-20 shrink-0 overflow-hidden bg-muted">
+                      {capa ? (
+                        <img src={capa.url} alt="" className="h-full w-full object-contain" />
+                      ) : (
+                        <div className="flex h-full w-full items-center justify-center text-[9px] uppercase tracking-wider text-muted-foreground">
+                          sem imagem
+                        </div>
+                      )}
                     </div>
-                    <div className="flex items-center gap-2">
+
+                    <div className="min-w-0 flex-1">
+                      <div className="truncate font-display text-lg font-semibold tracking-[-0.02em]">
+                        {row.kind || "Sem tipo"}
+                      </div>
+                      <div className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-muted-foreground">
+                        <span>{row.client || "sem cliente"}</span>
+                        <span aria-hidden>·</span>
+                        <span className="tabular-nums">
+                          {row.images.length} {row.images.length === 1 ? "imagem" : "imagens"}
+                        </span>
+                        {!row.caption && (
+                          <>
+                            <span aria-hidden>·</span>
+                            <span className="text-destructive">sem legenda</span>
+                          </>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-1">
                       <Switch
                         checked={row.published}
                         onCheckedChange={() => togglePublish(row)}
@@ -287,17 +313,126 @@ function GaleriaPage() {
                       <Button
                         variant="ghost"
                         size="icon"
+                        title="Subir"
+                        disabled={i === 0 || busyId === row.id}
+                        onClick={() => mover(row, -1)}
+                      >
+                        <ArrowUp className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        title="Descer"
+                        disabled={i === rows.length - 1 || busyId === row.id}
+                        onClick={() => mover(row, 1)}
+                      >
+                        <ArrowDown className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        title={aberto ? "Fechar" : "Editar"}
+                        onClick={() => setOpenId(aberto ? null : row.id)}
+                      >
+                        {aberto ? (
+                          <ChevronUp className="h-4 w-4" />
+                        ) : (
+                          <ChevronDown className="h-4 w-4" />
+                        )}
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="icon"
                         title="Excluir"
                         disabled={busyId === row.id}
                         onClick={() => remover(row)}
                       >
-                        <Trash2 className="h-3.5 w-3.5 text-destructive" />
+                        <Trash2 className="h-4 w-4 text-destructive" />
                       </Button>
                     </div>
                   </div>
-                </div>
-              </li>
-            ))}
+
+                  {aberto && (
+                    <div className="flex flex-col gap-5 border-t border-border p-4">
+                      <div className="grid gap-4 md:grid-cols-3">
+                        <div className="flex flex-col gap-1.5">
+                          <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                            Tipo do material
+                          </span>
+                          <select
+                            value={row.kind}
+                            onChange={(e) => edit(row.id, { kind: e.target.value })}
+                            className="h-9 w-full border border-input bg-background px-3 text-sm"
+                          >
+                            <option value="">— escolher —</option>
+                            {TIPOS.map((t) => (
+                              <option key={t} value={t}>
+                                {t}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+
+                        <TextField
+                          label="Cliente"
+                          value={row.client}
+                          onChange={(v) => edit(row.id, { client: v })}
+                          placeholder="Black Erva"
+                        />
+
+                        <div className="flex flex-col gap-1.5">
+                          <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                            Peso na página
+                          </span>
+                          <div className="inline-flex border border-border">
+                            {TAMANHOS.map((t) => (
+                              <button
+                                key={t.key}
+                                type="button"
+                                title={t.dica}
+                                onClick={() => edit(row.id, { size: t.key })}
+                                className={`flex-1 px-2 py-2 text-xs transition-colors ${
+                                  row.size === t.key
+                                    ? "bg-foreground text-background"
+                                    : "text-muted-foreground hover:text-foreground"
+                                }`}
+                              >
+                                {t.label}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+
+                      <TextAreaField
+                        label="Legenda"
+                        value={row.caption}
+                        onChange={(v) => edit(row.id, { caption: v })}
+                        rows={2}
+                        hint="Uma ou duas linhas: o que essa embalagem resolveu."
+                      />
+
+                      <PieceImages
+                        value={row.images}
+                        onChange={(images) => edit(row.id, { images })}
+                        folder="galeria/pecas"
+                      />
+
+                      <div>
+                        <Button disabled={busyId === row.id} onClick={() => salvar(row)}>
+                          {busyId === row.id ? (
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                          ) : (
+                            <Save className="h-4 w-4" />
+                          )}
+                          Salvar
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                </li>
+              );
+            })}
           </ul>
         )}
       </div>

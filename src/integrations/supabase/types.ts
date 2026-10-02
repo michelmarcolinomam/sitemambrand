@@ -232,11 +232,12 @@ export type Database = {
       }
       gallery_pieces: {
         Row: {
-          alt: string
+          caption: string
           client: string
           created_at: string
           id: string
-          image_url: string
+          images: Json
+          kind: string
           published: boolean
           service: string
           size: string
@@ -244,11 +245,12 @@ export type Database = {
           updated_at: string
         }
         Insert: {
-          alt?: string
+          caption?: string
           client?: string
           created_at?: string
           id?: string
-          image_url: string
+          images?: Json
+          kind?: string
           published?: boolean
           service?: string
           size?: string
@@ -256,11 +258,12 @@ export type Database = {
           updated_at?: string
         }
         Update: {
-          alt?: string
+          caption?: string
           client?: string
           created_at?: string
           id?: string
-          image_url?: string
+          images?: Json
+          kind?: string
           published?: boolean
           service?: string
           size?: string

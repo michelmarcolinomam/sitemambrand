@@ -18,35 +18,39 @@ As tabelas `contacts` e `diagnostic_leads` do banco do site ficaram sem uso; os 
 copiados para o gestor e, conferidos, **as tabelas e a função `save_diagnostic_lead` foram apagadas do
 banco do site** (migration `remove_leads_movidos_para_gestor`). Detalhes no STATUS do gestor, seção "Comercial".
 
-**2026-08-18 — Rótulos e Embalagens: mosaico APROVADO e construído.** A tela não é portfólio por
-cliente: é um **mosaico corrido full-bleed** — o "catado" das peças que a agência já fez, sem
-separar por cliente, sem case e sem ficha (o projeto por cliente já vive nos cases e nas páginas
-de marca). Proposta aprovada pelo Michel:
-https://claude.ai/code/artifact/92187c5c-388d-4eb3-8d86-4ef8766d5193
+**2026-10-02 — Rótulos: a peça ganhou ficha e carrossel. ⚠️ BANCO JÁ MIGRADO, CÓDIGO NÃO DEPLOYADO.**
+Pedido do time: tipo do material em destaque, cliente menor, legenda curta e carrossel por peça
+(mini-portfólio). Aprovado por Artifact: https://claude.ai/artifact/Q1D5HqRxeDeZ8Zo8uVzAYq
 
-**Banco — tabela `gallery_pieces`** (migration `replace_gallery_projects_with_gallery_pieces`).
-Uma peça = uma imagem: `image_url`, `alt`, `size` (`auto`|`larga`|`grande`), `client` (só controle
-interno, **não aparece no site**), `service`, `published`, `sort_order`. A `gallery_projects`, do
-modelo antigo de projeto+conjunto, foi **derrubada** — nunca teve dado.
+**A correção que o primeiro upload real ensinou.** O Michel subiu um mockup 16:9 (3467×1950) e a
+tela cortou a arte: o mosaico impunha bloco quase quadrado + `object-cover`. Agora **a proporção
+vem do arquivo** — `images[].w/h` são lidos no upload e viram o `aspect-ratio` do card, com
+`object-contain`. Imagem deitada entra deitada; nada é cortado. Medido: moldura 1.778 = imagem
+1.778, sem barra.
 
-**Encaixe automático** (decisão: automático com promoção manual). Peça em `auto` recebe formato pelo
-ciclo `i % 7` — grande (2×2), larga (2 col), alta (2 linhas) e normal — dando ritmo sem ninguém
-escolher tamanho foto a foto. `larga` e `grande` no cadastro sobrepõem o ciclo.
+**Layout:** saiu o mosaico de blocos encaixados, entrou **ritmo por faixas** (`compor()` em
+`rotulos-e-embalagens.tsx`): peça `grande` abre faixa inteira, `larga` divide 7/5, normais vão de
+três em três. Motivo: com a ficha FORA da imagem — exigência do Michel, porque hover não existe no
+celular e é de lá que vem quase todo o tráfego — a altura vira livre, e só a composição por faixa
+aguenta isso sem desalinhar.
 
-**Painel:** `/admin/galeria` — upload em lote com contador de progresso, três botões de tamanho por
-peça, alt e cliente com gravação ao sair do campo, reordenar, publicar e excluir.
+**Banco:** `gallery_pieces` ganhou `kind`, `caption`, `images` (jsonb `[{url,alt,w,h}]`) e **perdeu
+`image_url` e `alt`** (migration `gallery_pieces_ficha_e_carrossel`). A peça que já existia foi
+migrada, não recriada.
 
-**Testado em local:** build e tipos limpos, lint limpo, mosaico confirmado sem ancestral que limite
-largura (full-bleed real), lightbox abrindo/navegando/fechando no Esc.
+🔴 **PRODUÇÃO ESTÁ DESENCONTRADA ATÉ O DEPLOY.** O código no ar ainda pede `image_url`, que não
+existe mais — a API responde 42703, a página pública cai no estado vazio e o painel mostra as peças
+sem imagem. Não quebra, mas só normaliza quando este código subir.
 
-✅ Regra do Michel já valendo aqui e no audiovisual: **portfólio não tem formulário** — contato
-direto por WhatsApp.
+**Painel:** tipo é **lista fechada** (`TIPOS` em `admin/galeria.tsx`) para o site não acumular
+"rótulo/Rótulo/ROTULO"; para somar um tipo, incluir no array. Publicar exige imagem + tipo.
 
 **Pendências:**
-- [ ] **MATERIAL** — bloqueio real. Não há arquivo de rótulo/embalagem no Mac
-      (`~/Desktop/_Clientes` só tem post/story/banner). Sem imagem, a tela mostra
-      "portfólio em publicação".
-- [ ] Não commitado nem deployado — aguarda o Michel.
+- [ ] Deploy (aguarda o "pode subir").
+- [ ] A peça da Black Erva está **despublicada** (o Michel tirou do ar ao ver o corte) e com uma
+      **legenda rascunhada por mim** — ele revisa e religa o interruptor.
+- [ ] Converter PNG → JPG no upload: o primeiro arquivo tem 920 KB; em JPG daria ~120 KB.
+- [ ] Mais material: só 1 peça cadastrada até agora.
 
 **2026-08-17 — nova página `/audiovisual` + aba no painel.** Portfólio de vídeo, administrável.
 Está **pronta e testada em local, NÃO deployada** (aguarda o "pode subir" do Michel). Ver a seção
