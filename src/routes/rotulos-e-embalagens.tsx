@@ -1,37 +1,35 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { FadeIn } from "@/components/FadeIn";
 import { SectionKicker } from "@/components/SectionKicker";
-import { PieceLightbox, type Piece, type PieceImage } from "@/components/galeria/PieceLightbox";
+import { PieceLightbox, type Piece } from "@/components/galeria/PieceLightbox";
 import { supabase } from "@/integrations/supabase/client";
 import { serviceJsonLd } from "@/lib/seo";
+import {
+  FORMATOS,
+  GAP_CELULAR,
+  GAP_DESKTOP,
+  LIMITE_CELULAR,
+  compor,
+  formatoDe,
+  normalizarImagens,
+  razao,
+  type Formato,
+} from "@/lib/mosaico";
 
 const TITLE = "Design de Rótulos e Embalagens para Marcas | MAM Brand";
 const DESCRIPTION =
   "Rótulos e embalagens que traduzem a estratégia da marca para o ponto de venda. Portfólio de rotulagem da MAM Brand, em Maringá-PR.";
-
-function normalizarImagens(valor: unknown): PieceImage[] {
-  if (!Array.isArray(valor)) return [];
-  return valor
-    .filter((i): i is Record<string, unknown> => typeof i === "object" && i !== null)
-    .map((i) => ({
-      url: typeof i.url === "string" ? i.url : "",
-      alt: typeof i.alt === "string" ? i.alt : "",
-      w: typeof i.w === "number" ? i.w : null,
-      h: typeof i.h === "number" ? i.h : null,
-    }))
-    .filter((i) => i.url);
-}
 
 export const Route = createFileRoute("/rotulos-e-embalagens")({
   // As peças vêm do banco — administradas em /admin/galeria.
   loader: async () => {
     const { data } = await supabase
       .from("gallery_pieces")
-      .select("id, kind, client, caption, images, size")
+      .select("id, kind, client, caption, images")
       .eq("service", "rotulos")
       .eq("published", true)
       .order("sort_order", { ascending: true })
@@ -66,61 +64,38 @@ export const Route = createFileRoute("/rotulos-e-embalagens")({
   component: RotulosPage,
 });
 
-/** Larguras em colunas de 12. A altura é livre: quem manda nela é a imagem. */
-type Faixa = { peca: Piece; cols: number }[];
+type PecaNoMosaico = Piece & { formato: Formato };
 
-/**
- * Compõe as peças em faixas de ritmo variado. É isso que dá tamanhos diferentes
- * sem encaixe forçado — cada faixa tem altura própria, então a ficha pode viver
- * fora da imagem sem desalinhar a página.
- */
-function compor(pecas: Piece[]): Faixa[] {
-  const faixas: Faixa[] = [];
-  const fila = [...pecas];
-
-  while (fila.length > 0) {
-    const atual = fila.shift()!;
-
-    if (atual.size === "grande") {
-      faixas.push([{ peca: atual, cols: 12 }]);
-      continue;
-    }
-
-    if (atual.size === "larga") {
-      const acompanha = fila.shift();
-      faixas.push(
-        acompanha
-          ? [
-              { peca: atual, cols: 7 },
-              { peca: acompanha, cols: 5 },
-            ]
-          : [{ peca: atual, cols: 12 }],
-      );
-      continue;
-    }
-
-    // normais: três por faixa; sobrando duas, metade cada; sobrando uma, meia faixa
-    const trio = [atual, ...fila.splice(0, 2)];
-    if (trio.length === 3) faixas.push(trio.map((p) => ({ peca: p, cols: 4 })));
-    else if (trio.length === 2) faixas.push(trio.map((p) => ({ peca: p, cols: 6 })));
-    else faixas.push([{ peca: atual, cols: 6 }]);
-  }
-
-  return faixas;
+/** Largura real do mosaico. No servidor vale a largura do desktop. */
+function useLargura() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [largura, setLargura] = useState<number | null>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const medir = () => setLargura(el.clientWidth);
+    medir();
+    const obs = new ResizeObserver(medir);
+    obs.observe(el);
+    window.addEventListener("resize", medir);
+    return () => {
+      obs.disconnect();
+      window.removeEventListener("resize", medir);
+    };
+  }, []);
+  return { ref, largura };
 }
-
-const COL_CLASS: Record<number, string> = {
-  4: "md:col-span-4",
-  5: "md:col-span-5",
-  6: "md:col-span-6",
-  7: "md:col-span-7",
-  12: "md:col-span-12",
-};
 
 function RotulosPage() {
   const { pecas } = Route.useLoaderData();
   const [aberta, setAberta] = useState<Piece | null>(null);
-  const faixas = compor(pecas);
+  const { ref, largura } = useLargura();
+  const W = largura ?? 1320;
+  const celular = W < LIMITE_CELULAR;
+  const faixas = compor<PecaNoMosaico>(
+    pecas.map((p) => ({ ...p, formato: formatoDe(p.images[0]) })),
+    W,
+  );
 
   return (
     <div className="min-h-screen bg-background font-sans text-foreground antialiased">
@@ -142,13 +117,33 @@ function RotulosPage() {
           </FadeIn>
 
           {pecas.length > 0 ? (
-            <div className="mt-14 flex flex-col gap-10 md:mt-20 md:gap-16">
-              {faixas.map((faixa, f) => (
-                <div key={f} className="grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-6">
-                  {faixa.map(({ peca, cols }, n) => (
-                    <FadeIn key={peca.id} delay={Math.min(n, 3) * 0.06} className={COL_CLASS[cols]}>
-                      <PecaCard peca={peca} destaque={cols >= 7} onOpen={() => setAberta(peca)} />
-                    </FadeIn>
+            <div
+              ref={ref}
+              // até medir a largura real, o mosaico não aparece — evita o pulo no celular
+              className={`mt-14 flex flex-col transition-opacity duration-500 md:mt-20 ${
+                largura === null ? "opacity-0" : "opacity-100"
+              }`}
+              style={{ gap: celular ? 32 : 56 }}
+            >
+              {faixas.map((faixa) => (
+                <div
+                  key={faixa.map((p) => p.id).join("-")}
+                  className="flex"
+                  style={{ gap: celular ? GAP_CELULAR : GAP_DESKTOP }}
+                >
+                  {faixa.map((peca) => (
+                    <div
+                      key={peca.id}
+                      className="min-w-0"
+                      // cada peça cresce na proporção do formato: a faixa fecha com altura única
+                      style={{ flex: `${razao(peca.formato)} 1 0` }}
+                    >
+                      <PecaCard
+                        peca={peca}
+                        compacto={celular || faixa.length >= 4}
+                        onOpen={() => setAberta(peca)}
+                      />
+                    </div>
                   ))}
                 </div>
               ))}
@@ -176,26 +171,28 @@ function RotulosPage() {
 
 function PecaCard({
   peca,
-  destaque,
+  compacto,
   onOpen,
 }: {
-  peca: Piece;
-  destaque: boolean;
+  peca: PecaNoMosaico;
+  compacto: boolean;
   onOpen: () => void;
 }) {
   const capa = peca.images[0];
   const extras = peca.images.length - 1;
-  // a proporção vem do arquivo; sem medida, 4:5 como porto seguro
-  const proporcao = capa.w && capa.h ? `${capa.w} / ${capa.h}` : "4 / 5";
+  const f = FORMATOS[peca.formato];
 
   return (
     <button type="button" onClick={onOpen} className="group flex w-full flex-col text-left">
-      <div className="relative w-full overflow-hidden bg-muted" style={{ aspectRatio: proporcao }}>
+      <div
+        className="relative w-full max-w-full overflow-hidden bg-muted"
+        style={{ aspectRatio: `${f.w} / ${f.h}` }}
+      >
         <img
           src={capa.url}
           alt={capa.alt || `${peca.kind} — ${peca.client}`}
           loading="lazy"
-          className="h-full w-full object-contain transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+          className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
         />
         {extras > 0 && (
           <span className="absolute bottom-3 left-3 bg-background/92 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] tabular-nums">
@@ -205,16 +202,16 @@ function PecaCard({
       </div>
 
       <h2
-        className={`mt-5 font-display font-semibold tracking-[-0.025em] ${
-          destaque ? "text-3xl md:text-[2.5rem]" : "text-2xl"
+        className={`font-display font-semibold tracking-[-0.025em] ${
+          compacto ? "mt-3 text-lg leading-tight" : "mt-5 text-2xl"
         }`}
       >
         {peca.kind}
       </h2>
-      <p className="mt-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+      <p className="mt-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
         {peca.client}
       </p>
-      {peca.caption && (
+      {peca.caption && !compacto && (
         <p className="mt-3 max-w-[52ch] text-sm leading-relaxed text-muted-foreground md:text-base">
           {peca.caption}
         </p>

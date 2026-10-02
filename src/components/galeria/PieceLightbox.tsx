@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 
-export type PieceImage = { url: string; alt: string; w: number | null; h: number | null };
+import type { PieceImage } from "@/lib/mosaico";
+
+export type { PieceImage };
 
 export type Piece = {
   id: string;
@@ -9,12 +11,11 @@ export type Piece = {
   client: string;
   caption: string;
   images: PieceImage[];
-  size: string;
 };
 
 /**
  * Carrossel da peça: a ficha fica sempre escrita ao lado (ou acima, no celular)
- * e as imagens aparecem inteiras, na proporção de cada arquivo.
+ * e as imagens aparecem inteiras, no formato em que foram cortadas.
  */
 export function PieceLightbox({ piece, onClose }: { piece: Piece | null; onClose: () => void }) {
   const [i, setI] = useState(0);

@@ -37,6 +37,25 @@ As tabelas `contacts` e `diagnostic_leads` do banco do site ficaram sem uso; os 
 copiados para o gestor e, conferidos, **as tabelas e a função `save_diagnostic_lead` foram apagadas do
 banco do site** (migration `remove_leads_movidos_para_gestor`). Detalhes no STATUS do gestor, seção "Comercial".
 
+**2026-10-02 (tarde) — Rótulos: padrão de 3 formatos + mosaico que se recompõe sozinho. ✅ NO AR.**
+Pedido do Michel depois de ver a Black Erva gigante numa faixa só ("ficou uma escaralhada"). Aprovado
+por Artifact (https://claude.ai/artifact/5L4ThX2p2FUbJm7x3N16Xc · cópia em `design/aprovados/mosaico-rotulos.html`).
+**Substitui a regra "a proporção vem do arquivo"** do bloco abaixo.
+
+- **Só 3 formatos:** deitada 1920×1080, quadrada 1080×1080, em pé 1080×1920 (`src/lib/mosaico.ts`).
+- **Corte no upload** (`src/components/admin/CropDialog.tsx`): abre no corte natural (maior recorte,
+  centralizado), arrasta/aproxima, gera **JPG 0,85 no tamanho exato**. O arquivo enviado vai para
+  `galeria/pecas/originais/` e fica em `images[].original` + `images[].crop` — botão "Recortar" refaz
+  sem subir de novo. `images[]` agora é `{url,alt,w,h,f,original,crop}`.
+- **Mosaico sem ordem fixa:** `compor()` em `lib/mosaico.ts` monta faixas de altura igual escolhendo
+  a combinação de formatos que deixa todas perto da altura-alvo (desktop até 4 por faixa, celular até
+  2). Faixa alta pesa 4× mais no custo — é o que impede a peça gigante sozinha. A semente sai dos ids:
+  o mesmo conjunto dá sempre o mesmo mosaico; peça nova rediagrama tudo.
+- **Saiu do painel o "Peso na página"** (grande/larga). A coluna `size` continua no banco, sem uso.
+- Peça antiga sem `f` entra no formato mais próximo da sua medida (a Black Erva já é 16:9).
+- Testado no navegador com 15 peças falsas (fetch interceptado, banco intocado): desktop 1345px →
+  faixas de 388–447px; celular 375px → 135–202px, sem rolagem lateral.
+
 **2026-10-02 — Rótulos: a peça ganhou ficha e carrossel. ⚠️ BANCO JÁ MIGRADO, CÓDIGO NÃO DEPLOYADO.**
 Pedido do time: tipo do material em destaque, cliente menor, legenda curta e carrossel por peça
 (mini-portfólio). Aprovado por Artifact: https://claude.ai/artifact/Q1D5HqRxeDeZ8Zo8uVzAYq
@@ -166,7 +185,7 @@ lead do produto de ticket alto (R$ 10.000). Está **pronta e testada em local, N
 | **Case Ranken** | `/cases/ranken` | ✅ Publicado (2026-07-13) com **imagens fictícias (picsum)** — trocar pelas reais no painel |
 | **LP Alinhamento de Marca** | `src/routes/alinhamento.tsx` → `/alinhamento` | 🟡 Pronta local (2026-08-10) — **não deployada**. LP de captura p/ tráfego pago. Ver seção própria abaixo |
 | **Audiovisual** | `src/routes/audiovisual.tsx` → `/audiovisual` | 🟡 Pronta local (2026-08-17) — **não deployada**. Portfólio de vídeo administrável. Ver seção própria abaixo |
-| **Rótulos e Embalagens** | `src/routes/rotulos-e-embalagens.tsx` → `/rotulos-e-embalagens` | 🟡 Mosaico pronto local (2026-08-18) — **não deployado**. Era "em breve" (commit eed4d3a). Ver ponto de retomada |
+| **Rótulos e Embalagens** | `src/routes/rotulos-e-embalagens.tsx` → `/rotulos-e-embalagens` | ✅ No ar — 3 formatos fixos + mosaico que se recompõe (2026-10-02). Ver ponto de retomada |
 | **Painel admin** | `src/routes/admin/*` → `/admin` | ✅ Funcionando (2026-07-13) |
 
 ## Rótulos e Embalagens — `/rotulos-e-embalagens` + `/admin/galeria`

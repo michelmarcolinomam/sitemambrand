@@ -30,16 +30,17 @@ narrado por cliente vive nos cases e nas páginas de marca. Decisão do Michel.
 | `kind` | **Tipo do material** — é o que lidera o card, em corpo grande (Rótulo, Embalagem, Pote, Lata, Garrafa, Sacaria, Cartucho, Caixa, Display, Kit) |
 | `client` | Cliente, em corpo menor abaixo do tipo |
 | `caption` | Legenda curta: o que aquele projeto resolveu |
-| `images` | Conjunto `[{url, alt, w, h}]`. A primeira é a capa; as outras viram carrossel |
-| `size` | Peso na página: `auto` (normal), `larga` (destaque), `grande` (abertura) |
+| `images` | Conjunto `[{url, alt, w, h, f, original, crop}]`. A primeira é a capa e define o formato no mosaico; as outras viram carrossel |
+| `size` | **Sem uso desde 02/10** — o mosaico decide sozinho |
 | `published`, `sort_order`, `service` | Controle |
 
 Tabela: **`gallery_pieces`** no Supabase do projeto `mam-site` (`uelrxokvxiqgjdlwhkzw`),
 com RLS igual às demais: público só lê o publicado, escrita só do admin.
 
-**Layout — "ritmo por faixas":** peça `grande` abre uma faixa inteira, `larga` divide a
-faixa 7/5 com a seguinte, e as normais entram de três em três. A função `compor()` em
-`src/routes/rotulos-e-embalagens.tsx` faz isso.
+**Layout — mosaico que se recompõe (02/10/2026):** só três formatos — deitada 1920×1080,
+quadrada 1080×1080, em pé 1080×1920. `compor()` em `src/lib/mosaico.ts` monta faixas de altura
+igual com a combinação de formatos que deixa todas perto da altura-alvo; ordem embaralhada, encaixe
+sempre fechado, nunca uma peça gigante sozinha. Cada peça nova rediagrama a página.
 
 ## As quatro decisões que custaram caro — não desfazer sem conversar
 
@@ -50,11 +51,10 @@ tirar um `ContactCTA` que eu tinha deixado ali. Vale para audiovisual também.
 quase todo o tráfego é celular, onde hover não existe, e obrigar um toque para descobrir
 o que a peça é cria um movimento a mais sem necessidade.
 
-**3. A proporção vem do arquivo, nunca do layout.** Foi o erro que quebrou o primeiro
-upload real: um mockup 16:9 entrou num bloco quase quadrado com `object-cover` e a arte
-foi cortada (no celular sobrava 69% da largura). Hoje o painel lê largura e altura no
-upload, guarda em `images[].w/h`, e o card usa isso como `aspect-ratio` com
-`object-contain`. **Imagem deitada entra deitada. Nada é cortado.**
+**3. Três formatos, corte escolhido no upload** (substituiu em 02/10 a regra antiga "a
+proporção vem do arquivo"). O painel abre o corte no maior recorte centralizado; quem sobe
+ajusta e o JPG sai no tamanho exato. O original fica guardado para recortar de novo. Nunca
+um corte automático escondido: quem decide o que fica de fora é quem sobe a arte.
 
 **4. Tipo é lista fechada** (array `TIPOS` em `src/routes/admin/galeria.tsx`). Com texto
 livre o site acumularia "rótulo", "Rótulo" e "ROTULO" como três coisas. Para somar um
@@ -66,7 +66,9 @@ tipo novo, basta incluir no array.
 src/routes/rotulos-e-embalagens.tsx       página pública (compor() faz o ritmo das faixas)
 src/routes/admin/galeria.tsx              painel (TIPOS = lista fechada)
 src/components/galeria/PieceLightbox.tsx  carrossel com a ficha ao lado
-src/components/admin/PieceImages.tsx      upload em lote; lê w/h antes de subir
+src/components/admin/PieceImages.tsx      upload em lote; cada arquivo passa pelo corte
+src/components/admin/CropDialog.tsx       o corte: formato, arrasto, zoom, gera o JPG
+src/lib/mosaico.ts                        formatos, corte natural e compor()
 ```
 
 ## Pendências
@@ -75,8 +77,8 @@ src/components/admin/PieceImages.tsx      upload em lote; lê w/h antes de subir
       e embalagem no servidor, mas os arquivos não estão no Mac — o Michel precisa indicar
       onde buscar. `~/Desktop/_Clientes` só tem social media.
 - [ ] **Revisar a legenda da Black Erva** e publicar a peça.
-- [ ] **Converter PNG → JPG no upload.** O primeiro arquivo subiu com 920 KB; em JPG daria
-      uns 120 KB. Com 30 peças isso decide se a página abre rápido no 4G.
+- [x] **Converter PNG → JPG no upload** — feito junto com o corte (02/10).
+- [ ] **Recortar a Black Erva** pelo botão "Recortar" para ela virar o JPG 1920×1080 (hoje ainda é o PNG).
 - [ ] **Autoria:** o acervo tem pelo menos um caso de trabalho de OUTRO estúdio guardado em
       pasta de cliente (Vaso in Casa, creditado à zeal design). Conferir antes de publicar
       peça que venha do servidor.

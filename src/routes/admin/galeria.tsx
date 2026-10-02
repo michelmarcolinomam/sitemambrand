@@ -16,14 +16,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { TextAreaField, TextField } from "@/components/admin/fields";
-import { PieceImages, type PieceImage } from "@/components/admin/PieceImages";
+import { PieceImages } from "@/components/admin/PieceImages";
+import { normalizarImagens, type PieceImage } from "@/lib/mosaico";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/admin/galeria")({
   component: GaleriaPage,
 });
-
-type Size = "auto" | "larga" | "grande";
 
 type Peca = {
   id: string;
@@ -31,7 +30,6 @@ type Peca = {
   client: string;
   caption: string;
   images: PieceImage[];
-  size: Size;
   published: boolean;
   sort_order: number;
 };
@@ -52,25 +50,6 @@ const TIPOS = [
   "Display",
   "Kit",
 ];
-
-const TAMANHOS: { key: Size; label: string; dica: string }[] = [
-  { key: "auto", label: "Normal", dica: "O sistema encaixa na linha" },
-  { key: "larga", label: "Destaque", dica: "Ocupa mais espaço na linha" },
-  { key: "grande", label: "Abertura", dica: "Abre uma faixa só para ela" },
-];
-
-function normalizarImagens(valor: unknown): PieceImage[] {
-  if (!Array.isArray(valor)) return [];
-  return valor
-    .filter((i): i is Record<string, unknown> => typeof i === "object" && i !== null)
-    .map((i) => ({
-      url: typeof i.url === "string" ? i.url : "",
-      alt: typeof i.alt === "string" ? i.alt : "",
-      w: typeof i.w === "number" ? i.w : null,
-      h: typeof i.h === "number" ? i.h : null,
-    }))
-    .filter((i) => i.url);
-}
 
 function GaleriaPage() {
   const [rows, setRows] = useState<Peca[]>([]);
@@ -140,7 +119,6 @@ function GaleriaPage() {
         client: row.client.trim(),
         caption: row.caption,
         images: row.images,
-        size: row.size,
         updated_at: new Date().toISOString(),
       })
       .eq("id", row.id);
@@ -215,7 +193,8 @@ function GaleriaPage() {
       </h1>
       <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
         Cada peça tem uma ficha — tipo do material, cliente e uma legenda — e um conjunto de
-        imagens. A primeira imagem é a capa; as outras viram carrossel quando o visitante abre.
+        imagens. A primeira imagem é a capa e define o formato da peça no mosaico; as outras viram
+        carrossel. A página recompõe o mosaico sozinha a cada peça publicada.
       </p>
 
       <form
@@ -354,7 +333,7 @@ function GaleriaPage() {
 
                   {aberto && (
                     <div className="flex flex-col gap-5 border-t border-border p-4">
-                      <div className="grid gap-4 md:grid-cols-3">
+                      <div className="grid gap-4 md:grid-cols-2">
                         <div className="flex flex-col gap-1.5">
                           <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
                             Tipo do material
@@ -379,29 +358,6 @@ function GaleriaPage() {
                           onChange={(v) => edit(row.id, { client: v })}
                           placeholder="Black Erva"
                         />
-
-                        <div className="flex flex-col gap-1.5">
-                          <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-                            Peso na página
-                          </span>
-                          <div className="inline-flex border border-border">
-                            {TAMANHOS.map((t) => (
-                              <button
-                                key={t.key}
-                                type="button"
-                                title={t.dica}
-                                onClick={() => edit(row.id, { size: t.key })}
-                                className={`flex-1 px-2 py-2 text-xs transition-colors ${
-                                  row.size === t.key
-                                    ? "bg-foreground text-background"
-                                    : "text-muted-foreground hover:text-foreground"
-                                }`}
-                              >
-                                {t.label}
-                              </button>
-                            ))}
-                          </div>
-                        </div>
                       </div>
 
                       <TextAreaField

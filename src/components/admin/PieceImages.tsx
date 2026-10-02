@@ -1,41 +1,28 @@
 import { useRef, useState } from "react";
-import { ArrowLeft, ArrowRight, ImagePlus, Loader2, Trash2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, Crop, ImagePlus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { uploadSiteImage } from "@/components/admin/fields";
+import { CropDialog, type Corte, type FonteCorte } from "@/components/admin/CropDialog";
+import { FORMATOS, formatoDe, type PieceImage } from "@/lib/mosaico";
 
-/** Uma imagem do carrossel. `w`/`h` guardam a proporção real do arquivo. */
-export type PieceImage = { url: string; alt: string; w: number | null; h: number | null };
+export type { PieceImage };
 
-/** Lê largura e altura antes de subir — é isso que faz a página respeitar a arte. */
-function medir(file: File): Promise<{ w: number | null; h: number | null }> {
-  return new Promise((resolve) => {
-    const url = URL.createObjectURL(file);
-    const img = new Image();
-    img.onload = () => {
-      resolve({ w: img.naturalWidth, h: img.naturalHeight });
-      URL.revokeObjectURL(url);
-    };
-    img.onerror = () => {
-      resolve({ w: null, h: null });
-      URL.revokeObjectURL(url);
-    };
-    img.src = url;
-  });
-}
+/** Arquivo novo na fila ou imagem já salva sendo recortada de novo. */
+type Trabalho =
+  | { tipo: "novo"; file: File; fonte: FonteCorte }
+  | { tipo: "recorte"; indice: number; fonte: FonteCorte };
 
-function proporcao(img: PieceImage): string {
-  if (!img.w || !img.h) return "—";
-  const r = img.w / img.h;
-  if (Math.abs(r - 1) < 0.06) return "quadrada";
-  return r > 1 ? `${r.toFixed(2)}:1 deitada` : `1:${(1 / r).toFixed(2)} em pé`;
+function semExtensao(nome: string) {
+  return nome.replace(/\.[^.]+$/, "") || "imagem";
 }
 
 /**
- * Conjunto de imagens da peça: a primeira é a capa que aparece na grade, as
- * demais entram no carrossel quando o visitante abre.
+ * Conjunto de imagens da peça: a primeira é a capa que entra no mosaico, as
+ * demais entram no carrossel. Toda imagem passa pelo corte em um dos três
+ * formatos; o arquivo enviado fica guardado para recortar depois.
  */
 export function PieceImages({
   value,
@@ -47,31 +34,71 @@ export function PieceImages({
   folder: string;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
-  const [enviando, setEnviando] = useState<{ feitas: number; total: number } | null>(null);
+  const [fila, setFila] = useState<Trabalho[]>([]);
+  const atual = fila[0] ?? null;
 
-  async function subir(files: FileList | null) {
+  function escolher(files: FileList | null) {
     if (!files || files.length === 0) return;
-    const lista = Array.from(files);
-    setEnviando({ feitas: 0, total: lista.length });
-
-    const novas: PieceImage[] = [];
-    let falhas = 0;
-
-    for (let i = 0; i < lista.length; i++) {
-      try {
-        const { w, h } = await medir(lista[i]);
-        const url = await uploadSiteImage(lista[i], folder);
-        novas.push({ url, alt: "", w, h });
-      } catch {
-        falhas += 1;
-      }
-      setEnviando({ feitas: i + 1, total: lista.length });
-    }
-
-    setEnviando(null);
+    const novos: Trabalho[] = Array.from(files).map((file) => ({
+      tipo: "novo",
+      file,
+      fonte: { src: URL.createObjectURL(file), nome: file.name },
+    }));
+    setFila((f) => [...f, ...novos]);
     if (inputRef.current) inputRef.current.value = "";
-    if (novas.length) onChange([...value, ...novas]);
-    if (falhas) toast.error(`${falhas} de ${lista.length} imagens falharam.`);
+  }
+
+  function recortar(i: number) {
+    const img = value[i];
+    setFila((f) => [
+      ...f,
+      {
+        tipo: "recorte",
+        indice: i,
+        fonte: { src: img.original ?? img.url, nome: "recorte", f: formatoDe(img), crop: img.crop },
+      },
+    ]);
+  }
+
+  function proximo() {
+    if (atual?.tipo === "novo") URL.revokeObjectURL(atual.fonte.src);
+    setFila((f) => f.slice(1));
+  }
+
+  async function salvarCorte({ blob, f, crop }: Corte) {
+    if (!atual) return;
+    const base = atual.tipo === "novo" ? semExtensao(atual.file.name) : "recorte";
+    const formato = FORMATOS[f];
+    try {
+      const jpg = new File([blob], `${base}-${formato.w}x${formato.h}.jpg`, { type: "image/jpeg" });
+      const url = await uploadSiteImage(jpg, folder);
+
+      if (atual.tipo === "novo") {
+        const original = await uploadSiteImage(atual.file, `${folder}/originais`);
+        onChange([...value, { url, alt: "", w: formato.w, h: formato.h, f, crop, original }]);
+      } else {
+        const antiga = value[atual.indice];
+        onChange(
+          value.map((x, j) =>
+            j === atual.indice
+              ? {
+                  ...x,
+                  url,
+                  w: formato.w,
+                  h: formato.h,
+                  f,
+                  crop,
+                  original: antiga.original ?? antiga.url,
+                }
+              : x,
+          ),
+        );
+      }
+      toast.success("Imagem pronta. Salve a peça para publicar a mudança.");
+      proximo();
+    } catch (e) {
+      toast.error(`Falha no upload: ${e instanceof Error ? e.message : "erro"}`);
+    }
   }
 
   function mover(i: number, d: -1 | 1) {
@@ -106,7 +133,6 @@ export function PieceImages({
           {value.map((img, i) => (
             <li key={`${img.url}-${i}`} className="flex flex-col gap-2 border border-border p-2">
               <div className="relative w-full overflow-hidden bg-muted">
-                {/* mostra a imagem inteira, na proporção dela — nada de corte */}
                 <img src={img.url} alt={img.alt} className="h-28 w-full bg-muted object-contain" />
                 {i === 0 && (
                   <span className="absolute left-1.5 top-1.5 bg-foreground px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-background">
@@ -116,7 +142,9 @@ export function PieceImages({
               </div>
 
               <div className="text-[10px] tabular-nums text-muted-foreground">
-                {img.w && img.h ? `${img.w}×${img.h} · ${proporcao(img)}` : "medida desconhecida"}
+                {img.f
+                  ? `${FORMATOS[img.f].nome} · ${FORMATOS[img.f].w}×${FORMATOS[img.f].h}`
+                  : `Sem corte · entra como ${FORMATOS[formatoDe(img)].nome.toLowerCase()}`}
               </div>
 
               <Input
@@ -149,6 +177,9 @@ export function PieceImages({
                     <ArrowRight className="h-3.5 w-3.5" />
                   </Button>
                 </div>
+                <Button variant="ghost" size="icon" title="Recortar" onClick={() => recortar(i)}>
+                  <Crop className="h-3.5 w-3.5" />
+                </Button>
                 <Button
                   variant="ghost"
                   size="icon"
@@ -170,27 +201,26 @@ export function PieceImages({
           accept="image/*"
           multiple
           className="hidden"
-          onChange={(e) => subir(e.target.files)}
+          onChange={(e) => escolher(e.target.files)}
         />
         <Button
           type="button"
           variant="outline"
           size="sm"
-          disabled={enviando !== null}
+          disabled={atual !== null}
           onClick={() => inputRef.current?.click()}
         >
-          {enviando ? (
-            <Loader2 className="h-4 w-4 animate-spin" />
-          ) : (
-            <ImagePlus className="h-4 w-4" />
-          )}
-          {enviando ? `Enviando ${enviando.feitas} de ${enviando.total}…` : "Adicionar imagens"}
+          <ImagePlus className="h-4 w-4" />
+          {fila.length > 1 ? `Cortando · faltam ${fila.length}` : "Adicionar imagens"}
         </Button>
         <p className="mt-2 text-xs text-muted-foreground">
-          A página usa a proporção de cada arquivo — imagem deitada entra deitada, em pé entra em
-          pé. Nada é cortado.
+          Cada imagem passa pelo corte em um dos três formatos do mosaico: deitada 1920×1080,
+          quadrada 1080×1080 ou em pé 1080×1920. O arquivo enviado fica guardado para recortar
+          depois.
         </p>
       </div>
+
+      <CropDialog fonte={atual?.fonte ?? null} onCancel={proximo} onConfirm={salvarCorte} />
     </div>
   );
 }
