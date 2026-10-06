@@ -283,178 +283,14 @@ function BrandingPage() {
           marqueeWords={heroMarquee}
         />
 
-        {/* 02 — O PROBLEMA (seção invertida, near-black) */}
-        <section
-          id="problema"
-          className="scroll-mt-24 bg-foreground px-6 py-24 text-background md:px-10 md:py-36"
-        >
-          <div className="mx-auto max-w-[1400px]">
-            <Rise>
-              <div className="flex items-center gap-4 text-[11px] font-medium uppercase tracking-[0.22em] text-background/60">
-                <span className="tabular-nums">02</span>
-                <span className="h-px w-10 bg-current opacity-40" aria-hidden />
-                <span>O problema</span>
-              </div>
-            </Rise>
-
-            <h2 className="mt-10 max-w-[20ch] font-display text-[clamp(2.25rem,5vw,4.5rem)] font-semibold leading-[1] tracking-[-0.04em] text-background">
-              <Reveal delay={0.06}>
-                <>
-                  Marcas sem branding não conseguem{" "}
-                  <span className="font-light italic text-mint">
-                    sair da correria.
-                  </span>
-                </>
-              </Reveal>
-            </h2>
-
-            <div className="mt-16 grid gap-x-12 gap-y-2 md:mt-24 md:grid-cols-2">
-              {problemas.map((p, i) => (
-                <Rise
-                  key={p.number}
-                  delay={(i % 2) * 0.08}
-                  className="group border-t border-background/15 py-10 md:py-12"
-                >
-                  <div className="flex items-baseline gap-6">
-                    <span className="font-display text-4xl font-semibold leading-none tracking-[-0.04em] text-background/25 transition-colors duration-500 group-hover:text-mint md:text-6xl">
-                      {p.number}
-                    </span>
-                    <div>
-                      <h3 className="font-display text-2xl font-semibold leading-tight tracking-[-0.02em] text-background md:text-3xl">
-                        {p.title}
-                      </h3>
-                      <p className="mt-4 max-w-[46ch] text-base leading-relaxed text-background/60 md:text-lg">
-                        {p.description}
-                      </p>
-                    </div>
-                  </div>
-                </Rise>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* 03 — NO QUE ACREDITAMOS (princípios) */}
-        <section
-          id="abordagem"
-          className="scroll-mt-24 border-t border-border px-6 py-24 md:px-10 md:py-36"
-        >
-          <div className="mx-auto max-w-[1400px]">
-            <Rise>
-              <SectionKicker number="03" label="No que acreditamos" />
-            </Rise>
-            <h2 className="mt-10 max-w-[22ch] font-display text-[clamp(2rem,4.5vw,4rem)] font-semibold leading-[1.02] tracking-[-0.035em]">
-              <Reveal delay={0.06}>
-                <>
-                  Três princípios{" "}
-                  <span className="font-light italic text-mint-ink">orientam</span>{" "}
-                  tudo o que entregamos.
-                </>
-              </Reveal>
-            </h2>
-
-            <div className="mt-16 grid gap-x-12 gap-y-12 md:mt-24 md:grid-cols-3">
-              {principios.map((p, i) => (
-                <Rise
-                  key={p.rom}
-                  delay={i * 0.08}
-                  className="flex flex-col gap-5 border-t border-border pt-8"
-                >
-                  <span className="font-display text-3xl font-semibold italic text-mint-ink">
-                    {p.rom}
-                  </span>
-                  <h3 className="font-display text-2xl font-semibold leading-tight tracking-[-0.02em] md:text-[1.75rem]">
-                    {p.title}
-                  </h3>
-                  <p className="text-base leading-relaxed text-muted-foreground">
-                    {p.description}
-                  </p>
-                </Rise>
-              ))}
-            </div>
-
-            <Rise delay={0.1}>
-              <div className="mt-14 bg-mint p-8 md:mt-20 md:p-12">
-                <p className="max-w-[68ch] font-display text-xl font-medium leading-snug tracking-[-0.02em] text-foreground md:text-2xl">
-                  Quando esses três princípios estão alinhados, a marca não depende
-                  mais de propaganda — o mercado a escolhe porque a entende.
-                </p>
-              </div>
-            </Rise>
-          </div>
-        </section>
-
-        {/* 04 — MÉTODO (timeline rica) */}
-        <section
-          id="processo"
-          className="scroll-mt-24 border-t border-border px-6 py-24 md:px-10 md:py-36"
-        >
-          <div className="mx-auto max-w-[1400px]">
-            <Rise>
-              <SectionKicker number="04" label="Método" />
-            </Rise>
-            <h2 className="mt-10 max-w-[24ch] font-display text-[clamp(2rem,4.5vw,4rem)] font-semibold leading-[1.02] tracking-[-0.035em]">
-              <Reveal delay={0.06}>
-                <>
-                  Cinco etapas,{" "}
-                  <span className="font-light italic text-mint-ink">uma lógica:</span>{" "}
-                  do diagnóstico ao sistema vivo.
-                </>
-              </Reveal>
-            </h2>
-            <Rise delay={0.12}>
-              <p className="mt-8 max-w-[52ch] text-base leading-relaxed text-muted-foreground md:text-lg">
-                Cada etapa entrega artefatos concretos e abre a próxima. Nenhum
-                trabalho começa pela identidade — começa pela decisão.
-              </p>
-            </Rise>
-
-            <ProcessTimeline steps={etapas} />
-          </div>
-        </section>
-
-        {/* 05 — ENTREGÁVEIS */}
-        <section
-          id="entregaveis"
-          className="scroll-mt-24 border-t border-border px-6 py-24 md:px-10 md:py-36"
-        >
-          <div className="mx-auto max-w-[1400px]">
-            <Rise>
-              <SectionKicker number="05" label="O que você leva" />
-            </Rise>
-            <h2 className="mt-10 max-w-[22ch] font-display text-[clamp(2rem,4.5vw,4rem)] font-semibold leading-[1.02] tracking-[-0.035em]">
-              <Reveal delay={0.06}>
-                <>
-                  Branding é um{" "}
-                  <span className="font-light italic text-mint-ink">
-                    pacote completo.
-                  </span>
-                </>
-              </Reveal>
-            </h2>
-
-            <div className="mt-16 grid gap-x-10 gap-y-14 md:mt-24 md:grid-cols-2 lg:grid-cols-3">
-              {entregaveis.map((d, i) => (
-                <DeliverableCard
-                  key={d.number}
-                  number={d.number}
-                  title={d.title}
-                  description={d.description}
-                  delay={(i % 3) * 0.05}
-                />
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* 06 — PORTFÓLIO */}
+        {/* 02 — PORTFÓLIO (movido para o topo) */}
         <section
           id="cases"
           className="scroll-mt-24 border-t border-border px-6 py-24 md:px-10 md:py-36"
         >
           <div className="mx-auto max-w-[1400px]">
             <Rise>
-              <SectionKicker number="06" label="Portfólio" />
+              <SectionKicker number="02" label="Portfólio" />
             </Rise>
             <div className="mt-10 grid items-end gap-6 md:grid-cols-12">
               <h2 className="max-w-[20ch] font-display text-[clamp(2rem,4.5vw,4rem)] font-semibold leading-[1.02] tracking-[-0.035em] md:col-span-8">
@@ -523,6 +359,170 @@ function BrandingPage() {
                   Agendar diagnóstico
                 </ArrowLink>
               </Rise>
+            </div>
+          </div>
+        </section>
+
+        {/* 02 — O PROBLEMA (seção invertida, near-black) */}
+        <section
+          id="problema"
+          className="scroll-mt-24 bg-foreground px-6 py-24 text-background md:px-10 md:py-36"
+        >
+          <div className="mx-auto max-w-[1400px]">
+            <Rise>
+              <div className="flex items-center gap-4 text-[11px] font-medium uppercase tracking-[0.22em] text-background/60">
+                <span className="tabular-nums">03</span>
+                <span className="h-px w-10 bg-current opacity-40" aria-hidden />
+                <span>O problema</span>
+              </div>
+            </Rise>
+
+            <h2 className="mt-10 max-w-[20ch] font-display text-[clamp(2.25rem,5vw,4.5rem)] font-semibold leading-[1] tracking-[-0.04em] text-background">
+              <Reveal delay={0.06}>
+                <>
+                  Marcas sem branding não conseguem{" "}
+                  <span className="font-light italic text-mint">
+                    sair da correria.
+                  </span>
+                </>
+              </Reveal>
+            </h2>
+
+            <div className="mt-16 grid gap-x-12 gap-y-2 md:mt-24 md:grid-cols-2">
+              {problemas.map((p, i) => (
+                <Rise
+                  key={p.number}
+                  delay={(i % 2) * 0.08}
+                  className="group border-t border-background/15 py-10 md:py-12"
+                >
+                  <div className="flex items-baseline gap-6">
+                    <span className="font-display text-4xl font-semibold leading-none tracking-[-0.04em] text-background/25 transition-colors duration-500 group-hover:text-mint md:text-6xl">
+                      {p.number}
+                    </span>
+                    <div>
+                      <h3 className="font-display text-2xl font-semibold leading-tight tracking-[-0.02em] text-background md:text-3xl">
+                        {p.title}
+                      </h3>
+                      <p className="mt-4 max-w-[46ch] text-base leading-relaxed text-background/60 md:text-lg">
+                        {p.description}
+                      </p>
+                    </div>
+                  </div>
+                </Rise>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* 03 — NO QUE ACREDITAMOS (princípios) */}
+        <section
+          id="abordagem"
+          className="scroll-mt-24 border-t border-border px-6 py-24 md:px-10 md:py-36"
+        >
+          <div className="mx-auto max-w-[1400px]">
+            <Rise>
+              <SectionKicker number="04" label="No que acreditamos" />
+            </Rise>
+            <h2 className="mt-10 max-w-[22ch] font-display text-[clamp(2rem,4.5vw,4rem)] font-semibold leading-[1.02] tracking-[-0.035em]">
+              <Reveal delay={0.06}>
+                <>
+                  Três princípios{" "}
+                  <span className="font-light italic text-mint-ink">orientam</span>{" "}
+                  tudo o que entregamos.
+                </>
+              </Reveal>
+            </h2>
+
+            <div className="mt-16 grid gap-x-12 gap-y-12 md:mt-24 md:grid-cols-3">
+              {principios.map((p, i) => (
+                <Rise
+                  key={p.rom}
+                  delay={i * 0.08}
+                  className="flex flex-col gap-5 border-t border-border pt-8"
+                >
+                  <span className="font-display text-3xl font-semibold italic text-mint-ink">
+                    {p.rom}
+                  </span>
+                  <h3 className="font-display text-2xl font-semibold leading-tight tracking-[-0.02em] md:text-[1.75rem]">
+                    {p.title}
+                  </h3>
+                  <p className="text-base leading-relaxed text-muted-foreground">
+                    {p.description}
+                  </p>
+                </Rise>
+              ))}
+            </div>
+
+            <Rise delay={0.1}>
+              <div className="mt-14 bg-mint p-8 md:mt-20 md:p-12">
+                <p className="max-w-[68ch] font-display text-xl font-medium leading-snug tracking-[-0.02em] text-foreground md:text-2xl">
+                  Quando esses três princípios estão alinhados, a marca não depende
+                  mais de propaganda — o mercado a escolhe porque a entende.
+                </p>
+              </div>
+            </Rise>
+          </div>
+        </section>
+
+        {/* 04 — MÉTODO (timeline rica) */}
+        <section
+          id="processo"
+          className="scroll-mt-24 border-t border-border px-6 py-24 md:px-10 md:py-36"
+        >
+          <div className="mx-auto max-w-[1400px]">
+            <Rise>
+              <SectionKicker number="05" label="Método" />
+            </Rise>
+            <h2 className="mt-10 max-w-[24ch] font-display text-[clamp(2rem,4.5vw,4rem)] font-semibold leading-[1.02] tracking-[-0.035em]">
+              <Reveal delay={0.06}>
+                <>
+                  Cinco etapas,{" "}
+                  <span className="font-light italic text-mint-ink">uma lógica:</span>{" "}
+                  do diagnóstico ao sistema vivo.
+                </>
+              </Reveal>
+            </h2>
+            <Rise delay={0.12}>
+              <p className="mt-8 max-w-[52ch] text-base leading-relaxed text-muted-foreground md:text-lg">
+                Cada etapa entrega artefatos concretos e abre a próxima. Nenhum
+                trabalho começa pela identidade — começa pela decisão.
+              </p>
+            </Rise>
+
+            <ProcessTimeline steps={etapas} />
+          </div>
+        </section>
+
+        {/* 05 — ENTREGÁVEIS */}
+        <section
+          id="entregaveis"
+          className="scroll-mt-24 border-t border-border px-6 py-24 md:px-10 md:py-36"
+        >
+          <div className="mx-auto max-w-[1400px]">
+            <Rise>
+              <SectionKicker number="06" label="O que você leva" />
+            </Rise>
+            <h2 className="mt-10 max-w-[22ch] font-display text-[clamp(2rem,4.5vw,4rem)] font-semibold leading-[1.02] tracking-[-0.035em]">
+              <Reveal delay={0.06}>
+                <>
+                  Branding é um{" "}
+                  <span className="font-light italic text-mint-ink">
+                    pacote completo.
+                  </span>
+                </>
+              </Reveal>
+            </h2>
+
+            <div className="mt-16 grid gap-x-10 gap-y-14 md:mt-24 md:grid-cols-2 lg:grid-cols-3">
+              {entregaveis.map((d, i) => (
+                <DeliverableCard
+                  key={d.number}
+                  number={d.number}
+                  title={d.title}
+                  description={d.description}
+                  delay={(i % 3) * 0.05}
+                />
+              ))}
             </div>
           </div>
         </section>
