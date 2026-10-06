@@ -184,6 +184,11 @@ Michel aprovar a copy nesta conversa:
 Regra de ouro dos dois caminhos: **case novo nunca nasce publicado sem imagens**; case
 existente tem as URLs de imagem preservadas ao receber textos novos.
 
+**Ordem da vitrine é automática (06/10/2026):** o case publicado mais recentemente aparece
+no topo da tela de serviço; os antigos descem. A data de publicação é carimbada pelo banco
+no momento em que o case é publicado — ninguém define posição manualmente, e o agente não
+precisa (nem deve) sugerir ordem.
+
 Quando aprovado, encerre dizendo qual caminho recomenda (novo → A ou B, igual; existente
 já no ar → B, por ser imediato) e o que fica pendente com a equipe.
 

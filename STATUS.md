@@ -8,6 +8,16 @@
 
 ### ⭐ PONTO DE RETOMADA (ler isto primeiro — próximo chat)
 
+**2026-10-06 (tarde) — Vitrine de cases agora é CRONOLÓGICA: mais recente publicado no topo.
+✅ NO AR.** Regra do Michel. Implementação: coluna `cases.published_at` + TRIGGER
+`trg_cases_published_at` no banco (migration `cases_published_at_ordenacao_cronologica`) —
+qualquer caminho que publique (painel, editor, SQL) carimba a data; despublicar e republicar
+manda pro topo de novo. `/branding` ordena por `published_at DESC`; lista do admin espelha por
+criação e **perdeu as setas de reordenar** (sort_order segue no banco, MORTO — igual ao
+precedente do `size` nos rótulos). Backfill preservou a cronologia real. Conferido em produção:
+GoMee → Mate Loco → Black Herva (e sim, o GoMee foi publicado hoje pela equipe). As duas skills
+de case (design/ e ~/.claude/skills/publicar-case) já refletem a regra.
+
 **2026-10-06 (tarde) — O agente de cases virou skill do Claude Code: `/publicar-case`.**
 Arquivo em `~/.claude/skills/publicar-case/SKILL.md` (fora do repo, vale em qualquer pasta).
 Uso: `/publicar-case <caminho do deck>` → ele lê o deck inteiro (PyMuPDF + leitura visual das
