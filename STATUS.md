@@ -8,6 +8,14 @@
 
 ### ⭐ PONTO DE RETOMADA (ler isto primeiro — próximo chat)
 
+**2026-10-06 (tarde) — O agente de cases virou skill do Claude Code: `/publicar-case`.**
+Arquivo em `~/.claude/skills/publicar-case/SKILL.md` (fora do repo, vale em qualquer pasta).
+Uso: `/publicar-case <caminho do deck>` → ele lê o deck inteiro (PyMuPDF + leitura visual das
+páginas vetorizadas), entrega leitura da marca + copy + JSON num Artifact, **PARA pra aprovação**
+e só depois grava na tabela `cases` (novo = rascunho sem imagens; existente = só textos,
+imagens preservadas) e registra aqui. Mantém `design/SKILL-agente-publicacao-cases.md` como fonte
+das regras: se o template mudar, atualizar os dois.
+
 **2026-10-06 — Agente de Publicação de Cases criado (projeto do Michel no claude.ai).**
 A produção de copy de cases foi CENTRALIZADA num agente dedicado. A skill completa dele está
 em **`design/SKILL-agente-publicacao-cases.md`**: método de varredura do deck, template fixo
