@@ -8,6 +8,16 @@
 
 ### ⭐ PONTO DE RETOMADA (ler isto primeiro — próximo chat)
 
+**2026-10-06 — Case Mate Loco: textos NO AR.** O case já estava publicado com as imagens do
+painel e os textos vazios; preenchi TODO o conteúdo textual direto na tabela `cases` (imagens
+preservadas) e, como `published=true`, **entrou no ar na hora** em mambrand.com.br/cases/mate-loco
+(conferido por curl em produção). Categoria corrigida "Mate" → **"Bebidas / RTDs"** (regra:
+categoria = segmento). Leitura da marca + estrutura aplicada + pendências (vídeos, depoimento)
+em `design/case-mate-loco-textos.md`. Fonte: decks em ~/Downloads/_Organizado/03_Apresentacoes
+(o de 71 slides, 28/06/2025, é o completo — pesquisa Zillenials/RTD, arquétipos, voz; o de 40
+"Brand | MAM-2" tem conceito/tagline/tipografia/cores/rotulagem). A marca: RTD de mate + guaraná
++ rum + limão; atributos ancorados nos ingredientes; tagline **BEBA BRASILIDADE**.
+
 **2026-10-06 — Case GoMee: textos APROVADOS e gravados no banco como RASCUNHO.** Linha criada
 na tabela `cases` (id `2dae18cc…`, slug `gomee`, `published=false`, service branding, sort 2)
 com TODO o conteúdo textual aprovado pelo Michel — hero, desafio, estratégia (3 stats nos
