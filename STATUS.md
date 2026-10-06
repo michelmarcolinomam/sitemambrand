@@ -27,6 +27,19 @@ precedente do `size` nos rótulos). Backfill preservou a cronologia real. Confer
 GoMee → Mate Loco → Black Herva (e sim, o GoMee foi publicado hoje pela equipe). As duas skills
 de case (design/ e ~/.claude/skills/publicar-case) já refletem a regra.
 
+**2026-10-06 (noite) — Case Locar Mais (REBRANDING): textos gravados como RASCUNHO.** Linha na
+tabela `cases` (id `f0d97a30…`, slug `locar-mais`, `published=false`, service rebranding, sort 3,
+categoria "Imobiliário / Fintech / Garantia locatícia", comparativo antes/depois ATIVO). Copy v2
+aprovada pelo Michel ("coloca no ar"), tese "do cartão para a casa"; a v1 ele achou pobre — a
+diferença foi ler também o Brand Book 2024, o KV 2024 e o roteiro do filme, não só o deck.
+Fontes no servidor: `PROJETOS OFF/2023/CLIENTES/LOCAR MAIS/REBRANDING_LOCAR MAIS.pdf` (69 págs.,
+todas visuais; idêntico ao de ~/Desktop/_MAM_Agencia/🎨 Identidade Visual/2023) +
+`2024/CLIENTES/03 - JOBS ESPECÍFICOS/LOCAR MAIS/` (MANUAL DA MARCA, KV, MATERIAIS OFF) +
+`2023/LARISSA/ROTEIRO - LOCAR MAIS.docx`. **Imagens com a equipe** (slots vazios com alt-guia em
+`design/case-locar-mais-textos.md`). **Os vídeos existem**: `2023/CLIENTES/LOCAR MAIS/MOTION/
+LOCARMAIS_final.mp4` e `REELS_LOCARMAIS_final.mp4`. Depois das imagens: ligar "Publicado" no
+painel → entra em /cases/locar-mais e na listagem de /rebranding.
+
 **2026-10-06 (tarde) — O agente de cases virou skill do Claude Code: `/publicar-case`.**
 Arquivo em `~/.claude/skills/publicar-case/SKILL.md` (fora do repo, vale em qualquer pasta).
 Uso: `/publicar-case <caminho do deck>` → ele lê o deck inteiro (PyMuPDF + leitura visual das
