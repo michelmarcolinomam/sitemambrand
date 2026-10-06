@@ -8,6 +8,19 @@
 
 ### ⭐ PONTO DE RETOMADA (ler isto primeiro — próximo chat)
 
+**2026-10-06 — Case GoMee: textos APROVADOS e gravados no banco como RASCUNHO.** Linha criada
+na tabela `cases` (id `2dae18cc…`, slug `gomee`, `published=false`, service branding, sort 2)
+com TODO o conteúdo textual aprovado pelo Michel — hero, desafio, estratégia (3 stats nos
+parágrafos + 4 cards), identidade (naming+tipografia no lead), aplicações, tagline na seção
+de vídeos e resultado (0→1 / 1 território / +18%). **Imagens ficam com o designer do Michel**
+(regra dele: Claude NÃO mexe nas artes do case) — os slots estão vazios com `alt` descritivo
+dizendo o que vai em cada um; preencher pelo painel `/admin` → Cases → GoMee. Depois das
+imagens: marcar "Publicado" e o case entra em mambrand.com.br/cases/gomee e na listagem da
+tela /branding automaticamente (sem deploy). Copy de referência: `design/case-gomee-textos.md`
+(a seção Naming virou o lead de Identidade; a Voz/Tagline virou a seção de vídeos; o parágrafo
+de fechamento do Resultado ficou de fora — o template não tem esse slot). Fonte: deck
+`GoMee - IDV.pdf` (82 págs., `~/Desktop/_MAM_Agencia/🎨 Identidade Visual/2025`).
+
 **2026-10-02 — Audiovisual: upload de vídeo destravado.** O Carlos Fassina (usa o login do
 Michel, `contato@mamgestao.com`) não conseguia subir vídeo nenhum. A causa não era o aviso de
 50 MB na tela: o bucket `site` aceitava **só `image/*`** e tinha teto de **10 MB**, então todo
