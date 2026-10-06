@@ -36,6 +36,7 @@ type CaseRow = {
   year: string;
   category: string;
   published: boolean;
+  placement: string;
   cover_url: string | null;
 };
 
@@ -51,7 +52,7 @@ function CasesListPage() {
     setLoading(true);
     const { data, error } = await supabase
       .from("cases")
-      .select("id, slug, title, year, category, published, cover_url")
+      .select("id, slug, title, year, category, published, placement, cover_url")
       .eq("service", activeService)
       // Espelha a vitrine: mais recente primeiro. A ordem pública segue published_at.
       .order("created_at", { ascending: false });
@@ -170,6 +171,11 @@ function CasesListPage() {
                     ) : (
                       <span className="rounded-full bg-muted px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
                         Rascunho
+                      </span>
+                    )}
+                    {c.placement === "carrossel" && (
+                      <span className="rounded-full border border-border px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
+                        Carrossel
                       </span>
                     )}
                   </div>

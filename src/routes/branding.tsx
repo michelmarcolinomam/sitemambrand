@@ -23,7 +23,7 @@ export const Route = createFileRoute("/branding")({
     const [casesRes, projetosRes] = await Promise.all([
       supabase
         .from("cases")
-        .select("slug, title, year, category, descriptor, cover_url")
+        .select("slug, title, year, category, descriptor, cover_url, placement")
         .eq("published", true)
         .eq("service", "branding")
         // Mais recente publicado primeiro (published_at carimbado por trigger no banco).
@@ -38,9 +38,21 @@ export const Route = createFileRoute("/branding")({
         .order("created_at", { ascending: true }),
     ]);
 
+    // placement decide onde o case aparece: 6 blocos principais ou carrossel.
+    const todos = casesRes.data ?? [];
+    const destaques = todos.filter((c) => c.placement !== "carrossel").slice(0, 6);
+    const casesNoCarrossel = todos
+      .filter((c) => c.placement === "carrossel")
+      .map((c) => ({
+        title: c.title,
+        year: c.year,
+        category: c.category,
+        href: `/cases/${c.slug}`,
+      }));
+
     return {
-      destaques: casesRes.data ?? [],
-      projetos: projetosRes.data ?? [],
+      destaques,
+      projetos: [...casesNoCarrossel, ...(projetosRes.data ?? [])],
     };
   },
   head: () => ({

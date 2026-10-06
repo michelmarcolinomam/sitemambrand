@@ -22,6 +22,7 @@ export type Database = {
           created_at: string
           descriptor: string
           id: string
+          placement: string
           published: boolean
           published_at: string | null
           seo_description: string
@@ -39,6 +40,7 @@ export type Database = {
           created_at?: string
           descriptor?: string
           id?: string
+          placement?: string
           published?: boolean
           published_at?: string | null
           seo_description?: string
@@ -56,6 +58,7 @@ export type Database = {
           created_at?: string
           descriptor?: string
           id?: string
+          placement?: string
           published?: boolean
           published_at?: string | null
           seo_description?: string

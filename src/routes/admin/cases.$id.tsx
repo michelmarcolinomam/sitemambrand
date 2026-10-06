@@ -47,6 +47,7 @@ type Meta = {
   seo_description: string;
   published: boolean;
   service: "branding" | "rebranding";
+  placement: "principal" | "carrossel";
 };
 
 const emptyMeta: Meta = {
@@ -59,6 +60,7 @@ const emptyMeta: Meta = {
   seo_description: "",
   published: false,
   service: "branding",
+  placement: "principal",
 };
 
 function slugify(v: string) {
@@ -114,6 +116,7 @@ function CaseEditorPage() {
         seo_description: data.seo_description,
         published: data.published,
         service: data.service === "rebranding" ? "rebranding" : "branding",
+        placement: data.placement === "carrossel" ? "carrossel" : "principal",
       });
       setContent(normalizeCaseContent(data.content));
     })();
@@ -161,6 +164,7 @@ function CaseEditorPage() {
       seo_description: meta.seo_description.trim(),
       published: meta.published,
       service: meta.service,
+      placement: meta.placement,
       content,
     };
 
@@ -298,6 +302,32 @@ function CaseEditorPage() {
               onChange={(v) => setMetaField("descriptor", v)}
               placeholder="Branding desde a fundação"
             />
+            <div>
+              <Label className="text-sm">Onde aparece na tela do serviço</Label>
+              <div className="mt-2 flex gap-2">
+                <Button
+                  type="button"
+                  size="sm"
+                  variant={meta.placement === "principal" ? "default" : "outline"}
+                  onClick={() => setMetaField("placement", "principal")}
+                >
+                  Principal (6 blocos)
+                </Button>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant={meta.placement === "carrossel" ? "default" : "outline"}
+                  onClick={() => setMetaField("placement", "carrossel")}
+                >
+                  Carrossel
+                </Button>
+              </div>
+              <p className="mt-2 text-xs text-muted-foreground">
+                Principal mostra os 6 publicados mais recentes nos cards grandes;
+                no Carrossel o case entra em &ldquo;Mais projetos&rdquo;, com link
+                para a página.
+              </p>
+            </div>
             <div className="flex flex-col gap-1.5">
               <Label className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
                 Serviço
