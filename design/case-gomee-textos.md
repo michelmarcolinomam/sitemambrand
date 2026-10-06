@@ -11,7 +11,8 @@
 - **Breadcrumb:** Serviços / Portfólio / GoMee
 - **Kicker:** — Case Study
 - **H1:** GoMee
-- **Meta tags:** Suplementos em gummies · Naming + Branding · 2025
+- **Meta tags:** Alimentação / Wellness / Suplementos · Naming + Branding · 2025
+  *(regra do Michel, 06/10: a CATEGORIA do case é o(s) segmento(s) de atuação, nunca o produto específico)*
 
 **Lead:**
 Uma marca criada do zero para o território que a categoria inteira estava ignorando: performance, esporte e um público que nenhuma marca de gummies olhava nos olhos. Do nome à embalagem, tudo aqui nasceu de uma decisão estratégica.
