@@ -8,6 +8,15 @@
 
 ### ⭐ PONTO DE RETOMADA (ler isto primeiro — próximo chat)
 
+**2026-10-06 (tarde) — Seletor Principal × Carrossel por case. ✅ NO AR.** Pedido do Michel:
+a regra da tela de serviço é 6 blocos principais + carrossel "Mais projetos" embaixo, e o
+painel decide onde cada projeto aparece. Coluna `cases.placement` ('principal' default |
+'carrossel'), seletor no editor do case (seção Identificação) + selo "Carrossel" na lista do
+admin. Na tela /branding: principais = até 6 publicados mais recentes com placement principal;
+case no carrossel entra em "Mais projetos" COM LINK pra própria página, junto dos projetos
+manuais da tabela `portfolio_projects` (que continuam existindo). Testado localmente contra o
+banco (Black Herva foi pro carrossel e voltou) e conferido em produção após o deploy.
+
 **2026-10-06 (tarde) — Vitrine de cases agora é CRONOLÓGICA: mais recente publicado no topo.
 ✅ NO AR.** Regra do Michel. Implementação: coluna `cases.published_at` + TRIGGER
 `trg_cases_published_at` no banco (migration `cases_published_at_ordenacao_cronologica`) —

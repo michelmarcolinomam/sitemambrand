@@ -189,6 +189,11 @@ no topo da tela de serviço; os antigos descem. A data de publicação é carimb
 no momento em que o case é publicado — ninguém define posição manualmente, e o agente não
 precisa (nem deve) sugerir ordem.
 
+**Principal × Carrossel (06/10/2026):** a tela de serviço tem 6 blocos principais + um
+carrossel "Mais projetos". Cada case tem um seletor no painel (campo `placement`:
+'principal' padrão | 'carrossel') decidindo onde aparece — decisão da EQUIPE no admin, não
+do agente. Case novo nasce sempre como 'principal'.
+
 Quando aprovado, encerre dizendo qual caminho recomenda (novo → A ou B, igual; existente
 já no ar → B, por ser imediato) e o que fica pendente com a equipe.
 
