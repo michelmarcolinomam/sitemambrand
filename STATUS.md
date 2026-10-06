@@ -8,6 +8,16 @@
 
 ### ⭐ PONTO DE RETOMADA (ler isto primeiro — próximo chat)
 
+**2026-10-06 — Agente de Publicação de Cases criado (projeto do Michel no claude.ai).**
+A produção de copy de cases foi CENTRALIZADA num agente dedicado. A skill completa dele está
+em **`design/SKILL-agente-publicacao-cases.md`**: método de varredura do deck, template fixo
+de 7 blocos, fórmulas de título, formato de entrega (leitura + copy + JSON no schema de
+`src/lib/case-content.ts`) e os 2 caminhos de publicação (painel /admin ou Claude Code→banco).
+Regras duras embutidas: imagens SEMPRE pela equipe (agente entrega só alts como guia),
+categoria=segmento, números só do deck, case novo nasce rascunho. Sessões futuras: quando o
+Michel trouxer um JSON "do agente de cases", validar contra o schema e gravar na tabela
+`cases` (novo → published=false; existente → preservar URLs de imagem).
+
 **2026-10-06 — Case Mate Loco: textos NO AR.** O case já estava publicado com as imagens do
 painel e os textos vazios; preenchi TODO o conteúdo textual direto na tabela `cases` (imagens
 preservadas) e, como `published=true`, **entrou no ar na hora** em mambrand.com.br/cases/mate-loco
