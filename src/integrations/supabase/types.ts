@@ -23,6 +23,7 @@ export type Database = {
           descriptor: string
           id: string
           published: boolean
+          published_at: string | null
           seo_description: string
           service: string
           slug: string
@@ -39,6 +40,7 @@ export type Database = {
           descriptor?: string
           id?: string
           published?: boolean
+          published_at?: string | null
           seo_description?: string
           service?: string
           slug: string
@@ -55,6 +57,7 @@ export type Database = {
           descriptor?: string
           id?: string
           published?: boolean
+          published_at?: string | null
           seo_description?: string
           service?: string
           slug?: string
@@ -164,8 +167,10 @@ export type Database = {
           gclid: string | null
           id: string
           landing_url: string | null
+          message: string | null
           name: string
           phase: string | null
+          product: string
           referrer: string | null
           utm_campaign: string | null
           utm_content: string | null
@@ -191,8 +196,10 @@ export type Database = {
           gclid?: string | null
           id?: string
           landing_url?: string | null
+          message?: string | null
           name: string
           phase?: string | null
+          product?: string
           referrer?: string | null
           utm_campaign?: string | null
           utm_content?: string | null
@@ -218,8 +225,10 @@ export type Database = {
           gclid?: string | null
           id?: string
           landing_url?: string | null
+          message?: string | null
           name?: string
           phase?: string | null
+          product?: string
           referrer?: string | null
           utm_campaign?: string | null
           utm_content?: string | null

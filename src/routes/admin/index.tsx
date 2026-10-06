@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
-  ArrowDown,
-  ArrowUp,
   ExternalLink,
   Eye,
   EyeOff,
@@ -38,7 +36,6 @@ type CaseRow = {
   year: string;
   category: string;
   published: boolean;
-  sort_order: number;
   cover_url: string | null;
 };
 
@@ -54,10 +51,10 @@ function CasesListPage() {
     setLoading(true);
     const { data, error } = await supabase
       .from("cases")
-      .select("id, slug, title, year, category, published, sort_order, cover_url")
+      .select("id, slug, title, year, category, published, cover_url")
       .eq("service", activeService)
-      .order("sort_order", { ascending: true })
-      .order("created_at", { ascending: true });
+      // Espelha a vitrine: mais recente primeiro. A ordem pública segue published_at.
+      .order("created_at", { ascending: false });
     setLoading(false);
     if (error) {
       toast.error("Não foi possível carregar os cases.");
@@ -83,24 +80,6 @@ function CasesListPage() {
       return;
     }
     toast.success(row.published ? "Case despublicado." : "Case publicado.");
-    load();
-  }
-
-  async function move(row: CaseRow, direction: -1 | 1) {
-    const index = cases.findIndex((c) => c.id === row.id);
-    const target = cases[index + direction];
-    if (!target) return;
-    setBusyId(row.id);
-    // Troca os sort_order dos dois cases.
-    const results = await Promise.all([
-      supabase.from("cases").update({ sort_order: target.sort_order }).eq("id", row.id),
-      supabase.from("cases").update({ sort_order: row.sort_order }).eq("id", target.id),
-    ]);
-    setBusyId(null);
-    if (results.some((r) => r.error)) {
-      toast.error("Erro ao reordenar.");
-      return;
-    }
     load();
   }
 
@@ -171,7 +150,7 @@ function CasesListPage() {
           </div>
         ) : (
           <ul className="flex flex-col divide-y divide-border border border-border bg-background">
-            {cases.map((c, i) => (
+            {cases.map((c) => (
               <li key={c.id} className="flex items-center gap-4 p-4">
                 <div className="hidden h-16 w-14 shrink-0 overflow-hidden bg-mint sm:block">
                   {c.cover_url ? (
@@ -200,24 +179,6 @@ function CasesListPage() {
                 </div>
 
                 <div className="flex items-center gap-1">
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    title="Subir"
-                    disabled={i === 0 || busyId === c.id}
-                    onClick={() => move(c, -1)}
-                  >
-                    <ArrowUp className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    title="Descer"
-                    disabled={i === cases.length - 1 || busyId === c.id}
-                    onClick={() => move(c, 1)}
-                  >
-                    <ArrowDown className="h-4 w-4" />
-                  </Button>
                   <Button
                     variant="ghost"
                     size="icon"

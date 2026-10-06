@@ -26,8 +26,9 @@ export const Route = createFileRoute("/branding")({
         .select("slug, title, year, category, descriptor, cover_url")
         .eq("published", true)
         .eq("service", "branding")
-        .order("sort_order", { ascending: true })
-        .order("created_at", { ascending: true }),
+        // Mais recente publicado primeiro (published_at carimbado por trigger no banco).
+        .order("published_at", { ascending: false, nullsFirst: false })
+        .order("created_at", { ascending: false }),
       supabase
         .from("portfolio_projects")
         .select("title, year, category")
