@@ -55,7 +55,11 @@ Para sustentar as duas conversas, dois arquétipos. Com o inquilino, o Cara Comu
 ## 03 — IDENTIDADE
 **H2:** O cartão virou *casa.*
 
-**Lead:** O símbolo anterior somava dois cartões de crédito. O novo soma duas casas. A forma nasceu de uma fotografia de casas geminadas de telhado inclinado, reduzida a dois volumes que se encaixam: soma e formato de um lado, moradia literal do outro. A curvatura das extremidades veio do ícone antigo de propósito, para a transição carregar o reconhecimento já conquistado em vez de jogá-lo fora. O logotipo “locarmais” passou para a caixa baixa, mais empática, moderna e objetiva, com cantos arredondados que ecoam a curvatura do símbolo, kerning maior e as duas palavras divididas por cor e espaçamento, sem mudar a ordem dos glifos. A tipografia do sistema combina Canaro Bold nos títulos conceituais com Brandon Grotesque no corpo. As cores ficaram na família que o público já reconhecia e foram afinadas para um contraste simultâneo tonal: o rosa #f43180 (Pantone 2039 C) e o roxo #3c1354 (Pantone 2627 C), desdobrados numa paleta de violetas e rosas e num conjunto de proxis, as cores, formas e ícones que viram sinônimos da marca na cabeça do consumidor. Completam o sistema uma iconografia própria (imobiliária, blog, aluguel, dúvidas, vantagens), três personagens com o símbolo em cores diferentes para fiador, imobiliária e inquilino, e um grafismo de linhas rosa sobre roxo profundo que lembra o traçado de uma planta.
+**Lead:** O símbolo anterior era um meio de pagamento: dois cartões se aproximando. O novo é um destino: duas casas que se somam. A forma veio de uma fotografia de casas geminadas, e a curvatura do ícone antigo ficou de propósito, para a marca mudar de assunto sem perder quem já a reconhecia.
+
+O logotipo desceu para a caixa baixa e ganhou cantos arredondados, no mesmo desenho do símbolo. “locar” e “mais” se separam só por cor e respiro: uma palavra roxa, uma rosa, a mesma voz.
+
+As cores não mudaram de família, mudaram de intensidade. Rosa e roxo em contraste tonal, uma paleta de violetas por trás e um conjunto de proxis, ícones, personagens e grafismo de linhas, que faz a marca ser reconhecida antes mesmo de o logo aparecer.
 
 **Comparativo (ativo):**
 
@@ -74,12 +78,18 @@ _Depois_
 ## 04 — APLICAÇÕES
 **H2:** Uma fiadora que fala *na primeira pessoa.*
 
-**Lead:** No mundo, a Locar Mais conversa como gente, e sempre em primeira pessoa. No ponto de ônibus, “Alugar seu espaço ficou mais simples e eficiente” e “Mudar de casa num piscar de olhos”. No cartaz, a marca se apresenta como quem chama para um primeiro encontro: “Eu sei que a gente ainda não se conhece direito, mas eu posso ser a fiadora da sua casa nova?”. Nas redes, o símbolo vira moldura de foto de casal, de caixa de mudança, de rede na varanda, com “Presente nos melhores momentos” e “Sonhe, e deixa que a gente realiza”. Os três personagens dividem o sistema: ao fiador, “Ei, fiador, o papo é com você”; à imobiliária, “A sua fiadora favorita!”; ao inquilino, “A gente facilita sua vida!”. E o objetivo “Locar Mais ensina” virou objeto: pasta, display de mesa, folder de guerrilha, agenda, caneca, capacho e brindes para a marca morar no balcão da imobiliária, além de papelaria, uniforme e garrafa.
+**Lead:** No mundo, a Locar Mais fala na primeira pessoa, como quem já mora ali. No ponto de ônibus: “Mudar de casa num piscar de olhos”. No cartaz do corredor, um convite de primeiro encontro: “Eu sei que a gente ainda não se conhece direito, mas eu posso ser a fiadora da sua casa nova?”.
+
+Nas redes, o símbolo vira moldura: um casal, uma caixa de mudança, uma rede na varanda. “Presente nos melhores momentos.” Três personagens dividem a conversa: “Ei, fiador, o papo é com você”, “A sua fiadora favorita!”, “A gente facilita sua vida!”.
+
+E o objetivo de ensinar a imobiliária virou objeto: pasta, display de mesa, folder de guerrilha, capacho e brindes para a marca morar no balcão de quem aluga.
 
 ## 05 — VÍDEOS
 **H2 (tagline):** Sua fiadora *digital ;)*
 
-**Lead:** A tagline faz o trabalho que a marca anterior deixava para o cliente adivinhar: diz o serviço na primeira leitura e fecha com um piscar de olhos. O filme da marca é construído em cima dela, frase a frase: “Locar Mais é sobre facilidade. É sobre relacionamento. É sobre poder escolher e confiar no melhor para você. Mudar de casa nunca foi tão fácil.” É o tom de voz inteiro em movimento: amigável, confiável, prático e cuidadoso, sustentado por cinco palavras de brand voice, transparência, segurança, comprometimento, empatia e relacionamento, e sempre do lado de quem aluga.
+**Lead:** A tagline diz o serviço na primeira leitura e fecha com um piscar de olhos. O filme nasce dela, frase a frase: “Locar Mais é sobre facilidade. É sobre relacionamento. É sobre poder escolher e confiar no melhor para você. Mudar de casa nunca foi tão fácil.”
+
+É o tom de voz em movimento: amigável, confiável, prático e cuidadoso. Sempre do lado de quem aluga.
 
 ## 06 — RESULTADO
 **H2:** Uma marca que agora diz *o que a empresa sempre foi.*
@@ -186,7 +196,7 @@ Depoimento: vazio.
     "identity": {
       "title": "O cartão virou",
       "titleItalic": "casa.",
-      "lead": "O símbolo anterior somava dois cartões de crédito. O novo soma duas casas. A forma nasceu de uma fotografia de casas geminadas de telhado inclinado, reduzida a dois volumes que se encaixam: soma e formato de um lado, moradia literal do outro. A curvatura das extremidades veio do ícone antigo de propósito, para a transição carregar o reconhecimento já conquistado em vez de jogá-lo fora. O logotipo “locarmais” passou para a caixa baixa, mais empática, moderna e objetiva, com cantos arredondados que ecoam a curvatura do símbolo, kerning maior e as duas palavras divididas por cor e espaçamento, sem mudar a ordem dos glifos. A tipografia do sistema combina Canaro Bold nos títulos conceituais com Brandon Grotesque no corpo. As cores ficaram na família que o público já reconhecia e foram afinadas para um contraste simultâneo tonal: o rosa #f43180 (Pantone 2039 C) e o roxo #3c1354 (Pantone 2627 C), desdobrados numa paleta de violetas e rosas e num conjunto de proxis, as cores, formas e ícones que viram sinônimos da marca na cabeça do consumidor. Completam o sistema uma iconografia própria (imobiliária, blog, aluguel, dúvidas, vantagens), três personagens com o símbolo em cores diferentes para fiador, imobiliária e inquilino, e um grafismo de linhas rosa sobre roxo profundo que lembra o traçado de uma planta.",
+      "lead": "O símbolo anterior era um meio de pagamento: dois cartões se aproximando. O novo é um destino: duas casas que se somam. A forma veio de uma fotografia de casas geminadas, e a curvatura do ícone antigo ficou de propósito, para a marca mudar de assunto sem perder quem já a reconhecia.\n\nO logotipo desceu para a caixa baixa e ganhou cantos arredondados, no mesmo desenho do símbolo. “locar” e “mais” se separam só por cor e respiro: uma palavra roxa, uma rosa, a mesma voz.\n\nAs cores não mudaram de família, mudaram de intensidade. Rosa e roxo em contraste tonal, uma paleta de violetas por trás e um conjunto de proxis, ícones, personagens e grafismo de linhas, que faz a marca ser reconhecida antes mesmo de o logo aparecer.",
       "fullImage1": {
         "url": "",
         "alt": "Logotipo novo em aplicação principal: símbolo das duas casas + “locarmais” em rosa e roxo, com a assinatura"
@@ -269,7 +279,7 @@ Depoimento: vazio.
     "applications": {
       "title": "Uma fiadora que fala",
       "titleItalic": "na primeira pessoa.",
-      "lead": "No mundo, a Locar Mais conversa como gente, e sempre em primeira pessoa. No ponto de ônibus, “Alugar seu espaço ficou mais simples e eficiente” e “Mudar de casa num piscar de olhos”. No cartaz, a marca se apresenta como quem chama para um primeiro encontro: “Eu sei que a gente ainda não se conhece direito, mas eu posso ser a fiadora da sua casa nova?”. Nas redes, o símbolo vira moldura de foto de casal, de caixa de mudança, de rede na varanda, com “Presente nos melhores momentos” e “Sonhe, e deixa que a gente realiza”. Os três personagens dividem o sistema: ao fiador, “Ei, fiador, o papo é com você”; à imobiliária, “A sua fiadora favorita!”; ao inquilino, “A gente facilita sua vida!”. E o objetivo “Locar Mais ensina” virou objeto: pasta, display de mesa, folder de guerrilha, agenda, caneca, capacho e brindes para a marca morar no balcão da imobiliária, além de papelaria, uniforme e garrafa.",
+      "lead": "No mundo, a Locar Mais fala na primeira pessoa, como quem já mora ali. No ponto de ônibus: “Mudar de casa num piscar de olhos”. No cartaz do corredor, um convite de primeiro encontro: “Eu sei que a gente ainda não se conhece direito, mas eu posso ser a fiadora da sua casa nova?”.\n\nNas redes, o símbolo vira moldura: um casal, uma caixa de mudança, uma rede na varanda. “Presente nos melhores momentos.” Três personagens dividem a conversa: “Ei, fiador, o papo é com você”, “A sua fiadora favorita!”, “A gente facilita sua vida!”.\n\nE o objetivo de ensinar a imobiliária virou objeto: pasta, display de mesa, folder de guerrilha, capacho e brindes para a marca morar no balcão de quem aluga.",
       "images": [
         {
           "url": "",
@@ -292,7 +302,7 @@ Depoimento: vazio.
     "motion": {
       "title": "Sua fiadora",
       "titleItalic": "digital ;)",
-      "lead": "A tagline faz o trabalho que a marca anterior deixava para o cliente adivinhar: diz o serviço na primeira leitura e fecha com um piscar de olhos. O filme da marca é construído em cima dela, frase a frase: “Locar Mais é sobre facilidade. É sobre relacionamento. É sobre poder escolher e confiar no melhor para você. Mudar de casa nunca foi tão fácil.” É o tom de voz inteiro em movimento: amigável, confiável, prático e cuidadoso, sustentado por cinco palavras de brand voice, transparência, segurança, comprometimento, empatia e relacionamento, e sempre do lado de quem aluga.",
+      "lead": "A tagline diz o serviço na primeira leitura e fecha com um piscar de olhos. O filme nasce dela, frase a frase: “Locar Mais é sobre facilidade. É sobre relacionamento. É sobre poder escolher e confiar no melhor para você. Mudar de casa nunca foi tão fácil.”\n\nÉ o tom de voz em movimento: amigável, confiável, prático e cuidadoso. Sempre do lado de quem aluga.",
       "videos": [
         {
           "videoId": "",

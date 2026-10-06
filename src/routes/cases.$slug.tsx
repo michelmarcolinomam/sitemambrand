@@ -24,6 +24,21 @@ import { breadcrumbJsonLd } from "@/lib/seo";
    Conteúdo vem da tabela `cases` (administrada em /admin).
    ———————————————————————————————————————————————— */
 
+/**
+ * Lead de seção que aceita vários parágrafos: uma linha em branco no texto
+ * (salvo pelo painel) vira um <p> novo. Texto sem quebra continua um parágrafo só.
+ */
+function LeadParagraphs({ text }: { text: string }) {
+  const parts = text.split(/\n\s*\n/).map((t) => t.trim()).filter(Boolean);
+  return (
+    <div className="mt-8 flex max-w-2xl flex-col gap-5 text-base leading-relaxed text-muted-foreground md:text-lg">
+      {parts.map((t, i) => (
+        <p key={i}>{t}</p>
+      ))}
+    </div>
+  );
+}
+
 export const Route = createFileRoute("/cases/$slug")({
   loader: async ({ params }) => {
     const { data, error } = await supabase
@@ -290,9 +305,7 @@ function CasePage() {
             </h2>
 
             <Rise delay={0.1}>
-              <p className="mt-8 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
-                {identity.lead}
-              </p>
+              <LeadParagraphs text={identity.lead} />
             </Rise>
           </div>
 
@@ -377,9 +390,7 @@ function CasePage() {
             </h2>
 
             <Rise delay={0.1}>
-              <p className="mt-8 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
-                {applications.lead}
-              </p>
+              <LeadParagraphs text={applications.lead} />
             </Rise>
           </div>
 
@@ -409,9 +420,7 @@ function CasePage() {
             </h2>
 
             <Rise delay={0.1}>
-              <p className="mt-8 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
-                {motion.lead}
-              </p>
+              <LeadParagraphs text={motion.lead} />
             </Rise>
           </div>
 

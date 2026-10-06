@@ -39,6 +39,10 @@ todas visuais; idêntico ao de ~/Desktop/_MAM_Agencia/🎨 Identidade Visual/202
 `design/case-locar-mais-textos.md`). **Os vídeos existem**: `2023/CLIENTES/LOCAR MAIS/MOTION/
 LOCARMAIS_final.mp4` e `REELS_LOCARMAIS_final.mp4`. Depois das imagens: ligar "Publicado" no
 painel → entra em /cases/locar-mais e na listagem de /rebranding.
+**Ajuste de template (06/10, noite):** os leads de Identidade, Aplicações e Vídeos agora aceitam
+vários parágrafos — linha em branco no campo do painel vira `<p>` novo (`LeadParagraphs` em
+`cases.$slug.tsx`). Casos antigos sem quebra continuam iguais. Feedback do Michel: a Identidade
+estava "muito longa, literal e sem diagramação"; os três leads foram reescritos curtos.
 
 **2026-10-06 (tarde) — O agente de cases virou skill do Claude Code: `/publicar-case`.**
 Arquivo em `~/.claude/skills/publicar-case/SKILL.md` (fora do repo, vale em qualquer pasta).
