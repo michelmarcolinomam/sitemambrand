@@ -1,7 +1,6 @@
 {
   "rewrites": [
     { "source": "/briefing", "destination": "https://questionario-rebranding.vercel.app/" },
-    { "source": "/briefing/nascimento", "destination": "https://questionario-rebranding.vercel.app/nascimento.html" },
-    { "source": "/briefing/naming", "destination": "https://questionario-rebranding.vercel.app/naming.html" }
+    { "source": "/briefing/nascimento", "destination": "https://questionario-rebranding.vercel.app/nascimento.html" }
   ]
 }
